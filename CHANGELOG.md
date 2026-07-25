@@ -2,6 +2,17 @@
 
 本文件记录仓库里所有技能的重大变更，按发布时间倒序排列。
 
+## 3.10.0 - 系统化升级：新增 R7 变更闭环审查 + 规划文件；重写 R3/R5；发布机制调整
+
+- **新增 article-review R7（变更闭环与全篇一致性）**：五类遗留检查（术语/逻辑/结构/内容载体/图文），配合 change-impact.md 记录改动影响
+- **新增 article-write/references/planning/ 四个文件**：article-profile（写作画像/设计决策图/章节职责卡）、change-impact（变更影响记录）、materials-governance（素材冲突裁决）、terms（文章级术语表）
+- **重写 R3**（模式化与空泛表达）：不机械搜触发词，只查形式是否掩盖信息不足
+- **重写 R5**（连贯性、清晰度与理解路径）：加读者基准，不机械要求通俗化/代码快照；保留措辞直白检查节
+- **article-write SKILL.md** 加 change-impact/terms/article-profile/materials-governance 引用 + 写作画像/设计决策图/素材裁决 Step
+- **article-publish workflow 第七步**：发布版正文保留原标题层级不降级，文章名/简介/封面放 meta.md
+- article-image/review/write 多处调整（r0/r4/r6/index/questionnaire/skeleton/gen-workflow/gen-image.sh 等）
+- 版本号 3.9.2 -> 3.10.0（MINOR，新增 R7 审查模块 + 规划文件）
+
 ## 3.9.2 - 补充 3 条通用经验（措辞打磨交互、加粗承担结构、论文腔与主体）
 
 继续从文章 preferences.md 和专项审查报告沉淀：

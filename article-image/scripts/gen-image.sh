@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# gen-image.sh — 画图提示 → 真实图片 → 图床 URL
+# gen-image.sh — 画图提示 → 真实图片 → 图床 URL（上传失败时不输出本地 URL）
 #
 # 用法：
 #   bash gen-image.sh --check                              # 检测环境，缺什么装什么
@@ -8,7 +8,7 @@
 #
 # 依赖：
 #   1. codex CLI  — 驱动 GPT Image 2 生成图片（唯一的外部工具依赖）
-#   2. picgo      — 上传图床（可选；缺失时图片存本地）
+#   2. picgo      — 上传图床（可选；缺失时仅保留本地输出，不生成可写入文章的 URL）
 #
 # gpt-image-2-gen.sh / extract_image.py 已随本仓库一起分发（vendored，见
 # THIRD_PARTY_NOTICES.md），不需要单独安装 gpt-image-2 skill。
@@ -353,9 +353,10 @@ run_generate() {
   fi
   ok "图片已生成：$OUT_PATH"
 
-  # 不需要上传，直接返回本地路径
+  # 不需要上传，只声明本地输出；不得伪造可写入文章的 URL
   if ! $DO_UPLOAD; then
-    echo "URL: file://$OUT_PATH"
+    echo "LOCAL_OUTPUT: $OUT_PATH"
+    echo "PUBLISH_REQUIRED: upload this file before writing it to an article or image history"
     return
   fi
 
@@ -370,21 +371,21 @@ run_generate() {
     picgo_bin=$(find_picgo || true)
   fi
 
-  # 安装失败，降级为本地路径
+  # 安装失败：保留本地输出，但不返回 URL
   if [[ -z "$picgo_bin" ]]; then
     warn "picgo 安装失败，图片保存在本地"
     echo "本地路径：$OUT_PATH"
-    echo "请手动上传后把路径替换为图床 URL"
-    echo "URL: file://$OUT_PATH"
+    echo "请手动上传后再写入文章或图片历史"
+    echo "PUBLISH_REQUIRED: picgo is unavailable"
     return
   fi
 
-  # picgo 未配置，降级为本地路径
+  # picgo 未配置：保留本地输出，但不返回 URL
   if ! picgo_configured; then
     warn "picgo 尚未配置图床，图片保存在本地"
     echo "本地路径：$OUT_PATH"
     echo "请运行 picgo set uploader 配置图床，然后手动上传"
-    echo "URL: file://$OUT_PATH"
+    echo "PUBLISH_REQUIRED: picgo is not configured"
     return
   fi
 
@@ -402,7 +403,7 @@ run_generate() {
     echo "上传错误信息："
     echo "$upload_out" | sed 's/^/   /'
     echo ""
-    echo "URL: file://$OUT_PATH"
+    echo "PUBLISH_REQUIRED: upload failed; do not write this local path to an article or image history"
   fi
 }
 
