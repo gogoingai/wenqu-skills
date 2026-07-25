@@ -2,6 +2,13 @@
 
 本文件记录仓库里所有技能的重大变更，按发布时间倒序排列。
 
+## 0.1.2 - 新增 wenqu-library（文库）技能；重写 README
+
+- 新增 `wenqu-library` 技能：文章创作前的素材积累，跨文章可复用的个人知识库（`~/.gogoingai/wenqu-skills/library/`）
+- `wenqu-write` Step 2 加引用：动笔收集前先查文库，避免重复收集
+- 重写 README：文曲星主题，6 技能组成（文库/创作/审校/配图/翻译/发布），创作流程对应技能
+- 版本号 0.1.1 -> 0.1.2（MINOR，新增技能）
+
 ## 0.1.1 - 仓库名/技能名全面改名 article-* -> wenqu-*（版本号重置到 0.x）
 
 - 技能目录/技能名：article-image/publish/review/translate/write -> wenqu-image/publish/review/translate/write
