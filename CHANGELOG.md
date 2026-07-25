@@ -2,6 +2,17 @@
 
 本文件记录仓库里所有技能的重大变更，按发布时间倒序排列。
 
+## 3.9.1 - 新增技能开发原则；article-write 加措辞打磨规范/修改流程交互/changelog 管理；article-review R5 加措辞直白检查
+
+基于《AI记忆系统与梦境》文章一次长会话的经验沉淀：大量时间花在措辞打磨，提炼出通用的「直白优先」规则和交互规范。特定偏好（如「查询->用户问题」）不升级到通用，留在文章自己的 `preferences.md`。
+
+- **新增仓库根 `DEVELOPMENT.md`**：技能开发原则--经验沉淀的通用 vs 特定判断标准、沉淀流程、各 skill 文件分工（按经验类型对号入座）、改完同步（`git push` + `npx skills update`）
+- **article-write `style-guide.md` 新增「措辞：直白优先」节**：7 条通用规则（避免抽象量词堆砌/术语化/拟人/语法拧巴/同义重复/标签不符/自行概括），每条配真实例子
+- **article-write `anti-patterns.md` 加 7 条禁止条目**：对应措辞打磨 7 条
+- **article-write `SKILL.md`「修改」流程加 3 条**：给方案引述完整句子不只给行号、改一处前 grep 全篇找同类、表格/总结优先用正文表述
+- **article-write `planning/changelog.md`「记录规则」加 4 条**：追加前读末尾确认编号、条数多了移 history（约 15~20 条）、编号冲突处理、history 按天归档（`changelog-history-YYYY-MM-DD.md`）
+- **article-review `r5-coherence.md` 新增「三、措辞直白检查」节**：7 条检查项 + 信号表补措辞信号
+
 ## 3.9.0 — article-write 新增文章标识/版本记录/待办清单；新增 article-publish 发布技能；article-image 确认环节改用 AskUserQuestion
 
 用户发现两个问题：① `.article-skills/{文件名}/` 按文件名分桶存储，文章一旦被用户重命名，存储目录和文章的映射就断了，下次加载会误判成"从没写过"；② 技能里很多"给用户看一眼再确认"的环节（画完图、连续小修改遇到待定项）只是输出文本，没有真正走结构化确认，容易被用户划水略过。另外，写完的草稿一直带着画图提示代码块、项目内部标识等创作期标记，没有一个"生成干净发布版"的收尾步骤。
