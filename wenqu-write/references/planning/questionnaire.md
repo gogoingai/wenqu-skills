@@ -12,9 +12,9 @@
   存在 → 展示给用户确认 → 有修改则更新 → 进入文章专属问卷
   不存在 → 问前说明 → 建立全局画像 → 进入文章专属问卷
     ↓
-文章专属问卷（扫系统后生成，扫描证据当场记入 materials.md）
+文章专属问卷（扫系统后生成，扫描证据当场记入 materials/index.md）
     ↓
-写入 SKILL.md（索引+关键信息）+ references/materials.md（素材库）+ references/preferences.md（偏好与反馈库，随时追加）+ references/status.md（进度与待复查项）
+写入 SKILL.md（索引+关键信息）+ references/materials/index.md（素材索引）+ references/preferences.md（偏好与反馈库，随时追加）+ references/status.md（进度与待复查项）
 ```
 
 ---
@@ -193,7 +193,7 @@ AskUserQuestion({
 
 **扫描是硬性前提，不是可选步骤**：不能凭项目名或 README 一句话描述就出题。扫完确实找不到某个机制的实现，如实说明「扫了 [目录]，没找到 [机制] 的实现，当作待确认处理」，不要假装扫过。
 
-**扫到的每条证据当场追加进 `references/materials.md` 的『源码证据』表**（格式见文末「写入 materials.md」一节），不要等问卷问完、骨架都要出了才回头凭记忆补——扫描和记录是同一个动作。
+**扫到的每条证据当场追加进 `references/materials/index.md` 的『源码证据』表**（格式见文末「写入 materials/index.md」一节），不要等问卷问完、骨架都要出了才回头凭记忆补——扫描和记录是同一个动作。
 
 **问题维度：**
 
@@ -215,7 +215,7 @@ AskUserQuestion({
 2. **硬约束**：有没有回避不了的边界条件（时间、渠道、必须/不能包含的内容）？
 3. **未决风险**：如果某个前提没兑现（素材没到、时间不够、约束有冲突），谁来做决定——是现在就问清楚"到时候怎么办"，还是可以先搁置到真正发生时再问？**能现在问清楚的，不要拖到执行阶段才发现要靠自己拍板。**
 
-回答写入 `SKILL.md` 最前面新增的 `## 背景` 字段（见下方模板），字段内容根据这次深挖出来的具体维度组织，不套固定表格列。深挖过程中用户主动甩出的具体素材（截图要点、原文片段等）额外按条目追加进 `references/materials.md` 的『用户提供的素材』表。
+回答写入 `SKILL.md` 最前面新增的 `## 背景` 字段（见下方模板），字段内容根据这次深挖出来的具体维度组织，不套固定表格列。深挖过程中用户主动甩出的具体素材（截图要点、原文片段等）额外按条目追加进 `references/materials/index.md` 的『用户提供的素材』表。
 
 ### A. 读者对该系统核心概念的熟悉程度（3~5 题）
 
@@ -401,7 +401,7 @@ AskUserQuestion({
 > 标识：`aid-xxxxxxxx` · 对应文章文件：`{当前文件名}.md`
 
 ## 索引
-- [素材库](references/materials.md)
+- [素材库](references/materials/index.md)
 - [骨架](references/skeleton.md)
 - [版本记录](references/changelog.md)
 - [变更影响记录](references/change-impact.md)
@@ -469,11 +469,11 @@ AskUserQuestion({
 
 ---
 
-## 写入 materials.md
+## 写入 materials/index.md
 
-素材库落在 `{项目根目录}/wenqu-skills/{文件名}/references/materials.md`，是 Step 1 扫描、Step 2 深入阅读、用户直接提供的背景素材、wenqu-translate 产出的所有素材的**唯一持久化落点**——不是写完骨架就作废的中间产物，后续审查、用户追问细节都直接查这份文件。每条素材须标注来源类型；来源与评测结论的边界见 `content-provenance.md`。
+素材目录落在 `{项目根目录}/wenqu-skills/{文件名}/references/materials/`（0.1.3 起由单文件 `materials.md` 改为目录）：`index.md` 是所有素材的**统一索引**，实体内容按类型分目录存放（`local/` 本地素材、`articles/` 网页文章、`papers/` 论文、`docs/` 官方文档与整站抓取产物），目录结构与登记规则详见 `wenqu-library` 技能「存储位置」一节。它是 Step 1 扫描、Step 2 深入阅读、用户直接提供的背景素材、crwl 抓取网页、wenqu-translate 产出的所有素材的**唯一持久化落点**——不是写完骨架就作废的中间产物，后续审查、用户追问细节都直接查这份索引和对应文件。每条素材须标注来源类型；来源与评测结论的边界见 `content-provenance.md`。
 
-**边收集边写，不要攒到最后一次性补**：Step 1 扫到一条证据就追加一行；Step 2 读到一个数字、一个易误解点，当场补进对应表；用户甩来一段背景素材，当场记一行。每条素材一个唯一 ID（`M1`、`M2`……递增，不复用），骨架引用素材时标注这个 ID。
+**边收集边写，不要攒到最后一次性补**：Step 1 扫到一条证据就追加一行；Step 2 读到一个数字、一个易误解点，当场补进对应表；用户甩来一段背景素材，当场记一行；crwl 抓完一个网页，当场登记来源 URL 和文件路径。每条素材一个唯一 ID（`M1`、`M2`……递增，不复用），骨架引用素材时标注这个 ID。
 
 ```markdown
 # 素材库
@@ -502,6 +502,11 @@ AskUserQuestion({
 | ID | 摘要 | 来源类型 | 来源 | 关联章节 |
 |----|------|----------|------|---------|
 | M8 | ... | 团队选择 / 简化场景 / 待确认 | 用户消息 [日期] | 待定 |
+
+## 网页素材（crwl 抓取 / 联网收集）
+| ID | 摘要 | 来源类型 | 来源 URL | 文件路径 | 用途 | 标签 | 关联章节 |
+|----|------|----------|----------|----------|------|------|---------|
+| M11 | 某公众号文章：XX 实践 | 外部研究 | https://mp.weixin.qq.com/s/xxx | articles/mp.weixin.qq.com/xx.md | 写法参考 | 架构 | 待定 |
 
 ## 外部素材（翻译/引用）
 | ID | 来源 | 来源类型 | 摘要 | 关联章节 |
@@ -556,11 +561,11 @@ AskUserQuestion({
 
 再次打开同一篇文章时：
 1. 检查 `{项目根目录}/wenqu-skills/{文件名}/SKILL.md` → **有**则直接加载它（里面已含创建时拷贝的画像快照，不必再去读全局画像文件），告知用户「已加载上次对本篇的补充说明」；**没有但发现旧格式**（`.wenqu-write/{文件名}.context.md` 或目录化之前的 `wenqu-skills/{文件名}.context.md`）→ 按 `SKILL.md`「上下文存储位置」一节的兼容规则迁移
-2. 检查 `references/skeleton.md`、`references/materials.md`、`references/terms.md`、`references/change-impact.md`、`references/preferences.md` → 有则静默加载；有未闭环变更时在本轮收尾运行 R7，按已记录偏好执行，不重复问
+2. 检查 `references/skeleton.md`、`references/materials/index.md`、`references/terms.md`、`references/change-impact.md`、`references/preferences.md` → 有则静默加载；有未闭环变更时在本轮收尾运行 R7，按已记录偏好执行，不重复问
 3. `SKILL.md` **不存在且无旧格式文件**（本篇是第一次建立）→ 按前面的流程，先加载/建立全局画像，确认后拷贝一份快照写进新建的 SKILL.md
 
 **补充提问**：规划中发现某维度信息不足，只用 `AskUserQuestion` 补问 1~2 题：
 - 属于通用背景（读者习惯、语言偏好）→ 更新全局画像
 - 属于本篇特有（这个系统的模块了解程度）→ 写入 `{项目根目录}/wenqu-skills/{文件名}/SKILL.md`
-- 属于具体证据/数字/例子 → 追加进 `{项目根目录}/wenqu-skills/{文件名}/references/materials.md`
+- 属于具体证据/数字/例子 → 追加进 `{项目根目录}/wenqu-skills/{文件名}/references/materials/index.md`
 - 属于可复用的写法/审查/翻译/配图偏好 → 追加进 `{项目根目录}/wenqu-skills/{文件名}/references/preferences.md`

@@ -2,6 +2,16 @@
 
 本文件记录仓库里所有技能的重大变更，按发布时间倒序排列。
 
+## 0.1.3 - 素材收集四步流程；单篇素材库改为 materials/ 目录
+
+- `wenqu-library`「收集」升级为四步流程：规划（收集清单，唯一确认点）→ 搜索（联网搜索出候选 URL，不再确认）→ 下载（crwl 抓取，未安装则主动提议帮用户安装，拒绝或失败才降级自带抓取）→ 整理（落文件 + 登记索引 + 回收全局文库）
+- `wenqu-library` 新增 `references/collection-playbook.md`（四步执行细则：清单格式、搜索策略、边抓边登记、回收标准）和 `references/crwl-cookbook.md`（crwl 命令手册：单页/deep-crawl/微信公众号，含实测产物结构与失败处理）
+- 单篇素材库从 `references/materials.md` 单文件改为 `references/materials/` 目录：按内容类型分目录（`local/`、`articles/`、`papers/`、`docs/`），`index.md` 统一索引（来源 URL 必填、用途二分、标签检索）
+- crwl 抓取能力接入：单页/deep-crawl 整站/微信公众号（UA 伪装 + 等待正文渲染），失败登记不静默跳过；README 外部依赖加 crawl4ai
+- `wenqu-write` Step 2 接入四步收集流程；旧格式 `materials.md` 自动迁移到 `materials/index.md`
+- `wenqu-review` R0、`wenqu-write` planning 各文件对 `materials.md` 的引用同步改为 `materials/index.md`
+- 版本号 0.1.2 -> 0.1.3（PATCH，完善文库收集流程与素材存储结构）
+
 ## 0.1.2 - 新增 wenqu-library；补强写作、审查与配图闭环
 
 - 新增 `wenqu-library` 技能：文章创作前的素材积累，跨文章可复用的个人知识库（`~/.gogoingai/wenqu-skills/library/`）

@@ -1,6 +1,6 @@
 # 文章生命周期状态
 
-`references/status.md` 是单篇文章跨会话的进度面板：只记录当前状态、下一步和待复查项，不重复 `materials.md`、`skeleton.md`、`changelog.md` 的内容。
+`references/status.md` 是单篇文章跨会话的进度面板：只记录当前状态、下一步和待复查项，不重复 `materials/index.md`、`skeleton.md`、`changelog.md` 的内容。
 
 ## 何时创建与更新
 

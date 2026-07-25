@@ -19,7 +19,7 @@
 
 | 文件 | 内容 |
 |------|------|
-| `questionnaire.md` | 项目问卷生成指南：证据前置扫描 + 六维问题（含范围锁定）+ SKILL.md/materials.md/preferences.md 写入格式 + 后续会话加载 + 补充提问规则 |
+| `questionnaire.md` | 项目问卷生成指南：证据前置扫描 + 六维问题（含范围锁定）+ SKILL.md/materials/index.md/preferences.md 写入格式 + 后续会话加载 + 补充提问规则 |
 | `modes.md` | A/B/C 三种文章模式骨架模板（快速入门 / 架构深挖 / 方案对比） |
 | `skeleton.md` | 骨架写作指南：颗粒度要求、素材引用标注、示例格式、变更历史表、大改时的变更写法 |
 | `wenqu-profile.md` | 写作画像、设计决策图与章节职责卡：供骨架、R6 与自研方案写作使用 |
