@@ -15,7 +15,7 @@
 用 [`npx skills`](https://github.com/vercel-labs/skills)（通用技能安装器，不限 Claude Code）一条命令装完：
 
 ```bash
-npx skills add gogoingai/article-skills --all -g
+npx skills add gogoingai/wenqu-skills --all -g
 ```
 
 - `--all` = `--skill '*' --agent '*' -y`（装全部技能、装到检测到的所有 agent、跳过确认）

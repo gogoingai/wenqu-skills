@@ -2,6 +2,12 @@
 
 本文件记录仓库里所有技能的重大变更，按发布时间倒序排列。
 
+## 3.10.1 - 仓库名 article-skills -> wenqu-skills
+
+- remote origin 改为 https://github.com/gogoingai/wenqu-skills.git
+- README / SKILL / workflow / questionnaire / article-translate 里的仓库引用（`gogoingai/article-skills`、`[article-skills]`）改为 wenqu-skills
+- 存储目录 `.article-skills/` 不变（文章存储目录，与仓库名无关）
+
 ## 3.10.0 - 系统化升级：新增 R7 变更闭环审查 + 规划文件；重写 R3/R5；发布机制调整
 
 - **新增 article-review R7（变更闭环与全篇一致性）**：五类遗留检查（术语/逻辑/结构/内容载体/图文），配合 change-impact.md 记录改动影响

@@ -42,7 +42,7 @@ description: 把英文技术材料（README、论文、源码注释、技术文�
 ## 依赖
 
 - `references/translation-guide.md` 完整自包含，覆盖单篇文章量级的翻译不需要任何外部依赖
-- R2 审查依赖 **article-review**（同仓库技能，`npx skills add gogoingai/article-skills --all` 会一起装上）
+- R2 审查依赖 **article-review**（同仓库技能，`npx skills add gogoingai/wenqu-skills --all` 会一起装上）
 - 长文档/多模式翻译这类超出本技能范围的重活，**可选依赖 baoyu-translate**（`jimliu/baoyu-skills`）——不装不影响本技能覆盖的日常场景，只在遇到重活时会建议安装
 
 ---

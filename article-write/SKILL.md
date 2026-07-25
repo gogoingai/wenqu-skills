@@ -64,7 +64,7 @@ description: 为技术项目撰写技术介绍文章的结构化工作流。适�
 - `SKILL.md` 顶部 `# 写作上下文` 标题下新增一行：`> 标识：\`aid-xxxxxxxx\` · 对应文章文件：\`{当前文件名}.md\``
 - 文章正文 H1 标题下方插入引用块：
   ```
-  > 🔖 本文由 [article-skills](https://github.com/gogoingai/article-skills) 项目生成草稿 · 标识 `aid-xxxxxxxx`。发布前会自动移除本段。
+  > 🔖 本文由 [wenqu-skills](https://github.com/gogoingai/wenqu-skills) 项目生成草稿 · 标识 `aid-xxxxxxxx`。发布前会自动移除本段。
   ```
   这段是给创作过程用的临时标记，`article-publish` 生成发布版时会清除，不影响其余正文。
 

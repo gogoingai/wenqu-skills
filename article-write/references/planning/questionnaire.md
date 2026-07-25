@@ -393,7 +393,7 @@ AskUserQuestion({
 
 **SKILL.md 必须自包含**：全局画像当时确认好的内容要**整段拷贝**进下面模板的「读者画像」一节，不是写一句"参见全局画像"就跳过——本篇的写作依据不应该依赖全局画像文件之后还存在、还没被改动。
 
-**新建时同步生成文章标识**：格式 `aid-` + 8 位十六进制随机数（`openssl rand -hex 4`），写进下面模板顶部的标识行，同时在文章正文 H1 标题下方插入引用块 `> 🔖 本文由 [article-skills](https://github.com/gogoingai/article-skills) 项目生成草稿 · 标识 \`aid-xxxxxxxx\`。发布前会自动移除本段。`——两处同时写，缺一不可，详见 `SKILL.md`「文章标识与重命名」一节。
+**新建时同步生成文章标识**：格式 `aid-` + 8 位十六进制随机数（`openssl rand -hex 4`），写进下面模板顶部的标识行，同时在文章正文 H1 标题下方插入引用块 `> 🔖 本文由 [wenqu-skills](https://github.com/gogoingai/wenqu-skills) 项目生成草稿 · 标识 \`aid-xxxxxxxx\`。发布前会自动移除本段。`——两处同时写，缺一不可，详见 `SKILL.md`「文章标识与重命名」一节。
 
 ```markdown
 # 写作上下文
