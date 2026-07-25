@@ -2,7 +2,7 @@
 
 > 一套面向 AI Agent 的文章创作技能集合。
 
-![文曲 Logo](https://img-1302474103.cos.ap-nanjing.myqcloud.com/20260725170602474.png)
+![文曲 Logo](docs/logo.png)
 
 文曲取意于文曲星，遵循中国传统文章创作路径，从博观积累、谋篇布局，到属文成篇、推敲润色，最终完成文章发布。
 
