@@ -24,7 +24,7 @@ description: 审查中文技术文章质量：真实性核查（对照源码）�
 
 | 步骤 | 文件 | 内容 |
 |------|------|------|
-| R0 | `references/r0-factcheck.md` | 真实性核查（对照源码，揪编造/写错的内容） |
+| R0 | `references/r0-factcheck.md` | 来源、真实性与评测叙事核查（对照源码，揪编造/写错/错配的内容） |
 | R5 | `references/r5-coherence.md` | 连贯性 + 清晰度 |
 | R1 | `references/r1-english.md` | 英文术语检查（依赖 `references/language/glossary.md`） |
 | R2 | `references/r2-translation.md` | 翻译腔审查 |
@@ -46,6 +46,7 @@ description: 审查中文技术文章质量：真实性核查（对照源码）�
 - 若同时安装了 wenqu-write：R4 会交叉参考它的写作禁止事项清单，增强判断依据，但不是硬依赖——没装也能正常审查
 - 若同时安装了 wenqu-write：R6 优先读取文章存储中的读者画像、背景、范围锁定等上下文，判断当前文章的题材与写作目标；上下文不足时不得擅自把某种文体判错。
 - 若同时安装了 wenqu-write：R7 优先读取本轮确认过的改动清单及文章存储中的 `references/change-impact.md`；两者都不存在时才以当前 `git diff` 为线索，并明确说明覆盖范围受限。
+- 若同时安装了 wenqu-write：R0 读取 `materials.md` 的来源类型、冲突裁决与评测设计；R4 读取 `skeleton.md` 与 `status.md` 判断是否偏离确认范围；相关文件缺失时明确说明检查边界，不得假装已核对。
 
 ---
 

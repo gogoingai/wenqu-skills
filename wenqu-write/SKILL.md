@@ -38,7 +38,7 @@ description: 为技术项目撰写技术介绍文章的结构化工作流。适�
   - `{项目根目录}/wenqu-skills/{文件名}/references/changelog.md` —— **版本记录**：草稿/事件/发布三类历史，见 `references/planning/changelog.md`「版本记录」
   - `{项目根目录}/wenqu-skills/{文件名}/references/change-impact.md` —— **变更影响记录**：术语、机制、数字、范围、结构或图片发生实质修改时，记录本轮改动及受影响载体，供 R7 做闭环检查；没有实质改动时不创建
   - `{项目根目录}/wenqu-skills/{文件名}/references/terms.md` —— **术语表**：需要跨章节稳定使用的概念，记录推荐词、避免词、首次定义位置和适用范围；没有术语风险时不创建
-  - `{项目根目录}/wenqu-skills/{文件名}/references/status.md` —— **文章状态**：素材、骨架、章节、图片、审查与发布的当前状态、下一步和待复查项；模板与更新规则见 `references/planning/article-status.md`
+  - `{项目根目录}/wenqu-skills/{文件名}/references/status.md` —— **文章状态**：素材、骨架、章节、图片、审查与发布的当前状态、下一步和待复查项；模板与更新规则见 `references/planning/wenqu-status.md`
   - `{项目根目录}/wenqu-skills/{文件名}/publish/v{N}/`（按需创建）—— **wenqu-publish** 技能生成的发布版产物，wenqu-write 不直接写这个目录
   - `{项目根目录}/wenqu-skills/{文件名}/assets/`（按需创建）—— 用户提供的非文本参考素材（示例图片、截图等二进制文件），`materials.md`/`preferences.md` 里用相对路径引用，不把二进制内容塞进 Markdown
 
@@ -113,7 +113,7 @@ description: 为技术项目撰写技术介绍文章的结构化工作流。适�
 
 3. **检查本篇存储目录**（上一步定下的路径，先按「文章标识与重命名」一节的检测顺序判断是否命中重命名）
    - 有 → 加载 `SKILL.md`，告知用户「已加载上次对本篇的补充说明」，直接用（里面已经含有创建时拷贝的画像快照）；同时检查 `references/preferences.md` 是否存在，有则静默加载，按已记录偏好执行，不重复问；检查 `references/status.md` 是否存在，有则读取下一步与待复查项；检查 SKILL.md「待办清单」有无未勾选项，有则告知用户「上次还有 N 项待办未完成」（见「待办清单」一节）
-   - 没有 → 新建时，生成本篇标识（`aid-` + 8 位十六进制随机数），写入 SKILL.md 顶部和正文 H1 下方（见「文章标识与重命名」一节）；把上一步确认好的全局画像内容**整段拷贝**进 SKILL.md 的 `## 读者画像（全局画像快照）` 一节；创建 `references/status.md`（→ 查 `references/planning/article-status.md`）；如果用户在对话中有本篇特殊要求，一并写入
+   - 没有 → 新建时，生成本篇标识（`aid-` + 8 位十六进制随机数），写入 SKILL.md 顶部和正文 H1 下方（见「文章标识与重命名」一节）；把上一步确认好的全局画像内容**整段拷贝**进 SKILL.md 的 `## 读者画像（全局画像快照）` 一节；创建 `references/status.md`（→ 查 `references/planning/wenqu-status.md`）；如果用户在对话中有本篇特殊要求，一并写入
 
 4. **背景深挖（用户主动提供背景信息时必做，通用判定能力，不是固定问题清单）**：用户说出的每一句背景信息（"这个之前发过""公司要求""这块素材我后面给你"……）背后通常还有没说出口的动机、硬约束、未决风险，只当参考资料记下来不等于问清楚了。识别信号和深挖方法 → 查 `references/planning/questionnaire.md` 的 A0 节，深挖结果写入 SKILL.md 的 `## 背景` 字段；用户随背景一起甩过来的具体素材（截图要点、原文片段等）另外按条目追加进 `references/materials.md`（见下方 Step 2）。用户明确说"这个后面再给你/再补"的事项，当场记入 SKILL.md「待办清单」（见该节），不要指望自己记得住。
 
@@ -227,7 +227,7 @@ description: 为技术项目撰写技术介绍文章的结构化工作流。适�
 - **读者视角连贯性**：按本篇读者画像判断，读者能看懂这节吗？凡是依赖“读者知道 X”才能理解、但前文没有给出的内容，必须在当前位置补交代或在前面铺垫。
 - **先总后分**：每节开头先一句核心结论，再展开细节
 - **前后衔接**：和上下节是否流畅衔接
-- **章节验收：** 读者能复述这节的核心判断，并知道它为何引向下一节；达不到时不标记本节完成。→ 查 `references/planning/article-status.md`
+- **章节验收：** 读者能复述这节的核心判断，并知道它为何引向下一节；达不到时不标记本节完成。→ 查 `references/planning/wenqu-status.md`
 
 完成所有节后 → 对照已确认骨架检查有没有扩大范围、遗漏承诺的机制/边界或把原定增量修改扩成重构；自动触发完整审查流程，审查完成后 → **在 `references/changelog.md` 追加一行 v1（类型：草稿，摘要：初稿完成）**（见 `references/planning/changelog.md`「版本记录」，没有该文件先新建）→ 更新 `references/status.md` → 处理尚未生成的配图
 
@@ -250,7 +250,7 @@ description: 为技术项目撰写技术介绍文章的结构化工作流。适�
    - **没有** → 说明本篇之前没走过完整流程，先检查全局画像（`$HOME/.gogoingai/wenqu-skills/profile.md`），有则确认后拷贝快照建 SKILL.md；没有则**必须先走问卷流程建立画像**（→ 查 `references/planning/questionnaire.md`），不得跳过
 2. 检查本篇骨架、素材库、术语表与文章状态（`references/skeleton.md`、`references/materials.md`、`references/terms.md`、`references/status.md`）
    - **有** → 静默加载，用于定位改动影响范围；改动涉及的技术性 claim 优先查 `materials.md` 有没有现成条目，没有再重新扫源码
-   - **状态文件缺失** → 按 `references/planning/article-status.md` 补建；不要凭对话记忆猜测已完成的章节或图片
+   - **状态文件缺失** → 按 `references/planning/wenqu-status.md` 补建；不要凭对话记忆猜测已完成的章节或图片
 3. 检查本轮变更影响记录（`references/change-impact.md`）
    - **有未闭环条目** → 告知用户并在本轮收尾运行 R7；没有则跳过
 4. 检查本篇偏好库（`references/preferences.md`）
@@ -292,7 +292,7 @@ description: 为技术项目撰写技术介绍文章的结构化工作流。适�
 
 每步审查完立即修复，修复完再跑下一步。若某步没有发现问题，修复任务直接标为完成跳过。
 
-改动清单全部执行完（这一轮修改收尾）后，先按 `references/planning/article-status.md` 的“反向验收”确认本轮改动和待复查项；再在 `references/changelog.md` 追加一行新版本（类型：草稿，摘要概括这轮改了什么），不要为审查产生的小修改单独记版本——见 `references/planning/changelog.md`。
+改动清单全部执行完（这一轮修改收尾）后，先按 `references/planning/wenqu-status.md` 的“反向验收”确认本轮改动和待复查项；再在 `references/changelog.md` 追加一行新版本（类型：草稿，摘要概括这轮改了什么），不要为审查产生的小修改单独记版本——见 `references/planning/changelog.md`。
 
 ---
 

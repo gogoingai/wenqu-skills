@@ -21,7 +21,7 @@
 
 **Files:**
 - Create: `wenqu-write/references/planning/content-provenance.md`
-- Create: `wenqu-write/references/planning/article-status.md`
+- Create: `wenqu-write/references/planning/wenqu-status.md`
 - Modify: `wenqu-write/SKILL.md`
 - Modify: `wenqu-write/references/INDEX.md`
 - Modify: `wenqu-write/references/planning/questionnaire.md`

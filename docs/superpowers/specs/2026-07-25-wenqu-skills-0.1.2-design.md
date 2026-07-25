@@ -25,7 +25,7 @@
 
 ## 数据与流程
 
-- 单篇文章新增 `references/status.md`：仅记录状态、下一步和待复查项；不复制素材、骨架或 changelog 内容。
+- 单篇文章新增 `references/status.md`，模板为 `references/planning/wenqu-status.md`：仅记录状态、下一步和待复查项；不复制素材、骨架或 changelog 内容。
 - `materials.md` 增加“来源类型”和“评测设计”字段；新建素材或出现评测结论时填写。
 - 修改开始前按授权分级决定直接执行、按计划执行，或先讨论／更新骨架；实质变更仍使用已有 `change-impact.md`。
 - 写作收尾按反向验收标准检查；完整审查继续以 `R0 → R5 → R1 → R2 → R3 → R4 → R6 → R7` 为顺序。
