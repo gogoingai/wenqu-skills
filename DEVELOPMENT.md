@@ -1,6 +1,6 @@
 # 技能开发原则
 
-维护 article-write / article-image / article-review / article-translate / article-publish 这套技能时，遵循以下原则。
+维护 wenqu-write / wenqu-image / wenqu-review / wenqu-translate / wenqu-publish 这套技能时，遵循以下原则。
 
 ## 1. 经验沉淀：先判断通用 vs 特定
 
@@ -27,14 +27,14 @@
 
 | 经验类型 | 沉淀到 |
 |---|---|
-| 通用写作措辞/结构/格式（怎么做） | `article-write/references/writing/style-guide.md` |
-| 通用写作禁止事项（不要做什么） | `article-write/references/writing/anti-patterns.md` |
-| 规划阶段（问卷/骨架/changelog） | `article-write/references/planning/*.md` |
-| 配图画法/踩坑/风格/生成流程 | `article-image/references/`（pitfalls / styles / templates / gen-workflow） |
-| 审查标准（R0~R6 各类检查） | `article-review/references/r0-r6*.md` |
-| 翻译规范 | `article-translate/references/translation-guide.md` |
-| 发布流程（标题/简介/封面/自动发布） | `article-publish/references/*.md` |
-| 文章特定偏好（术语取舍/写法习惯） | 文章 `.article-skills/{文件名}/references/preferences.md` |
+| 通用写作措辞/结构/格式（怎么做） | `wenqu-write/references/writing/style-guide.md` |
+| 通用写作禁止事项（不要做什么） | `wenqu-write/references/writing/anti-patterns.md` |
+| 规划阶段（问卷/骨架/changelog） | `wenqu-write/references/planning/*.md` |
+| 配图画法/踩坑/风格/生成流程 | `wenqu-image/references/`（pitfalls / styles / templates / gen-workflow） |
+| 审查标准（R0~R6 各类检查） | `wenqu-review/references/r0-r6*.md` |
+| 翻译规范 | `wenqu-translate/references/translation-guide.md` |
+| 发布流程（标题/简介/封面/自动发布） | `wenqu-publish/references/*.md` |
+| 文章特定偏好（术语取舍/写法习惯） | 文章 `wenqu-skills/{文件名}/references/preferences.md` |
 | 跨技能变更记录 | 仓库根 `CHANGELOG.md` |
 | 维护原则（本文件） | 仓库根 `DEVELOPMENT.md` |
 
@@ -49,10 +49,9 @@ npx skills update             # 同步到本地技能目录（~/.agents/skills/�
 
 ## 5. 版本号规范
 
-遵循语义化版本 MAJOR.MINOR.PATCH：
+版本号 0.MINOR.PATCH，MAJOR 长期保持 0（技能仍在早期迭代）：
 
-- **MAJOR**：不兼容变更（改 SKILL.md 流程/接口导致旧用法失效，或大重构）
-- **MINOR**：新增技能，或现有技能新增独立流程步骤（如 article-write 加新 Step）
-- **PATCH**：完善现有规则（加规则条目、补例子、改措辞、修 bug），不改变流程结构
+- **MINOR**：大变动才涨（改名/新品牌、不兼容变更、新增技能或独立流程步骤）。当前 0.1.*；以后除非大变动，不改 0.1
+- **PATCH**：完善现有规则（加规则条目、补例子、改措辞、修 bug），不改变流程结构。0.1.0 -> 0.1.1 -> 0.1.2…
 
 加规则条目（anti-patterns 加禁止项、style-guide 加节、R5 加检查项）是 PATCH，不是 MINOR--这是完善现有规范，没新增流程。攒一批改动一起发，不每次小改都涨版本。
