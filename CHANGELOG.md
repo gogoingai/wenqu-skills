@@ -2,15 +2,10 @@
 
 本文件记录仓库里所有技能的重大变更，按发布时间倒序排列。
 
-## 0.1.9 - 补充 Claude 插件加载步骤
-
-- README 的 Claude Code 市场安装与更新流程补充 `/reload-plugins`，使当前会话立即加载刚安装或更新的插件。
-- 版本号更新为 0.1.9（PATCH，修正安装说明）。
-
 ## 0.1.8 - Claude Code 插件市场接入
 
 - 新增 `.claude-plugin/plugin.json` 与 `.claude-plugin/marketplace.json`：将现有六个 `wenqu-*` 技能作为同一个 `wenqu-skills` 插件发布，无需移动现有目录。
-- README 补充 Claude Code 市场的添加、安装与更新方式。
+- README 补充 Claude Code 市场的添加、安装、更新与 `/reload-plugins` 加载方式。
 - 版本号更新为 0.1.8（PATCH，新增插件分发入口）。
 
 ## 0.1.7 - 文库原生搜索主导与可选 CLI 增强
