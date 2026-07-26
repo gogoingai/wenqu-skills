@@ -1,13 +1,38 @@
 ---
 name: wenqu-translate
-description: 把英文技术材料（README、论文、源码注释、技术文章）翻译成自然中文，用于写作前的素材准备。专注单篇文章量级的翻译质量；超出这个量级（长文档分块、多种翻译模式）时建议改用更完整的 baoyu-translate 技能。触发关键词：翻译一下、把这段英文翻译成中文、译成中文。也可被 wenqu-write 在 Step 2 获取英文素材时通过 Skill 工具调用。
+description: >-
+  将 README、论文、源码注释、文档和英文文章等材料翻译成自然中文，供中文内容创作与阅读
+  使用。当用户要求“翻译一下”“把这段英文翻译成中文”或“译成中文”，或使用 "translate to
+  Chinese", "translate this README", "translate this paper" 等英文表达时使用；长文或多模式
+  翻译可转交 baoyu-translate。
+slug: wenqu-translate
+displayName: 文曲·翻译
+version: 0.1.11
+summary: 英文材料（README/论文/源码注释/文档）翻译成自然中文，用于内容创作与阅读。
+license: MIT
+homepage: https://github.com/gogoingai/wenqu-skills
+metadata:
+  openclaw:
+    homepage: https://github.com/gogoingai/wenqu-skills/tree/master/wenqu-translate
 ---
 
 # 英文材料翻译 Skill
 
+> 📦 项目仓库与源码：<https://github.com/gogoingai/wenqu-skills>
+
+## 用户输入工具
+
+当本技能需要用户确认选择、补充必要信息或授权有副作用的操作时：
+
+1. 优先使用当前运行时提供的原生用户输入工具，例如 `AskUserQuestion`、`request_user_input`、`clarify`、`ask_user` 或等价能力。
+2. 若没有此类工具，使用带编号或字母选项的文本问答。
+3. 同一决策阶段中彼此独立的问题可合并提问；后一个问题依赖前一回答时，按优先级逐个问。
+4. 已由用户当前指令、调用方或文章偏好提供的信息，不重复询问。
+5. 文中出现的具体工具名均为示例；应替换为当前运行时的等价能力。
+
 ## 工具等价说明（非 Claude Code 环境）
 
-`AskUserQuestion`（读者背景确认）、`Skill`（调用 wenqu-review 做 R2 审查）是 Claude Code 工具名。其他 agent 没有时：`AskUserQuestion` 退化为编号文本问答；`Skill` 工具退化为直接 Read `~/.agents/skills/wenqu-review/references/r2-translation.md` 内联执行。
+`Skill`（调用 wenqu-review 做 R2 审查）是 Claude Code 工具名。其他 agent 没有时，直接 Read `~/.agents/skills/wenqu-review/references/r2-translation.md` 内联执行。
 
 ## 触发识别
 

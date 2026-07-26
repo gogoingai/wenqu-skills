@@ -1,9 +1,34 @@
 ---
 name: wenqu-review
-description: 审查中文技术文章质量：真实性核查（对照源码）、连贯性、英文术语规范、翻译腔、AI 写作痕迹、结构自检。适用于任何中文技术文章，不限定必须是 wenqu-write 写出来的。触发关键词：审查、检查一下、看看有没有问题、review、整体看看。也可被其他写作类技能通过 Skill 工具调用，或直接被内联引用（见下方"两种被使用的方式"）。
+description: >-
+  审查中文内容的事实依据、逻辑连贯性、术语规范、翻译腔、AI 写作痕迹与整体结构，适用于
+  文章、报告、教程、项目介绍和说明材料。当用户要求“审查”“检查一下”“看看有没有问题”
+  “整体看看”，或使用 "review an article", "review this draft", "proofread" 等英文表达时
+  使用；可独立运行，也可作为其他写作技能的内联审查阶段。
+slug: wenqu-review
+displayName: 文曲·审查
+version: 0.1.11
+summary: 中文内容质量审查：事实核查、逻辑连贯、英文术语、翻译腔与 AI 写作痕迹检测。
+license: MIT
+homepage: https://github.com/gogoingai/wenqu-skills
+metadata:
+  openclaw:
+    homepage: https://github.com/gogoingai/wenqu-skills/tree/master/wenqu-review
 ---
 
 # 文章审查 Skill
+
+> 📦 项目仓库与源码：<https://github.com/gogoingai/wenqu-skills>
+
+## 用户输入工具
+
+当本技能需要用户确认选择、补充必要信息或授权有副作用的操作时：
+
+1. 优先使用当前运行时提供的原生用户输入工具，例如 `AskUserQuestion`、`request_user_input`、`clarify`、`ask_user` 或等价能力。
+2. 若没有此类工具，使用带编号或字母选项的文本问答。
+3. 同一决策阶段中彼此独立的问题可合并提问；后一个问题依赖前一回答时，按优先级逐个问。
+4. 已由用户当前指令、调用方或文章偏好提供的信息，不重复询问。
+5. 文中出现的具体工具名均为示例；应替换为当前运行时的等价能力。
 
 ## 两种被使用的方式
 

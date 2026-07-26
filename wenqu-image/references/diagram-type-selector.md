@@ -6,15 +6,15 @@
 
 | 场景 | 图类型 | 参考节 | 参考图 |
 | --- | --- | --- | --- |
-| 多层系统架构总览 | 横向多层架构图 | templates/architecture.md『横向多层架构图』 | `../assets/styles/other/01-architecture.png` |
+| 多层系统架构总览 | 横向多层架构图 | templates/architecture.md『横向多层架构图』 | `https://raw.githubusercontent.com/gogoingai/wenqu-skills/master/wenqu-image-assets/styles/other/01-architecture.png` |
 | 有阶段划分的处理流程（含异步阶段） | 竖向三阶段流程图 | templates/flow.md『竖向三阶段串行流程图』 | — |
-| 多维度权重/评分展示 | 横向条形图 + 说明卡片 | templates/data-viz.md『横向条形图 + 说明卡片』 | `../assets/styles/other/03-weights-bar.png` |
+| 多维度权重/评分展示 | 横向条形图 + 说明卡片 | templates/data-viz.md『横向条形图 + 说明卡片』 | `https://raw.githubusercontent.com/gogoingai/wenqu-skills/master/wenqu-image-assets/styles/other/03-weights-bar.png` |
 | 公式 + 分级条件 | 左右分栏（公式+卡片） | templates/data-viz.md『左右分栏：公式 + 分级条件卡片』 | — |
 | 两方案流程/路径对比 | 并排对比图 | templates/comparison.md『并排方案对比图』 | — |
 | 含分支/多旁路的竖向流程 | 竖向串行流程图 | templates/flow.md『竖向串行流程图（含判断分支）』 | — |
 | 多阶段内各有子流程 | 横向阶段列流程图 | templates/flow.md『横向阶段列流程图』 | — |
-| 树状结构的搜索/遍历 | 树形层次检索路径图 | templates/architecture.md『树形层次检索路径图』 | `../assets/styles/other/04-tree-search.png` |
-| 指标随时间演化 | 时间演化折线图 | templates/data-viz.md『时间演化折线图』 | — |
+| 树状结构的搜索/遍历 | 树形层次检索路径图 | templates/architecture.md『树形层次检索路径图』 | `https://raw.githubusercontent.com/gogoingai/wenqu-skills/master/wenqu-image-assets/styles/other/04-tree-search.png` |
+| 指标随时间演化 | 时间演化折线图 | templates/data-viz.md『时间演化折线图』 | `https://raw.githubusercontent.com/gogoingai/wenqu-skills/master/wenqu-image-assets/styles/other/powermem-forgetting-curve.png` |
 | 层次递进/优先级/策略分级 | 金字塔分层图 | templates/data-viz.md『金字塔分层图』 | — |
 | 两路并行处理后融合（如混合检索） | 并行双路流程图 | templates/comparison.md『并行双路流程图』 | — |
 | 同一查询下两方案结果对比（✗/✓） | 左右结果对比图 | templates/comparison.md『左右结果对比图』 | — |
@@ -50,4 +50,3 @@
 
 - 复杂系统的技术文章开篇必须有一张系统级总览图——没有总览图，读者会在细节里迷路。
 - 不要等文章写完再补图：写到"这一段该配图了"的判断，应该在列大纲阶段就做，而不是写完文字后回头看哪里空了塞一张图。
-

@@ -181,7 +181,7 @@ picgo upload /tmp/article-img-${RAND}.png
 # 输出的 URL 即为这一版的 CDN 地址
 ```
 
-> 用了 `--ref` 就要记住这次实际传的参考图是什么：已采用图记录其 CDN URL，风格库图记录 `assets/styles/*/` 下的相对路径。命令可临时传入下载到 `/tmp` 的文件，但**本地路径不得写入 `ref:` 字段**（见第四步）。
+> 用了 `--ref` 就要记住这次实际传的参考图是什么：已采用图记录其 CDN URL，风格库图记录 GitHub raw URL（`wenqu-image-assets/styles/` 下对应图的 raw 地址）。命令可临时传入 `fetch-ref.sh` 下载到 `~/.cache/` 或 `/tmp` 的本地文件，但**本地路径不得写入 `ref:` 字段**（见第四步）。
 
 **重新生成时的常见修复策略：**
 

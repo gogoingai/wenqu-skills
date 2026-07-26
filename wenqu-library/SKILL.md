@@ -1,9 +1,34 @@
 ---
 name: wenqu-library
-description: 文章创作前的素材积累。按"规划、搜索、下载、整理"四步收集素材：以 agent 原生搜索为主、可选 CLI 搜索补充候选，并在已定义食谱的引擎上用 crwl 浏览器检索恢复和抓取网页（含微信公众号），整理成带索引的本篇素材目录与跨文章可复用的素材库。触发关键词：收集素材、整理资料、建素材库、沉淀知识、积累案例、抓取网页、收集网页素材。
+description: >-
+  面向中文内容创作的证据驱动素材收集与整理流程，涵盖规划、搜索、下载、索引与可复用
+  素材库维护，适用于文章、报告、教程、项目介绍和说明材料。当用户要求“收集素材”“整理资料”
+  “建立素材库”“抓取网页”或“收集网页素材”，或使用 "collect research", "build a source
+  library", "save this webpage", "web scraping" 等英文表达时使用。
+slug: wenqu-library
+displayName: 文曲·文库
+version: 0.1.11
+summary: 中文内容素材收集四步流程：规划→搜索→下载→整理，原生搜索为主、可选 CLI 增强，支持网页与公众号抓取。
+license: MIT
+homepage: https://github.com/gogoingai/wenqu-skills
+metadata:
+  openclaw:
+    homepage: https://github.com/gogoingai/wenqu-skills/tree/master/wenqu-library
 ---
 
 # 文库（Library）Skill
+
+> 📦 项目仓库与源码：<https://github.com/gogoingai/wenqu-skills>
+
+## 用户输入工具
+
+当本技能需要用户确认选择、补充必要信息或授权有副作用的操作时：
+
+1. 优先使用当前运行时提供的原生用户输入工具，例如 `AskUserQuestion`、`request_user_input`、`clarify`、`ask_user` 或等价能力。
+2. 若没有此类工具，使用带编号或字母选项的文本问答。
+3. 同一决策阶段中彼此独立的问题可合并提问；后一个问题依赖前一回答时，按优先级逐个问。
+4. 已由用户当前指令、调用方或文章偏好提供的信息，不重复询问。
+5. 文中出现的具体工具名均为示例；应替换为当前运行时的等价能力。
 
 ## 定位
 

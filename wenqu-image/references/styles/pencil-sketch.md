@@ -2,7 +2,7 @@
 > 属于 wenqu-image 技能的风格库家族，见 [SKILL.md](../../SKILL.md) 总览；通用画图规范见 [core-principles.md](../core-principles.md)、[pitfalls.md](../pitfalls.md)。
 
 
-> 参考图存放于 `../../assets/styles/pencil-sketch/`
+> 参考图存放于 `https://github.com/gogoingai/wenqu-skills/tree/master/wenqu-image-assets/styles/pencil-sketch/`
 
 第七种手绘风格家族，与奶油描边风格（[cream-outline.md](cream-outline.md)）都用奶油色背景，但视觉语言不同——核心特征是**彩色铅笔/蜡笔晕染质感 + 图标边缘斜线排线阴影 + 圆形编号徽章 + 虚线分隔 + 可爱吉祥物点缀**，比奶油描边风格线条更软、更有"手绘笔触感"，比水彩涂鸦风格（[doodle-watercolor.md](doodle-watercolor.md)）更克制、没有装饰性涂鸦星星火花。
 
@@ -27,10 +27,10 @@
 **① --ref 必须**：
 
 ```
---ref ~/.agents/skills/wenqu-image/assets/styles/pencil-sketch/pencil-sketch-01-stage-flow.png       # 横向四步编号流程
---ref ~/.agents/skills/wenqu-image/assets/styles/pencil-sketch/pencil-sketch-02-breakdown.png        # 长条拆解+编号卡片
---ref ~/.agents/skills/wenqu-image/assets/styles/pencil-sketch/pencil-sketch-03-branch-decision.png  # 竖向判断分支流程
---ref ~/.agents/skills/wenqu-image/assets/styles/pencil-sketch/pencil-sketch-04-layered-arch.png     # 竖向分层架构
+--ref "$(bash ~/.agents/skills/wenqu-image/scripts/fetch-ref.sh pencil-sketch/pencil-sketch-01-stage-flow.png)"       # 横向四步编号流程
+--ref "$(bash ~/.agents/skills/wenqu-image/scripts/fetch-ref.sh pencil-sketch/pencil-sketch-02-breakdown.png)"        # 长条拆解+编号卡片
+--ref "$(bash ~/.agents/skills/wenqu-image/scripts/fetch-ref.sh pencil-sketch/pencil-sketch-03-branch-decision.png)"  # 竖向判断分支流程
+--ref "$(bash ~/.agents/skills/wenqu-image/scripts/fetch-ref.sh pencil-sketch/pencil-sketch-04-layered-arch.png)"     # 竖向分层架构
 ```
 
 **② prompt 只写"参考图风格 + 内容"，不要逐条复述视觉细节**：

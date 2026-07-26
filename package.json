@@ -1,0 +1,10 @@
+{
+  "name": "wenqu-skills-release-tools",
+  "private": true,
+  "scripts": {
+    "release:check": "node scripts/check-release.mjs",
+    "release:check:runtime": "node scripts/check-release.mjs --runtime",
+    "release:check:skillhub": "node scripts/check-release.mjs --skillhub",
+    "test:release": "node --test tests/release-validation.test.mjs"
+  }
+}

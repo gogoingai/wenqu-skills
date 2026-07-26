@@ -2,6 +2,13 @@
 
 本文件记录仓库里所有技能的重大变更，按发布时间倒序排列。
 
+## 0.1.11 - 跨运行时分发与发布工程化
+
+- 新增 WorkBuddy 市场清单，并与仓库根 `VERSION`、Claude Code 插件和市场清单统一为 `0.1.11`。
+- 六个技能补充 WorkBuddy / SkillHub 元数据与 OpenClaw 主页链接；描述改为中文主描述，保留英文触发词，并将适用范围扩展为通用中文内容创作。
+- README 默认使用英文，新增 `README.zh-CN.md`；两份文档均说明完整工作流安装、Claude Code 与 WorkBuddy 市场安装方式。
+- 增加发布校验、图片引用校验、SkillHub dry-run 入口和 GitHub Actions 静态发布检查；风格图片迁至仓库根按需引用，避免随技能包分发。
+
 ## 0.1.8 - Claude Code 插件市场接入
 
 - 新增 `.claude-plugin/plugin.json` 与 `.claude-plugin/marketplace.json`：将现有六个 `wenqu-*` 技能作为同一个 `wenqu-skills` 插件发布，无需移动现有目录。

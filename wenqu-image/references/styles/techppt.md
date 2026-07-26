@@ -2,7 +2,7 @@
 > 属于 wenqu-image 技能的风格库家族，见 [SKILL.md](../../SKILL.md) 总览；通用画图规范见 [core-principles.md](../core-principles.md)、[pitfalls.md](../pitfalls.md)。
 
 
-> 参考图存放于 `../../assets/styles/techppt/`
+> 参考图存放于 `https://github.com/gogoingai/wenqu-skills/tree/master/wenqu-image-assets/styles/techppt/`
 
 与[手绘插画风格](handdrawn.md)不同，这套风格更接近演讲幻灯片，线条干净，有固定机器人吉祥物，信息密度更高。
 
@@ -21,10 +21,10 @@
 **--ref 必须**，推荐参考图（按目标图类型选最接近的）：
 
 ```
---ref ~/.agents/skills/wenqu-image/assets/styles/techppt/techppt-03-building.png   # 两列对比、分层
---ref ~/.agents/skills/wenqu-image/assets/styles/techppt/techppt-04-circular.png   # 环形循环
---ref ~/.agents/skills/wenqu-image/assets/styles/techppt/techppt-01-formula.png    # 公式拆解
---ref ~/.agents/skills/wenqu-image/assets/styles/techppt/techppt-02-two-column.png # 双框对比
+--ref "$(bash ~/.agents/skills/wenqu-image/scripts/fetch-ref.sh techppt/techppt-03-building.png)"   # 两列对比、分层
+--ref "$(bash ~/.agents/skills/wenqu-image/scripts/fetch-ref.sh techppt/techppt-04-circular.png)"   # 环形循环
+--ref "$(bash ~/.agents/skills/wenqu-image/scripts/fetch-ref.sh techppt/techppt-01-formula.png)"    # 公式拆解
+--ref "$(bash ~/.agents/skills/wenqu-image/scripts/fetch-ref.sh techppt/techppt-02-two-column.png)" # 双框对比
 ```
 
 **prompt 只写"参考图风格 + 内容"，不要逐条复述视觉细节**（边框配色、机器人吉祥物等一律交给 `--ref`）：

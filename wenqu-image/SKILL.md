@@ -1,9 +1,24 @@
 ---
 name: wenqu-image
-description: 为文章生成 AI 配图（架构图、流程图、技术示意图等），涵盖从"画图提示"写作规范到调用 gpt-image-2 实际生成、质检、上传、写入文章的完整流程。适用于任何需要配图的写作场景，不限于技术文章。触发关键词：画个架构图、画流程图、生成配图、生成图片、把图画出来、渲染一下、帮我生图。也可被其他写作类技能通过 Skill 工具在"配图阶段"调用。
+description: >-
+  为内容设计、生成、质检、上传并嵌入架构图、流程图、信息图和示意图，涵盖提示词设计到
+  最终落图的完整流程。当用户要求“画个架构图”“画流程图”“生成配图”“生成图片”“把图画出来”
+  “渲染一下”或“帮我生图”，或使用 "draw an architecture diagram", "generate an image",
+  "create a flowchart" 等英文表达时使用。
+slug: wenqu-image
+displayName: 文曲·配图
+version: 0.1.11
+summary: 为内容生成 AI 配图（架构图/流程图/信息图/示意图）：提示词、生图、质检、上传全流程。
+license: MIT
+homepage: https://github.com/gogoingai/wenqu-skills
+metadata:
+  openclaw:
+    homepage: https://github.com/gogoingai/wenqu-skills/tree/master/wenqu-image
 ---
 
 # 文章配图 Skill
+
+> 📦 项目仓库与源码：<https://github.com/gogoingai/wenqu-skills>
 
 ## 与调用方的接口约定
 
@@ -22,7 +37,7 @@ description: 为文章生成 AI 配图（架构图、流程图、技术示意图
 ​```
 ---
 style: 单色马克笔   # 对应风格库表里的风格名；无风格关键词时写"默认极简PPT"
-ref: assets/styles/mono-marker/example-2.png   # 实际用过的参考图；只允许技能内稳定相对路径或 HTTPS CDN URL，临时本地路径不得写入；本轮没用 --ref 时保持原值不动，从未用过才省略
+ref: https://raw.githubusercontent.com/gogoingai/wenqu-skills/master/wenqu-image-assets/styles/mono-marker/mono-marker-02-branch-decision.png   # 实际用过的参考图；只允许 HTTPS URL（风格图托管在 GitHub，本地经 fetch-ref.sh 取）；临时本地路径不得写入；本轮没用 --ref 时保持原值不动，从未用过才省略
 versions:   # 历次生成的版本记录；每项必须是 HTTPS CDN URL，含质检不通过/用户否决版本，编号递增，不删除、不覆盖
   v1: https://cdn.example.com/article-img-1111aaaa2222bbbb.png   # 简要说明
 ---
@@ -31,9 +46,21 @@ versions:   # 历次生成的版本记录；每项必须是 HTTPS CDN URL，含�
 ​```
 ```
 
-转换占位标记、或用户直接给风格关键词时，都按这个格式写；`references/styles/*.md` 里该风格追加的专属描述句，直接拼进提示正文，不要另起一段脱离 YAML 之外的"风格说明"，避免以后只读提示正文时丢失风格上下文。**每次实际调用 `gpt-image-2-gen.sh --ref` 后**，把这次真正生效的稳定参考来源回填进 `ref:` 字段：技能内风格资产用相对路径，已采用图片用 HTTPS CDN URL；命令中临时使用的 `/tmp` 文件不得回填。`ref` 记的是“这次生成实际参考了什么”，不是“这个风格理论上可以参考什么”；**没用 `--ref` 的这一轮，不要动 `ref:` 字段**，保留上一次的记录。**只有上传成功、拿到 HTTPS CDN URL 的版本才可写入 `versions`**；正文的 `![]()` 只指向当前采用的那一版，其余版本仅留存在 `versions` 里供回看对比，具体写入规则见 `references/gen-workflow.md` 第四步。
+转换占位标记、或用户直接给风格关键词时，都按这个格式写；`references/styles/*.md` 里该风格追加的专属描述句，直接拼进提示正文，不要另起一段脱离 YAML 之外的"风格说明"，避免以后只读提示正文时丢失风格上下文。**每次实际调用 `gpt-image-2-gen.sh --ref` 后**，把这次真正生效的稳定参考来源回填进 `ref:` 字段：风格资产用 GitHub raw URL，已采用图片用 HTTPS CDN URL；命令中临时使用的 `/tmp` 文件不得回填。`ref` 记的是“这次生成实际参考了什么”，不是“这个风格理论上可以参考什么”；**没用 `--ref` 的这一轮，不要动 `ref:` 字段**，保留上一次的记录。**只有上传成功、拿到 HTTPS CDN URL 的版本才可写入 `versions`**；正文的 `![]()` 只指向当前采用的那一版，其余版本仅留存在 `versions` 里供回看对比，具体写入规则见 `references/gen-workflow.md` 第四步。
 
-> **工具等价说明**：文中"`Skill` 工具"是 Claude Code 的跨技能调用机制名。其他 agent 没有对应机制时，调用方应直接 Read 本技能的 `SKILL.md` 和 `references/` 文件内联执行。文中"`AskUserQuestion` 工具"是 Claude Code 的结构化多选提问机制，本技能里凡是"让用户从几个选项里选一个"的确认点（生成结果确认、多次失败后的处理方式、转换方案确认、内容变更后是否重画等，详见 `references/gen-workflow.md`）都必须用它提问，不得只输出 A/B/C 文本等用户手打回复。没有该工具的 agent 上退化为编号文本问答：把选项列成 A/B/C，请用户直接回复字母或文字。
+## 用户输入工具
+
+当本技能需要用户确认选择、补充必要信息或授权有副作用的操作时：
+
+1. 优先使用当前运行时提供的原生用户输入工具，例如 `AskUserQuestion`、`request_user_input`、`clarify`、`ask_user` 或等价能力。
+2. 若没有此类工具，使用带编号或字母选项的文本问答。
+3. 同一决策阶段中彼此独立的问题可合并提问；后一个问题依赖前一回答时，按优先级逐个问。
+4. 已由用户当前指令、调用方或文章偏好提供的信息，不重复询问。
+5. 文中出现的具体工具名均为示例；应替换为当前运行时的等价能力。
+
+## 工具等价说明（非 Claude Code 环境）
+
+文中 `Skill` 工具是 Claude Code 的跨技能调用机制名。其他 agent 没有对应机制时，调用方直接 Read 本技能的 `SKILL.md` 和 `references/` 文件内联执行。
 
 ---
 
@@ -73,13 +100,13 @@ versions:   # 历次生成的版本记录；每项必须是 HTTPS CDN URL，含�
 
 | 风格 | 文档 | 参考图目录 |
 | --- | --- | --- |
-| 手绘插画 | `references/styles/handdrawn.md` | `assets/styles/handdrawn/` |
-| Excalidraw（白板斜线填充） | `references/styles/excalidraw.md` | `assets/styles/excalidraw/` |
-| 单色马克笔（波浪线注释） | `references/styles/mono-marker.md` | `assets/styles/mono-marker/` |
-| 水彩涂鸦（星星火花装饰） | `references/styles/doodle-watercolor.md` | `assets/styles/doodle-watercolor/` |
-| 奶油描边（黑色粗描边思维导图） | `references/styles/cream-outline.md` | `assets/styles/cream-outline/` |
-| 彩色铅笔质感（编号徽章+排线阴影） | `references/styles/pencil-sketch.md` | `assets/styles/pencil-sketch/` |
-| 技术PPT（机器人吉祥物） | `references/styles/techppt.md` | `assets/styles/techppt/` |
+| 手绘插画 | `references/styles/handdrawn.md` | `wenqu-image-assets/styles/handdrawn/` |
+| Excalidraw（白板斜线填充） | `references/styles/excalidraw.md` | `wenqu-image-assets/styles/excalidraw/` |
+| 单色马克笔（波浪线注释） | `references/styles/mono-marker.md` | `wenqu-image-assets/styles/mono-marker/` |
+| 水彩涂鸦（星星火花装饰） | `references/styles/doodle-watercolor.md` | `wenqu-image-assets/styles/doodle-watercolor/` |
+| 奶油描边（黑色粗描边思维导图） | `references/styles/cream-outline.md` | `wenqu-image-assets/styles/cream-outline/` |
+| 彩色铅笔质感（编号徽章+排线阴影） | `references/styles/pencil-sketch.md` | `wenqu-image-assets/styles/pencil-sketch/` |
+| 技术PPT（机器人吉祥物） | `references/styles/techppt.md` | `wenqu-image-assets/styles/techppt/` |
 | （无风格关键词/默认） | 极简专业 PPT 风格，直接在图型模板结尾加「风格：白色背景，高级技术 PPT 配图，极简专业，文字标注全部用中文。」 | — |
 
 其他参考文档：
@@ -107,7 +134,7 @@ versions:   # 历次生成的版本记录；每项必须是 HTTPS CDN URL，含�
 - **codex CLI**（唯一的外部工具依赖，需要 ChatGPT Plus/Pro 订阅并 `codex login`）：驱动 GPT Image 2 实际生图
 - 生图脚本：`scripts/gpt-image-2-gen.sh` + `scripts/extract_image.py`——已随本技能一起分发（vendored，MIT，见 `scripts/THIRD_PARTY_NOTICES.md`），**不需要单独安装 gpt-image-2 skill**
 - 图床：`picgo`（需已配置 uploader）
-- 风格参考图库：`assets/styles/`（`handdrawn/` 手绘插画、`excalidraw/` 白板斜线填充、`mono-marker/` 单色马克笔、`doodle-watercolor/` 水彩涂鸦、`cream-outline/` 奶油描边思维导图、`pencil-sketch/` 彩色铅笔质感、`techppt/` 技术PPT风格，配合 `--ref` 使用，对应文档见 `references/styles/`）
+- 风格参考图库：托管在 GitHub `wenqu-image-assets/styles/`（`handdrawn/` 手绘插画、`excalidraw/` 白板斜线填充、`mono-marker/` 单色马克笔、`doodle-watercolor/` 水彩涂鸦、`cream-outline/` 奶油描边思维导图、`pencil-sketch/` 彩色铅笔质感、`techppt/` 技术PPT风格，配合 `--ref` 使用，对应文档见 `references/styles/`）。图片**不随技能分发**，首次用某风格时 `scripts/fetch-ref.sh` 自动从 GitHub 下载到 `~/.cache/wenqu-image/styles/`，需网络
 
 ---
 

@@ -5,7 +5,7 @@
 ## 横向多层架构图
 
 适用：展示系统分层结构、各层组件和整体数据流。  
-参考图：`../../assets/styles/other/01-architecture.png`（MemoryCore 四层架构，重点参考：左侧彩色层名徽章、节点图标+副标题、层间单箭头标语义）
+参考图：`https://raw.githubusercontent.com/gogoingai/wenqu-skills/master/wenqu-image-assets/styles/other/01-architecture.png`（MemoryCore 四层架构，重点参考：左侧彩色层名徽章、节点图标+副标题、层间单箭头标语义）
 
 **三区布局规范**（每行一层，左中右三区）：
 
@@ -74,7 +74,7 @@
 ## 树形层次检索路径图
 
 适用：展示树状结构的遍历/搜索路径，标注每个节点的分数或状态。  
-参考图：`../../assets/styles/other/04-tree-search.png`（层次检索路径图）
+参考图：`https://raw.githubusercontent.com/gogoingai/wenqu-skills/master/wenqu-image-assets/styles/other/04-tree-search.png`（层次检索路径图）
 
 ```
 # 画图提示：树形层次检索路径图，展示[查询/搜索]在[树状结构]中的遍历路径与收敛过程。

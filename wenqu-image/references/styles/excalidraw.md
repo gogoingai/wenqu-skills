@@ -2,7 +2,7 @@
 > 属于 wenqu-image 技能的风格库家族，见 [SKILL.md](../../SKILL.md) 总览；通用画图规范见 [core-principles.md](../core-principles.md)、[pitfalls.md](../pitfalls.md)。
 
 
-> 参考图存放于 `../../assets/styles/excalidraw/`
+> 参考图存放于 `https://github.com/gogoingai/wenqu-skills/tree/master/wenqu-image-assets/styles/excalidraw/`
 
 与手绘插画风格（[handdrawn.md](handdrawn.md)）容易混淆，但视觉语言完全不同——Excalidraw 风格更像工程师在白板上随手画的技术草图，没有插画图标，核心是"斜线排线填充 + 潦草描边 + 手写字体"。
 
@@ -25,13 +25,13 @@
 **--ref 必须**，推荐参考图（按目标图类型选最接近的）：
 
 ```
---ref ~/.agents/skills/wenqu-image/assets/styles/excalidraw/excalidraw-03-dense-layered-arch.png       # 多层嵌套架构，信息密度高
---ref ~/.agents/skills/wenqu-image/assets/styles/excalidraw/excalidraw-02-nested-groups.png            # 简单嵌套分组
---ref ~/.agents/skills/wenqu-image/assets/styles/excalidraw/excalidraw-01-linear-flow.png              # 横向线性流程
---ref ~/.agents/skills/wenqu-image/assets/styles/excalidraw/excalidraw-04-sequence-race-condition.png  # 时序图/生命线
---ref ~/.agents/skills/wenqu-image/assets/styles/excalidraw/excalidraw-05-branch-decision-flow.png     # 竖向分支决策流程
---ref ~/.agents/skills/wenqu-image/assets/styles/excalidraw/excalidraw-06-side-by-side-comparison.png  # 左右对比图
---ref ~/.agents/skills/wenqu-image/assets/styles/excalidraw/excalidraw-07-timeline-evolution.png       # 时间演化/版本迭代图
+--ref "$(bash ~/.agents/skills/wenqu-image/scripts/fetch-ref.sh excalidraw/excalidraw-03-dense-layered-arch.png)"       # 多层嵌套架构，信息密度高
+--ref "$(bash ~/.agents/skills/wenqu-image/scripts/fetch-ref.sh excalidraw/excalidraw-02-nested-groups.png)"            # 简单嵌套分组
+--ref "$(bash ~/.agents/skills/wenqu-image/scripts/fetch-ref.sh excalidraw/excalidraw-01-linear-flow.png)"              # 横向线性流程
+--ref "$(bash ~/.agents/skills/wenqu-image/scripts/fetch-ref.sh excalidraw/excalidraw-04-sequence-race-condition.png)"  # 时序图/生命线
+--ref "$(bash ~/.agents/skills/wenqu-image/scripts/fetch-ref.sh excalidraw/excalidraw-05-branch-decision-flow.png)"     # 竖向分支决策流程
+--ref "$(bash ~/.agents/skills/wenqu-image/scripts/fetch-ref.sh excalidraw/excalidraw-06-side-by-side-comparison.png)"  # 左右对比图
+--ref "$(bash ~/.agents/skills/wenqu-image/scripts/fetch-ref.sh excalidraw/excalidraw-07-timeline-evolution.png)"       # 时间演化/版本迭代图
 ```
 
 **prompt 只写"参考图风格 + 内容"，不要逐条复述视觉细节**（斜线排线、潦草描边、手写字体等一律交给 `--ref`）：

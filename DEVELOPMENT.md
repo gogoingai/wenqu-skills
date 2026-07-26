@@ -1,6 +1,6 @@
-# 技能开发原则
+# 技能开发手册
 
-维护 wenqu-write / wenqu-image / wenqu-review / wenqu-translate / wenqu-publish 这套技能时，遵循以下原则。
+维护 wenqu-library / wenqu-write / wenqu-image / wenqu-review / wenqu-translate / wenqu-publish 这套技能时，遵循以下原则。发布步骤、渠道差异与验证命令见 [RELEASE.md](RELEASE.md)。
 
 ## 1. 经验沉淀：先判断通用 vs 特定
 
@@ -38,12 +38,13 @@
 | 跨技能变更记录 | 仓库根 `CHANGELOG.md` |
 | 维护原则（本文件） | 仓库根 `DEVELOPMENT.md` |
 
-## 4. 改完同步
+## 4. 开发与发布边界
 
-`npx skills add` 拉取的是独立快照（不是 symlink），改完 skill 文件后必须：
+本地修改完成后，先保留在工作区供审阅；**只有获得明确发布授权后**，才进入 [RELEASE.md](RELEASE.md) 的发布流程。不要因为技能文件已改完，就自动提交、推送或发布。
+
+`npx skills add` 拉取的是独立快照（不是 symlink），因此远端发布成功后才需要更新本机已安装快照：
 
 ```bash
-git push                      # 推到远端
 npx skills update             # 同步到本地技能目录（~/.agents/skills/）
 ```
 
@@ -55,3 +56,15 @@ npx skills update             # 同步到本地技能目录（~/.agents/skills/�
 - **PATCH**：完善现有规则（加规则条目、补例子、改措辞、修 bug）、新增技能**骨架**（流程未完整），不改变流程结构。0.1.0 -> 0.1.1 -> 0.1.2…
 
 加规则条目（anti-patterns 加禁止项、style-guide 加节、R5 加检查项）是 PATCH，不是 MINOR--这是完善现有规范，没新增流程。新增技能先建骨架时也是 PATCH，等流程完整后再涨 MINOR。攒一批改动一起发，不每次小改都涨版本。
+
+## 6. 变更影响矩阵
+
+| 改动 | 必须同步 | 必跑检查 |
+|---|---|---|
+| 新增或删除技能 | 对应 `SKILL.md`、`.claude-plugin/plugin.json` 的 `skills[]`、README 技能列表 | `npm run release:check` |
+| 修改技能流程或元数据 | 对应 `SKILL.md`、必要的 `references/`、单技能版本（如发布到 SkillHub） | `npm run release:check` |
+| 新增/迁移风格图片 | `wenqu-image-assets/styles/`、至少一处说明或命令引用 | `npm run release:check` |
+| 修改插件/市场 | `VERSION`、Claude 与 WorkBuddy 两份市场清单 | `npm run release:check:runtime` |
+| 发布到 SkillHub | 变更技能的版本和 changelog 说明 | `npm run release:check:skillhub` |
+
+`scripts/README.md` 记录每项自动检查的精确范围；`RELEASE.md` 记录有副作用操作的顺序与人工验证步骤。

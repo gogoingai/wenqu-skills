@@ -1,7 +1,7 @@
 {
   "name": "wenqu-skills",
   "displayName": "Wenqu Skills",
-  "version": "0.1.8",
+  "version": "0.1.11",
   "description": "An evidence-backed workflow for Chinese technical articles: source collection, planning, writing, review, illustrations, translation, and publish-ready artifacts.",
   "author": {
     "name": "gogoingai"

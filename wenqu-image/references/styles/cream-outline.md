@@ -2,7 +2,7 @@
 > 属于 wenqu-image 技能的风格库家族，见 [SKILL.md](../../SKILL.md) 总览；通用画图规范见 [core-principles.md](../core-principles.md)、[pitfalls.md](../pitfalls.md)。
 
 
-> 参考图存放于 `../../assets/styles/cream-outline/`
+> 参考图存放于 `https://github.com/gogoingai/wenqu-skills/tree/master/wenqu-image-assets/styles/cream-outline/`
 
 第六种手绘/半手绘风格家族，与水彩涂鸦风格（[doodle-watercolor.md](doodle-watercolor.md)）都带手绘感，但视觉语言不同——核心特征是**奶油色/白色卡片 + 黑色粗描边 + 扁平单色图标 + 红蓝弧形箭头**，没有水彩晕染质感，也没有装饰性涂鸦点缀，信息密度更高、更像"知识卡片/思维导图"而非"随手涂鸦"。
 
@@ -24,10 +24,10 @@
 **① --ref 必须**：
 
 ```
---ref ~/.agents/skills/wenqu-image/assets/styles/cream-outline/cream-outline-01-stage-flow.png       # 横向三阶段流程
---ref ~/.agents/skills/wenqu-image/assets/styles/cream-outline/cream-outline-02-mindmap.png          # 思维导图辐射布局
---ref ~/.agents/skills/wenqu-image/assets/styles/cream-outline/cream-outline-03-layered-arch.png     # 竖向三层架构
---ref ~/.agents/skills/wenqu-image/assets/styles/cream-outline/cream-outline-04-branch-decision.png  # 竖向判断分支流程
+--ref "$(bash ~/.agents/skills/wenqu-image/scripts/fetch-ref.sh cream-outline/cream-outline-01-stage-flow.png)"       # 横向三阶段流程
+--ref "$(bash ~/.agents/skills/wenqu-image/scripts/fetch-ref.sh cream-outline/cream-outline-02-mindmap.png)"          # 思维导图辐射布局
+--ref "$(bash ~/.agents/skills/wenqu-image/scripts/fetch-ref.sh cream-outline/cream-outline-03-layered-arch.png)"     # 竖向三层架构
+--ref "$(bash ~/.agents/skills/wenqu-image/scripts/fetch-ref.sh cream-outline/cream-outline-04-branch-decision.png)"  # 竖向判断分支流程
 ```
 
 **② prompt 只写"参考图风格 + 内容"，不要逐条复述视觉细节**（见 `pitfalls.md` 踩坑 9）：

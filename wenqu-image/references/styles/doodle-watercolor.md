@@ -2,7 +2,7 @@
 > 属于 wenqu-image 技能的风格库家族，见 [SKILL.md](../../SKILL.md) 总览；通用画图规范见 [core-principles.md](../core-principles.md)、[pitfalls.md](../pitfalls.md)。
 
 
-> 参考图存放于 `../../assets/styles/doodle-watercolor/`
+> 参考图存放于 `https://github.com/gogoingai/wenqu-skills/tree/master/wenqu-image-assets/styles/doodle-watercolor/`
 
 第五种手绘风格家族，与手绘插画风格（[handdrawn.md](handdrawn.md)）、Excalidraw 风格（[excalidraw.md](excalidraw.md)）、单色马克笔风格（[mono-marker.md](mono-marker.md)）都不同——核心特征是**水彩晕染质感图标 + 装饰性涂鸦点缀（星星/螺旋线/火花）+ 彩色波浪箭头**，视觉上像用水彩笔+马克笔混合手绘的概念解说图，比手绘插画风格更"随性涂鸦"、比单色马克笔风格色彩更丰富。
 
@@ -28,10 +28,10 @@
 **① --ref 必须**：水彩晕染质感和装饰涂鸦元素仅靠文字描述很难稳定复现，务必传参考图：
 
 ```
---ref ~/.agents/skills/wenqu-image/assets/styles/doodle-watercolor/doodle-watercolor-01-ai-learning-flow.png   # 横向多阶段流程（锚点图，白底翻译版）
---ref ~/.agents/skills/wenqu-image/assets/styles/doodle-watercolor/doodle-watercolor-02-stage-flow.png         # 横向三阶段流程
---ref ~/.agents/skills/wenqu-image/assets/styles/doodle-watercolor/doodle-watercolor-03-layered-arch.png       # 竖向三层架构
---ref ~/.agents/skills/wenqu-image/assets/styles/doodle-watercolor/doodle-watercolor-04-branch-decision.png    # 竖向判断分支流程
+--ref "$(bash ~/.agents/skills/wenqu-image/scripts/fetch-ref.sh doodle-watercolor/doodle-watercolor-01-ai-learning-flow.png)"   # 横向多阶段流程（锚点图，白底翻译版）
+--ref "$(bash ~/.agents/skills/wenqu-image/scripts/fetch-ref.sh doodle-watercolor/doodle-watercolor-02-stage-flow.png)"         # 横向三阶段流程
+--ref "$(bash ~/.agents/skills/wenqu-image/scripts/fetch-ref.sh doodle-watercolor/doodle-watercolor-03-layered-arch.png)"       # 竖向三层架构
+--ref "$(bash ~/.agents/skills/wenqu-image/scripts/fetch-ref.sh doodle-watercolor/doodle-watercolor-04-branch-decision.png)"    # 竖向判断分支流程
 ```
 
 **② prompt 风格描述**，开头必须加：

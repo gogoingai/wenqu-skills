@@ -2,7 +2,7 @@
 > 属于 wenqu-image 技能的风格库家族，见 [SKILL.md](../../SKILL.md) 总览；通用画图规范见 [core-principles.md](../core-principles.md)、[pitfalls.md](../pitfalls.md)。
 
 
-> 参考图存放于 `../../assets/styles/handdrawn/`
+> 参考图存放于 `https://github.com/gogoingai/wenqu-skills/tree/master/wenqu-image-assets/styles/handdrawn/`
 
 这套风格适合技术文章配图、社交媒体传播图、流程说明图。核心特征：
 
@@ -21,7 +21,7 @@
 **`--ref` 必须**：传入参考图锚定视觉风格（有机线条、水彩填色感），仅靠 prompt 描述无法稳定复现。推荐参考图：
 
 ```
---ref ~/.agents/skills/wenqu-image/assets/styles/handdrawn/handdrawn-01-skill-creation-loop.png
+--ref "$(bash ~/.agents/skills/wenqu-image/scripts/fetch-ref.sh handdrawn/handdrawn-01-skill-creation-loop.png)"
 ```
 
 （也可换 `handdrawn-02` 至 `handdrawn-07`，选和目标图类型最接近的，见下方索引）
@@ -38,7 +38,7 @@
 RAND=$(openssl rand -hex 8)
 bash ~/.agents/skills/wenqu-image/scripts/gpt-image-2-gen.sh \
   --prompt "参考图风格。[图内容描述...]。所有文字用中文。" \
-  --ref ~/.agents/skills/wenqu-image/assets/styles/handdrawn/handdrawn-01-skill-creation-loop.png \
+  --ref "$(bash ~/.agents/skills/wenqu-image/scripts/fetch-ref.sh handdrawn/handdrawn-01-skill-creation-loop.png)" \
   --out /tmp/article-img-${RAND}.png \
   --timeout-sec 300
 ```

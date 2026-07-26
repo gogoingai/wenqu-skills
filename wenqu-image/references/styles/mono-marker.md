@@ -2,7 +2,7 @@
 > 属于 wenqu-image 技能的风格库家族，见 [SKILL.md](../../SKILL.md) 总览；通用画图规范见 [core-principles.md](../core-principles.md)、[pitfalls.md](../pitfalls.md)。
 
 
-> 参考图存放于 `../../assets/styles/mono-marker/`
+> 参考图存放于 `https://github.com/gogoingai/wenqu-skills/tree/master/wenqu-image-assets/styles/mono-marker/`
 
 第三种手绘风格家族，与手绘插画风格（[handdrawn.md](handdrawn.md)）、Excalidraw 风格（[excalidraw.md](excalidraw.md)）都不同——核心特征是**全图单一主色调 + 奶油色背景 + 波浪线引出注释**，视觉上更像用马克笔在米色笔记本上手绘的图解。
 
@@ -26,10 +26,10 @@
 **--ref 必须**：这套风格的"波浪线注释"「同色系分组框」等细节仅靠文字描述很难稳定复现，务必传参考图：
 
 ```
---ref ~/.agents/skills/wenqu-image/assets/styles/mono-marker/mono-marker-01-gateway-flow.png          # 竖向分组流程
---ref ~/.agents/skills/wenqu-image/assets/styles/mono-marker/mono-marker-02-branch-decision.png       # 含判断菱形的分支合并
---ref ~/.agents/skills/wenqu-image/assets/styles/mono-marker/mono-marker-03-layered-arch.png          # 多层横向分层架构
---ref ~/.agents/skills/wenqu-image/assets/styles/mono-marker/mono-marker-04-sync-async-comparison.png # 左右并排对比
+--ref "$(bash ~/.agents/skills/wenqu-image/scripts/fetch-ref.sh mono-marker/mono-marker-01-gateway-flow.png)"          # 竖向分组流程
+--ref "$(bash ~/.agents/skills/wenqu-image/scripts/fetch-ref.sh mono-marker/mono-marker-02-branch-decision.png)"       # 含判断菱形的分支合并
+--ref "$(bash ~/.agents/skills/wenqu-image/scripts/fetch-ref.sh mono-marker/mono-marker-03-layered-arch.png)"          # 多层横向分层架构
+--ref "$(bash ~/.agents/skills/wenqu-image/scripts/fetch-ref.sh mono-marker/mono-marker-04-sync-async-comparison.png)" # 左右并排对比
 ```
 
 **prompt 只写"参考图风格 + 内容"，不要逐条复述视觉细节**（单色调、波浪线注释、分组框等一律交给 `--ref`）：

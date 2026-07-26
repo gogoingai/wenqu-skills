@@ -1,15 +1,39 @@
 ---
 name: wenqu-publish
-description: 把 wenqu-write 写完的草稿文章清洗成可对外发布的最终版：删除画图提示代码块和项目生成标识，生成吸引眼球的标题候选、约100字简介、一张封面图，产出到独立的发布目录。适用于文章定稿后准备对外发布的场景。触发关键词：发布这篇文章、生成发布版、准备发布、导出发布版。也是后续接入自动发布能力（公众号、掘金等平台）的落点。
+description: >-
+  将中文草稿整理为可对外发布的版本：清理创作标记、生成标题候选、简介和封面图，并输出独立
+  发布目录，适用于文章、报告、教程、项目介绍和说明材料。当用户要求“发布这篇内容”“生成发布版”
+  “准备发布”或“导出发布版”，或使用 "publish this article", "prepare a release version",
+  "export a publication-ready draft" 等英文表达时使用。
+slug: wenqu-publish
+displayName: 文曲·发布
+version: 0.1.11
+summary: 定稿内容清洗成发布版：删创作痕迹、生成标题/简介/封面、输出发布目录。
+license: MIT
+homepage: https://github.com/gogoingai/wenqu-skills
+metadata:
+  openclaw:
+    homepage: https://github.com/gogoingai/wenqu-skills/tree/master/wenqu-publish
 ---
 
 # 文章发布 Skill
 
+> 📦 项目仓库与源码：<https://github.com/gogoingai/wenqu-skills>
+
+## 用户输入工具
+
+当本技能需要用户确认选择、补充必要信息或授权有副作用的操作时：
+
+1. 优先使用当前运行时提供的原生用户输入工具，例如 `AskUserQuestion`、`request_user_input`、`clarify`、`ask_user` 或等价能力。
+2. 若没有此类工具，使用带编号或字母选项的文本问答。
+3. 同一决策阶段中彼此独立的问题可合并提问；后一个问题依赖前一回答时，按优先级逐个问。
+4. 已由用户当前指令、调用方或文章偏好提供的信息，不重复询问。
+5. 文中出现的具体工具名均为示例；应替换为当前运行时的等价能力。
+
 ## 工具等价说明（非 Claude Code 环境）
 
-本文档里的 `AskUserQuestion`、`Skill` 是 Claude Code 的工具名。没有这些工具的 agent 上执行本技能时：
+本文档里的 `Skill` 是 Claude Code 的工具名。没有该工具的 agent 上执行本技能时：
 
-- `AskUserQuestion`（结构化多选提问）→ 改成编号文本问答：把选项列成 A/B/C，请用户直接回复字母或文字
 - `Skill` 工具（调用 wenqu-image 生成封面）→ 没有跨技能调用机制就直接 Read `wenqu-image` 的 `SKILL.md` 和 `references/` 文件，照着内联执行
 
 ---

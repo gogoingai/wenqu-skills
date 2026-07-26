@@ -1,15 +1,39 @@
 ---
 name: wenqu-write
-description: 为技术项目撰写技术介绍文章的结构化工作流。适用于项目介绍、技术深度解析、源码拆解、系统设计文章、方案对比。触发关键词：写一篇介绍、技术文章、源码解析、深度解读、写介绍文档、帮我写篇文章讲这个系统。
+description: >-
+  基于证据撰写中文内容的完整流程，涵盖调研、规划、提纲、逐节写作、审查、配图、翻译和发布
+  准备，适用于文章、报告、教程、项目介绍、解读和说明材料。当用户要求“写文章”“写报告”
+  “写项目介绍”“源码解析”或“帮我写篇内容”，或使用 "write an article", "write a report",
+  "analyze source code", "deep explanation" 等英文表达时使用。
+slug: wenqu-write
+displayName: 文曲·写作
+version: 0.1.11
+summary: 中文内容创作主流程：需求理解、选题、规划、结构设计、逐节写作与完善，协调翻译/配图/审查。
+license: MIT
+homepage: https://github.com/gogoingai/wenqu-skills
+metadata:
+  openclaw:
+    homepage: https://github.com/gogoingai/wenqu-skills/tree/master/wenqu-write
 ---
 
 # 技术介绍文章 Skill
 
+> 📦 项目仓库与源码：<https://github.com/gogoingai/wenqu-skills>
+
+## 用户输入工具
+
+当本技能需要用户确认选择、补充必要信息或授权有副作用的操作时：
+
+1. 优先使用当前运行时提供的原生用户输入工具，例如 `AskUserQuestion`、`request_user_input`、`clarify`、`ask_user` 或等价能力。
+2. 若没有此类工具，使用带编号或字母选项的文本问答。
+3. 同一决策阶段中彼此独立的问题可合并提问；后一个问题依赖前一回答时，按优先级逐个问。
+4. 已由用户当前指令、调用方或文章偏好提供的信息，不重复询问。
+5. 文中出现的具体工具名均为示例；应替换为当前运行时的等价能力。
+
 ## 工具等价说明（非 Claude Code 环境）
 
-本文档里的 `AskUserQuestion`、`TaskCreate`、`Skill` 是 Claude Code 的工具名。在没有这些工具的 agent 上执行本技能时，按以下等价方式退化：
+本文档里的 `TaskCreate`、`Skill` 是 Claude Code 的工具名。在没有这些工具的 agent 上执行本技能时，按以下等价方式退化：
 
-- `AskUserQuestion`（结构化多选提问）→ 没有就改成编号文本问答：把选项列成 A/B/C，请用户直接回复字母或文字
 - `TaskCreate`（任务列表追踪）→ 没有就维护一份纯文本/Markdown 的 TODO 清单，人工勾选完成项
 - `Skill` 工具（调用 wenqu-image / wenqu-review / wenqu-translate）→ 没有跨技能调用机制就直接 Read 目标技能的 `SKILL.md` 和 `references/` 文件，照着内联执行
 
@@ -104,7 +128,7 @@ description: 为技术项目撰写技术介绍文章的结构化工作流。适�
 
 → 查 `references/planning/questionnaire.md`
 
-按以下顺序执行，**必须用 `AskUserQuestion` 工具提问，不得以文本列出问题**：
+按以下顺序执行；需要提问时，遵循本技能的「用户输入工具」规则：
 
 1. **检查全局画像**（`$HOME/.gogoingai/wenqu-skills/profile.md`）
    - 有 → 展示给用户确认，无修改则直接用；有修改则更新文件
