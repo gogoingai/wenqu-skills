@@ -69,6 +69,28 @@ sessions do not need it again. To update:
 /reload-plugins
 ```
 
+### Codex plugin marketplace
+
+Codex directly recognizes this repository's plugin marketplace. It installs the
+complete `wenqu-skills` package, containing all six skills.
+
+1. In the sidebar, open **Plugins**. Choose **Create** → **Add plugin marketplace**.
+
+   ![Open Add plugin marketplace in Codex](docs/codex/plugin-marketplace-01-add.png)
+
+2. Enter the repository source below. Leave **Git ref** and **Sparse path** empty,
+   then add the marketplace.
+
+   ```text
+   gogoingai/wenqu-skills
+   ```
+
+3. Open the **Personal** tab, find **Wenqu Skills**, and click **Install**.
+
+   ![Install Wenqu Skills from the Codex personal marketplace](docs/codex/plugin-marketplace-02-install.png)
+
+Start a new Codex task after installation so it loads the plugin skills.
+
 ### WorkBuddy installation
 
 WorkBuddy has two installation paths: **Marketplace** adds a GitHub or local

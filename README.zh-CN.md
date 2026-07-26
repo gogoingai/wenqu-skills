@@ -70,6 +70,26 @@ npx skills add gogoingai/wenqu-skills --all -g
 /reload-plugins
 ```
 
+### Codex 插件市场
+
+Codex 可直接识别本仓库的插件市场，并安装包含全部六个技能的完整 `wenqu-skills` 插件包。
+
+1. 在左侧边栏打开“插件”，选择“创建”→“添加插件市场”。
+
+   ![在 Codex 中打开添加插件市场](docs/codex/plugin-marketplace-01-add.png)
+
+2. 输入下面的仓库来源，**Git 引用**和**稀疏路径**保持为空，然后添加市场：
+
+   ```text
+   gogoingai/wenqu-skills
+   ```
+
+3. 切到“个人”页签，找到 **Wenqu Skills**，点击“安装”。
+
+   ![从 Codex 个人市场安装 Wenqu Skills](docs/codex/plugin-marketplace-02-install.png)
+
+安装后新开一个 Codex task，让新会话加载插件中的技能。
+
 ### WorkBuddy 安装
 
 WorkBuddy 有两条安装路径：**市场**用于添加 GitHub 或本地来源，安装完整的文曲插件；内置的
