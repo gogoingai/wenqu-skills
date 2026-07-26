@@ -84,7 +84,7 @@ gogoingai/wenqu-skills
 
 [SkillHub](https://skillhub.cn) 是国内的 Skill 商店。把下面这条指令发给能读取 SkillHub 安装指南的 agent，它会装上全部六个文曲技能：
 
-> Follow https://skillhub.cn/install/skillhub.md to install wenqu-library, wenqu-write, wenqu-review, wenqu-image, wenqu-translate, and wenqu-publish.
+> 请根据 https://skillhub.cn/install/skillhub.md，安装 wenqu-library、wenqu-write、wenqu-review、wenqu-image、wenqu-translate、wenqu-publish。
 
 ## 外部依赖
 
