@@ -1,0 +1,14 @@
+{
+  "name": "wenqu-skills",
+  "owner": {
+    "name": "gogoingai"
+  },
+  "description": "Wenqu is a complete workflow for evidence-backed Chinese technical articles.",
+  "plugins": [
+    {
+      "name": "wenqu-skills",
+      "source": "./",
+      "description": "An evidence-backed workflow for Chinese technical articles: source collection, planning, writing, review, illustrations, translation, and publish-ready artifacts."
+    }
+  ]
+}

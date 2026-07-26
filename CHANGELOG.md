@@ -2,6 +2,12 @@
 
 本文件记录仓库里所有技能的重大变更，按发布时间倒序排列。
 
+## 0.1.8 - Claude Code 插件市场接入
+
+- 新增 `.claude-plugin/plugin.json` 与 `.claude-plugin/marketplace.json`：将现有六个 `wenqu-*` 技能作为同一个 `wenqu-skills` 插件发布，无需移动现有目录。
+- README 补充 Claude Code 市场的添加、安装与更新方式。
+- 版本号更新为 0.1.8（PATCH，新增插件分发入口）。
+
 ## 0.1.7 - 文库原生搜索主导与可选 CLI 增强
 
 - `wenqu-library` 明确 agent 原生联网搜索为每轮必跑主通道；`open-websearch` 仅以全局 CLI 方式补充多引擎候选，双路结果统一去重、分级后再下载，并在素材索引保留检索渠道。

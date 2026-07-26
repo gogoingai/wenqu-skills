@@ -52,6 +52,22 @@ npx skills add gogoingai/wenqu-skills --all -g
 
 > 如果安装时看到 `eve`/`promptscript does not support global skill installation` 报错，可以忽略--`npx skills` 工具内置的 agent 里只有这两个不支持全局安装（工具自身的限制，与本仓库无关），其余 agent（包括 Claude Code）不受影响，照常装成功。
 
+### Claude Code 插件市场
+
+文曲也作为一个完整插件发布到 Claude Code 插件市场。先添加文曲市场，再安装唯一的 `wenqu-skills` 插件；它包含文库、写作、审查、配图、翻译与发布全部六个技能：
+
+```text
+/plugin marketplace add gogoingai/wenqu-skills
+/plugin install wenqu-skills@wenqu-skills
+```
+
+市场或插件有新版本时，依次更新：
+
+```text
+/plugin marketplace update wenqu-skills
+/plugin update wenqu-skills@wenqu-skills
+```
+
 ### 通过 Prompt 安装
 
 不想一次装全部、而是让 Agent 按当前任务挑相关技能安装时，把下面这段话直接粘贴给 Agent（Claude Code 等）即可，Agent 会自行运行安装命令并选用相关技能：

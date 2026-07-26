@@ -1,0 +1,27 @@
+{
+  "name": "wenqu-skills",
+  "displayName": "Wenqu Skills",
+  "version": "0.1.8",
+  "description": "An evidence-backed workflow for Chinese technical articles: source collection, planning, writing, review, illustrations, translation, and publish-ready artifacts.",
+  "author": {
+    "name": "gogoingai"
+  },
+  "homepage": "https://github.com/gogoingai/wenqu-skills",
+  "repository": "https://github.com/gogoingai/wenqu-skills",
+  "license": "MIT",
+  "keywords": [
+    "technical-writing",
+    "chinese-writing",
+    "research",
+    "article-review",
+    "illustration"
+  ],
+  "skills": [
+    "./wenqu-library",
+    "./wenqu-write",
+    "./wenqu-review",
+    "./wenqu-image",
+    "./wenqu-translate",
+    "./wenqu-publish"
+  ]
+}
