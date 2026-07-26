@@ -17,7 +17,7 @@
 
 ## 第一步：检测并配置环境
 
-优先跑一次自带的检测脚本，它会自动检查 codex CLI、gpt-image-2 skill、picgo，并尝试自动安装/同步 picgo 配置（含从 PicGo GUI 同步图床配置）：
+优先跑一次自带的检测脚本，它会自动检查 codex CLI、随技能分发的内置生图脚本和 picgo，并尝试自动安装/同步 picgo 配置（含从 PicGo GUI 同步图床配置）。不需要另行安装 `gpt-image-2` skill：
 
 ```bash
 bash ~/.agents/skills/wenqu-image/scripts/gen-image.sh --check
@@ -34,7 +34,7 @@ bash ~/.agents/skills/wenqu-image/scripts/gen-image.sh --check
 
 picgo 图床配置：运行 `picgo set uploader` 按提示填写图床信息；配置后 `picgo upload 任意图片.png` 验证，看到 `https://` 开头的 URL 说明成功。
 
-PicGo GUI 用户：GUI 应用的配置不会自动同步到 CLI，需要单独运行 `picgo set uploader`（或依赖上面脚本的自动同步）。
+PicGo GUI 用户：运行上面的检测脚本时会尝试把 GUI 的当前图床配置同步到 CLI；若同步失败，再运行 `picgo set uploader` 手动配置。
 
 ---
 

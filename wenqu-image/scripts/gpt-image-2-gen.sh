@@ -7,13 +7,11 @@
 # Generate an image via Codex CLI's imagegen tool, reusing the user's
 # ChatGPT subscription session. Supports text-to-image and image-to-image.
 #
-# Implementation note: on codex-cli 0.111.0 the `imagegen` tool does NOT
-# write a PNG file to disk. The generated image is embedded as base64 inside
-# the session rollout jsonl under ~/.codex/sessions/YYYY/MM/DD/. This script
-# captures the new session file created by the run and decodes the image
-# out of it. Flags: `--enable image_generation` turns the under-development
-# tool on; `--ephemeral` is intentionally NOT passed so the session is
-# persisted and we can read it back.
+# Implementation note: the Codex CLI imagegen tool returns its image in the
+# persisted session rollout JSONL instead of writing a PNG directly to disk.
+# This script finds the rollout created by the run and decodes its base64
+# payload. `--enable image_generation` enables the tool; `--ephemeral` is
+# intentionally omitted so the rollout remains available for extraction.
 #
 # Usage:
 #   gen.sh --prompt "<text>" --out <path.png> [--ref <image>]... [--timeout-sec N]
