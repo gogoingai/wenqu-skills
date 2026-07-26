@@ -59,13 +59,17 @@ npx skills add gogoingai/wenqu-skills --all -g
 ```text
 /plugin marketplace add gogoingai/wenqu-skills
 /plugin install wenqu-skills@wenqu-skills
+/reload-plugins
 ```
+
+`/reload-plugins` 用于让当前 Claude Code 会话立即加载刚安装的技能；新开会话时无需重复执行。
 
 市场或插件有新版本时，依次更新：
 
 ```text
 /plugin marketplace update wenqu-skills
 /plugin update wenqu-skills@wenqu-skills
+/reload-plugins
 ```
 
 ### 通过 Prompt 安装
