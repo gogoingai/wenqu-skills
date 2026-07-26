@@ -218,6 +218,7 @@ description: 为技术项目撰写技术介绍文章的结构化工作流。适�
 
 → 查 `references/writing/style-guide.md`（写作规范全集）
 → 查 `references/writing/anti-patterns.md`（禁止事项）
+→ 自研系统、架构设计或工程实践文章：额外查 `references/writing/system-implementation.md`（系统实现介绍写法）
 
 **这一步不写完整画图提示**，写到需要配图的地方，只插入占位标记：
 
@@ -246,6 +247,8 @@ description: 为技术项目撰写技术介绍文章的结构化工作流。适�
 ---
 
 ## 修改
+
+**既有长文按章节修改：** 用户要求修改已有长文时，先按章节或明确子节拆成本轮任务；每个任务开始前，重读该节当前正文、直接相关素材和已确认的改动边界，只完成这一节的改动。用户没有明确要求全文统一调整时，不得将局部反馈扩展为跨章节重写；若发现用户同步修改了目标段落，停止覆盖，以当前文本重新规划该节。→ 查 `references/planning/iterative-revision.md`
 
 **第一步：加载写作上下文（强制）**
 
