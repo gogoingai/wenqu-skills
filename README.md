@@ -52,6 +52,12 @@ npx skills add gogoingai/wenqu-skills --all -g
 
 > 如果安装时看到 `eve`/`promptscript does not support global skill installation` 报错，可以忽略--`npx skills` 工具内置的 agent 里只有这两个不支持全局安装（工具自身的限制，与本仓库无关），其余 agent（包括 Claude Code）不受影响，照常装成功。
 
+### 通过 Prompt 安装
+
+不想一次装全部、而是让 Agent 按当前任务挑相关技能安装时，把下面这段话直接粘贴给 Agent（Claude Code 等）即可，Agent 会自行运行安装命令并选用相关技能：
+
+> Use the skills in "https://github.com/gogoingai/wenqu-skills" that are relevant to the current task. Run `npx skills add "https://github.com/gogoingai/wenqu-skills"` and select the relevant skills, then follow their instructions.
+
 ## 外部依赖
 
 ### wenqu-image
