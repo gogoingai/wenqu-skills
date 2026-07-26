@@ -26,8 +26,8 @@ never performs a formal publication. If the CLI is not on `PATH`, set
 
 The static check verifies that:
 
-- `VERSION`, the Claude plugin manifest, and both marketplace manifests use the
-  same package version;
+- `VERSION`, the Claude plugin manifest, and the shared Claude/WorkBuddy
+  marketplace manifest use the same package version;
 - every skill listed by `.claude-plugin/plugin.json` exists and stays inside the
   repository;
 - each declared skill includes the required Claude and WorkBuddy frontmatter;

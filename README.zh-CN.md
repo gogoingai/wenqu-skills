@@ -70,19 +70,45 @@ npx skills add gogoingai/wenqu-skills --all -g
 /reload-plugins
 ```
 
-### WorkBuddy 市场
+### WorkBuddy 安装
 
-打开“技能”页面，选择“添加市场”，输入：
+WorkBuddy 有两条安装路径：**市场**用于添加 GitHub 或本地来源，安装完整的文曲插件；内置的
+**SkillHub** 目录用于逐个安装技能。
 
-```text
-gogoingai/wenqu-skills
-```
+#### 市场（GitHub 源）
 
-安装 **Wenqu Skills** 后，重载或重启 WorkBuddy，让技能出现在列表中。
+要直接从本仓库安装完整工作流，请使用下面的“市场”流程。
 
-### SkillHub 市场
+1. 打开“专家·技能·连接器”，选择“技能”，切到“市场”页签后点击 **+**。
 
-[SkillHub](https://skillhub.cn) 是国内的 Skill 商店。把下面这条指令发给能读取 SkillHub 安装指南的 agent，它会装上全部六个文曲技能：
+   ![打开 WorkBuddy 市场](docs/workbuddy/marketplace-01-open.png)
+
+2. 输入仓库来源并提交：
+
+   ```text
+   gogoingai/wenqu-skills
+   ```
+
+   ![添加 Wenqu Skills 市场源](docs/workbuddy/marketplace-02-add-source.png)
+
+3. 选择新增的 `wenqu-skills` 市场，在 **Wenqu Skills** 卡片上点击 **+**，开始安装。
+
+   ![在 WorkBuddy 市场选择 Wenqu Skills](docs/workbuddy/marketplace-03-install.png)
+
+4. 等待插件出现在“我安装的”中，再重载或重启 WorkBuddy，让技能出现在列表中。
+
+#### 内置 SkillHub
+
+第二条路径**不需要**添加 GitHub 市场源。打开“专家·技能·连接器”，切到 **SkillHub** 页签，搜索
+`wenqu`，在想安装的技能卡片上点击 **+**。WorkBuddy 会显示六个独立的文曲技能：文库、写作、审查、配图、翻译与发布。
+
+![在 WorkBuddy SkillHub 搜索文曲技能](docs/workbuddy/skillhub-01-search-wenqu.png)
+
+SkillHub 中的每个技能都有各自的目录版本和审核状态；它们不是 GitHub 市场里的整包插件。
+
+### SkillHub 网站或 agent 安装
+
+[SkillHub](https://skillhub.cn) 也支持通过 agent 安装全部技能，可发送：
 
 > 请根据 https://skillhub.cn/install/skillhub.md，安装 wenqu-library、wenqu-write、wenqu-review、wenqu-image、wenqu-translate、wenqu-publish。
 

@@ -47,7 +47,9 @@ function createFixture(options = {}) {
     ],
   };
   writeJson(join(root, '.claude-plugin', 'marketplace.json'), marketplace);
-  writeJson(join(root, '.codebuddy-plugin', 'marketplace.json'), marketplace);
+  if (options.includeLegacyCodeBuddyMarketplace !== false) {
+    writeJson(join(root, '.codebuddy-plugin', 'marketplace.json'), marketplace);
+  }
 
   for (const name of skillNames) {
     if (name === options.missingSkill) continue;
@@ -97,6 +99,16 @@ function createFixture(options = {}) {
 
 test('accepts a complete, version-aligned release fixture', () => {
   const fixture = createFixture();
+  try {
+    const report = validateRelease(fixture.root);
+    assert.deepEqual(report.diagnostics.filter(({ severity }) => severity === 'error'), []);
+  } finally {
+    fixture.cleanup();
+  }
+});
+
+test('accepts a release that shares the Claude marketplace manifest with WorkBuddy', () => {
+  const fixture = createFixture({ includeLegacyCodeBuddyMarketplace: false });
   try {
     const report = validateRelease(fixture.root);
     assert.deepEqual(report.diagnostics.filter(({ severity }) => severity === 'error'), []);

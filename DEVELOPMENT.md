@@ -64,7 +64,7 @@ npx skills update             # 同步到本地技能目录（~/.agents/skills/�
 | 新增或删除技能 | 对应 `SKILL.md`、`.claude-plugin/plugin.json` 的 `skills[]`、README 技能列表 | `npm run release:check` |
 | 修改技能流程或元数据 | 对应 `SKILL.md`、必要的 `references/`、单技能版本（如发布到 SkillHub） | `npm run release:check` |
 | 新增/迁移风格图片 | `wenqu-image-assets/styles/`、至少一处说明或命令引用 | `npm run release:check` |
-| 修改插件/市场 | `VERSION`、Claude 与 WorkBuddy 两份市场清单 | `npm run release:check:runtime` |
+| 修改插件/市场 | `VERSION`、`.claude-plugin/plugin.json`、共享的 `.claude-plugin/marketplace.json` | `npm run release:check:runtime` |
 | 发布到 SkillHub | 变更技能的版本和 changelog 说明 | `npm run release:check:skillhub` |
 
 `scripts/README.md` 记录每项自动检查的精确范围；`RELEASE.md` 记录有副作用操作的顺序与人工验证步骤。

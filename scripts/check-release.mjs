@@ -23,7 +23,7 @@ if (runRuntime) {
     ]
       .filter(Boolean)
       .filter((command, index, commands) => commands.indexOf(command) === index)
-      .map((command) => ({ command, args: ['plugin', 'validate', '.codebuddy-plugin/marketplace.json'] })),
+      .map((command) => ({ command, args: ['plugin', 'validate', '.claude-plugin/marketplace.json'] })),
   ];
 
   for (const { command, args } of validators) {

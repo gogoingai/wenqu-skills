@@ -193,13 +193,6 @@ export function validateRelease(rootDirectory) {
     pluginName,
     path: resolve(root, '.claude-plugin', 'marketplace.json'),
   });
-  validateMarketplace({
-    root,
-    diagnostics,
-    version,
-    pluginName,
-    path: resolve(root, '.codebuddy-plugin', 'marketplace.json'),
-  });
 
   const seen = new Set();
   const skillDirectories = [];

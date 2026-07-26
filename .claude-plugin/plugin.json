@@ -2,7 +2,7 @@
   "name": "wenqu-skills",
   "displayName": "Wenqu Skills",
   "version": "0.1.11",
-  "description": "面向中文技术文章的循证创作工作流：素材收集、规划、写作、审查、配图、翻译与可发布产物。",
+  "description": "面向中文内容的循证创作工作流：素材收集、规划、写作、审查、配图、翻译与可发布产物。",
   "author": {
     "name": "gogoingai"
   },

@@ -69,21 +69,51 @@ sessions do not need it again. To update:
 /reload-plugins
 ```
 
-### WorkBuddy marketplace
+### WorkBuddy installation
 
-Open **Skills**, choose **Add marketplace**, and enter:
+WorkBuddy has two installation paths: **Marketplace** adds a GitHub or local
+source and installs the complete Wenqu plugin; its built-in **SkillHub** catalog
+installs individual skills.
 
-```text
-gogoingai/wenqu-skills
-```
+#### Marketplace (GitHub source)
 
-Install **Wenqu Skills**, then reload or restart WorkBuddy so the skills appear.
+Use this route to install the complete workflow directly from this repository.
 
-### SkillHub
+1. Open **Expert · Skills · Connectors**, select **Skills**, then choose the
+   **Marketplace** tab and click **+**.
 
-[SkillHub](https://skillhub.cn) is a China-based skill marketplace. Paste this
-instruction to an agent that follows the SkillHub install guide; it installs
-all six Wenqu skills:
+   ![Open WorkBuddy Marketplace](docs/workbuddy/marketplace-01-open.png)
+
+2. Enter the repository source and submit it:
+
+   ```text
+   gogoingai/wenqu-skills
+   ```
+
+   ![Add the Wenqu Skills marketplace source](docs/workbuddy/marketplace-02-add-source.png)
+
+3. Select the resulting `wenqu-skills` marketplace and click **+** on **Wenqu Skills** to begin installation.
+
+   ![Choose Wenqu Skills from the WorkBuddy marketplace](docs/workbuddy/marketplace-03-install.png)
+
+4. Wait until the plugin appears under **My Installed**, then reload or restart WorkBuddy so the skills appear.
+
+#### Built-in SkillHub
+
+This second path does **not** require adding the GitHub Marketplace source.
+Open **Expert · Skills · Connectors**, select the **SkillHub** tab, search for
+`wenqu`, and click **+** on each skill you want. WorkBuddy shows six individual
+Wenqu skills: Library, Write, Review, Image, Translate, and Publish.
+
+![Search for Wenqu skills in WorkBuddy SkillHub](docs/workbuddy/skillhub-01-search-wenqu.png)
+
+Each SkillHub skill has its own catalog version and review status; it is not the
+same package as the GitHub Marketplace plugin.
+
+### SkillHub website or agent install
+
+[SkillHub](https://skillhub.cn) also supports agent-driven installation. To ask
+an agent to install all six skills through SkillHub, paste:
 
 > Follow https://skillhub.cn/install/skillhub.md to install wenqu-library, wenqu-write, wenqu-review, wenqu-image, wenqu-translate, and wenqu-publish.
 

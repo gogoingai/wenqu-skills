@@ -8,7 +8,7 @@
 
 | 轨道 | 用途 | 必须保持一致的文件 |
 |---|---|---|
-| 插件包版本 | Claude Code / WorkBuddy 市场安装的 `wenqu-skills` 整包 | `VERSION`、`.claude-plugin/plugin.json`、`.claude-plugin/marketplace.json`、`.codebuddy-plugin/marketplace.json` |
+| 插件包版本 | Claude Code / WorkBuddy 市场安装的 `wenqu-skills` 整包 | `VERSION`、`.claude-plugin/plugin.json`、`.claude-plugin/marketplace.json` |
 | 单技能版本 | SkillHub 上单个技能的发布版本 | 对应 `wenqu-*/SKILL.md` 的 `version` |
 
 单技能版本必须是合法 SemVer，但不必等于插件包版本。例如，插件包可以保持 `0.1.8`，而已独立发布到 SkillHub 的技能可以是 `0.1.9`。
@@ -70,7 +70,7 @@
 
 ### WorkBuddy
 
-在“技能”页面添加市场源 `gogoingai/wenqu-skills`，安装 `wenqu-skills` 后重载或重启客户端。WorkBuddy 的界面使用其内置 CodeBuddy 插件引擎，因此本机原生校验通过 `codebuddy plugin validate` 执行。
+在“专家·技能·连接器”的“市场”页添加源 `gogoingai/wenqu-skills`，安装 `wenqu-skills` 后重载或重启客户端。WorkBuddy 可直接读取 `.claude-plugin/marketplace.json`，无需维护第二份专用市场清单；本机原生校验仍通过其内置 CodeBuddy 引擎的 `codebuddy plugin validate` 执行。
 
 ### SkillHub
 
