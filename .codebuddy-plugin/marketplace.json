@@ -3,13 +3,13 @@
   "owner": {
     "name": "gogoingai"
   },
-  "description": "Wenqu is a complete workflow for evidence-backed Chinese technical articles.",
+  "description": "文曲是一套面向中文技术文章的循证创作完整工作流。",
   "plugins": [
     {
       "name": "wenqu-skills",
       "source": "./",
       "version": "0.1.11",
-      "description": "An evidence-backed workflow for Chinese technical articles: source collection, planning, writing, review, illustrations, translation, and publish-ready artifacts."
+      "description": "面向中文技术文章的循证创作工作流：素材收集、规划、写作、审查、配图、翻译与可发布产物。"
     }
   ]
 }
