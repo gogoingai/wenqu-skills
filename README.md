@@ -20,7 +20,7 @@
 
 | 技能 | 创作阶段 | 作用 |
 | --- | --- | --- |
-| [`wenqu-library`](wenqu-library/) | 博观积累 | 素材收集与整理：按"规划、搜索、下载、整理"四步收集素材，支持 crwl 网页抓取（含微信公众号），沉淀技术资料、案例、观点和参考内容，为文章创作提供可复用素材 |
+| [`wenqu-library`](wenqu-library/) | 博观积累 | 素材收集与整理：按"规划、搜索、下载、整理"四步收集素材，以 agent 原生搜索为主、可选 CLI 补充候选，支持 crwl 网页抓取（含微信公众号），沉淀技术资料、案例、观点和参考内容，为文章创作提供可复用素材 |
 | [`wenqu-write`](wenqu-write/) | 谋篇布局、属文成篇 | 中文技术文章创作主流程：完成需求理解、选题分析、文章规划、结构设计、逐节写作和内容完善，并协调其他技能完成翻译、配图和审查 |
 | [`wenqu-review`](wenqu-review/) | 推敲润色、校勘审定 | 文章质量优化：检查技术事实、逻辑结构、表达方式、英文术语、翻译腔和 AI 写作痕迹，并提供修改建议 |
 | [`wenqu-image`](wenqu-image/) | 丹青绘意 | 文章视觉设计：规划配图需求，生成图片提示词，完成 AI 生图、质量检查和上传流程 |
@@ -68,23 +68,13 @@ codex login
 
 ### wenqu-library
 
-`wenqu-library` 的网页抓取能力需要 `crwl`（Crawl4AI 的命令行工具）。未安装时自动降级为 agent 自带的网页抓取，不影响流程，但动态渲染重的页面（含微信公众号）抓取质量会差很多。
+`wenqu-library` 每次都先运行 agent 自带的联网搜索；可选的全局 CLI 套件只负责补充搜索和增强下载：
 
-安装（二选一）：
+- `open-websearch`：补充多引擎搜索候选，不替代原生搜索；
+- `crwl`（Crawl4AI）：优先下载动态页面与微信公众号；对已定义食谱的直连搜索失败可作浏览器检索恢复，不可用时自动回退 agent 自带能力。
 
-```bash
-# 推荐：uv 隔离安装，不污染项目环境
-uv tool install crawl4ai
+技能检测到缺失项时，会说明安装内容与浏览器运行环境，并请求一次授权；授权后由 agent 自行安装、设置和验证。用户无需复制命令、配置 PATH 或排障。
 
-# 或 pip
-pip install -U crawl4ai
-```
+完整的引擎选择、CLI 参数和站点抓取策略见 [`wenqu-library/references/`](wenqu-library/references/) 下的 [`open-websearch/`](wenqu-library/references/open-websearch/) 与 [`crawl4ai/`](wenqu-library/references/crawl4ai/) 两个独立模块。
 
-首次使用安装浏览器引擎（约 300MB）并自检：
-
-```bash
-crawl4ai-setup
-crawl4ai-doctor
-```
-
-> uv 安装的可执行文件在 `~/.local/bin/`，如果 `crwl` 不在 PATH 里，用全路径或把该目录加进 PATH。
+无需预先安装或配置 PATH；检测到缺失项后，agent 会在获得授权后完成安装、浏览器运行环境设置与健康检查。

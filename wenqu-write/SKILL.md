@@ -32,7 +32,7 @@ description: 为技术项目撰写技术介绍文章的结构化工作流。适�
 - **单篇文章的存储**（本篇专属、且自包含）：存在**项目根目录**下的 `wenqu-skills/` 子目录里，以文章文件名（不含扩展名）为 key 区分，按 skill 目录的组装方式落盘——一份 `SKILL.md` 做索引和关键信息，具体产出物放 `references/` 下当支持文件：
   - 项目根目录 = `git rev-parse --show-toplevel` 的结果；不是 git 仓库则用当前工作目录
   - `{项目根目录}/wenqu-skills/{文件名}/SKILL.md` —— 索引 + 关键信息：**标识**（见下方「文章标识与重命名」一节）、背景、系统定位、写作目标、读者/作者画像快照、范围锁定、内容策略（即原 context.md 的全部内容）、**待办清单**（跨会话未完结事项，见下方「待办清单」一节）
-  - `{项目根目录}/wenqu-skills/{文件名}/references/materials/` —— **素材目录**：Step 1/2 收集到的所有源码证据、关键数字、用户提供的背景素材、抓取网页、翻译整理摘要的工作台。按内容类型分目录存放（`local/` 本地素材、`articles/` 网页文章、`papers/` 论文、`docs/` 官方文档与整站抓取产物），`index.md` 做统一索引：逐条编号（M1、M2……），登记摘要、来源 URL、文件路径、用途、标签，骨架和审查都从这里查，不依赖对话记忆。目录结构与登记规则详见 `wenqu-library` 技能「存储位置」一节
+  - `{项目根目录}/wenqu-skills/{文件名}/references/materials/` —— **素材目录**：Step 1/2 收集到的所有源码证据、关键数字、用户提供的背景素材、抓取网页、翻译整理摘要的工作台。按内容类型分目录存放（`local/` 本地素材、`articles/` 网页文章、`papers/` 论文、`docs/` 官方文档与整站抓取产物），`index.md` 做统一索引：逐条编号（M1、M2……），登记摘要、来源 URL、**检索渠道**、文件路径、用途、标签，骨架和审查都从这里查，不依赖对话记忆。目录结构与登记规则详见 `wenqu-library` 技能「存储位置」一节
   - `{项目根目录}/wenqu-skills/{文件名}/references/skeleton.md` —— 骨架，每节标注引用了素材库的哪几条，文件末尾维护"变更历史"表
   - `{项目根目录}/wenqu-skills/{文件名}/references/preferences.md` —— **偏好与反馈库**：规划/写作/审查/翻译/配图任一环节里，用户给出的、不止针对当次改动的持久化偏好或反馈（写法习惯、画图风格、术语取舍……），当场追加，不留在对话记忆里，也不再提议改技能仓库文档（详见「用户反馈与偏好持久化」一节）
   - `{项目根目录}/wenqu-skills/{文件名}/references/changelog.md` —— **版本记录**：草稿/事件/发布三类历史，见 `references/planning/changelog.md`「版本记录」
@@ -138,7 +138,7 @@ description: 为技术项目撰写技术介绍文章的结构化工作流。适�
 
 **先查文库**：动笔收集前，先查 `wenqu-library`（`$HOME/.gogoingai/wenqu-skills/library/`）有没有相关主题的素材条目（L1、L2……），避免重复收集；若文库已有，直接引用条目编号登记到本篇 `materials/index.md`。详见 `wenqu-library` 技能。
 
-**需要联网收集素材时**（找相似文章、官方文档、论文、案例），调用 `wenqu-library` 的四步收集流程（规划 → 搜索 → 下载 → 整理），传入 Step 1/1.5 的规划结果；抓取的网页原文落 `references/materials/` 对应分类子目录，索引登记进 `materials/index.md`。不要自己临时用搜索/抓取工具散抓后只记在对话里。
+**需要联网收集素材时**（找相似文章、官方文档、论文、案例），调用 `wenqu-library` 的四步收集流程（规划 → 搜索 → 下载 → 整理），传入 Step 1/1.5 的规划结果；该流程以 **agent 原生搜索为主**，可用时由 `open-websearch` 补充候选；对有食谱的直连失败引擎，才可由 `crwl` 恢复浏览器检索，随后统一去重、分级和下载。抓取的网页原文落 `references/materials/` 对应分类子目录，索引登记进 `materials/index.md`，并保留 `agent-native`、`open-websearch:{engine}`、`crwl-serp:{engine}` 或 `用户提供` 等检索渠道。不要自己临时用搜索/抓取工具散抓后只记在对话里。
 
 在 Step 1 快速扫描的基础上深入读源码、README、论文，为写骨架做准备。**这一步的所有产出都要登记进 `references/materials/index.md`（大段内容落分类子目录文件，index.md 登记路径），不能只记在对话里**——上下文一旦被压缩或会话跨得久，脑子里记的素材会全部丢失，骨架和审查都得靠回头翻对话记录，费时又费 token：
 - 核心机制 3~5 个的完整实现细节 → 追加/补全 index.md 对应条目（大段摘录落 `materials/local/`）
