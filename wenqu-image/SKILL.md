@@ -7,7 +7,7 @@ description: >-
   "create a flowchart" 等英文表达时使用。
 slug: wenqu-image
 displayName: 文曲·配图
-version: 0.1.11
+version: 0.1.12
 summary: 为内容生成 AI 配图（架构图/流程图/信息图/示意图）：提示词、生图、质检、上传全流程。
 license: MIT
 homepage: https://github.com/gogoingai/wenqu-skills
@@ -16,7 +16,7 @@ metadata:
     homepage: https://github.com/gogoingai/wenqu-skills/tree/master/wenqu-image
 ---
 
-# 文章配图 Skill
+# 内容配图与生图 Skill
 
 > 📦 项目仓库与源码：<https://github.com/gogoingai/wenqu-skills>
 
@@ -40,13 +40,17 @@ style: 单色马克笔   # 对应风格库表里的风格名；无风格关键�
 ref: https://raw.githubusercontent.com/gogoingai/wenqu-skills/master/wenqu-image-assets/styles/mono-marker/mono-marker-02-branch-decision.png   # 实际用过的参考图；只允许 HTTPS URL（风格图托管在 GitHub，本地经 fetch-ref.sh 取）；临时本地路径不得写入；本轮没用 --ref 时保持原值不动，从未用过才省略
 versions:   # 历次生成的版本记录；每项必须是 HTTPS CDN URL，含质检不通过/用户否决版本，编号递增，不删除、不覆盖
   v1: https://cdn.example.com/article-img-1111aaaa2222bbbb.png   # 简要说明
+generation: # 与 versions 同编号，记录实际渲染后端；不存密钥或 API 地址
+  v1:
+    provider: codex
+    model: codex-image-gen
 ---
 # 画图提示：[图片标题]
 # ...（提示正文，四条核心原则见下方）
 ​```
 ```
 
-转换占位标记、或用户直接给风格关键词时，都按这个格式写；`references/styles/*.md` 里该风格追加的专属描述句，直接拼进提示正文，不要另起一段脱离 YAML 之外的"风格说明"，避免以后只读提示正文时丢失风格上下文。**每次实际调用 `gpt-image-2-gen.sh --ref` 后**，把这次真正生效的稳定参考来源回填进 `ref:` 字段：风格资产用 GitHub raw URL，已采用图片用 HTTPS CDN URL；命令中临时使用的 `/tmp` 文件不得回填。`ref` 记的是“这次生成实际参考了什么”，不是“这个风格理论上可以参考什么”；**没用 `--ref` 的这一轮，不要动 `ref:` 字段**，保留上一次的记录。**只有上传成功、拿到 HTTPS CDN URL 的版本才可写入 `versions`**；正文的 `![]()` 只指向当前采用的那一版，其余版本仅留存在 `versions` 里供回看对比，具体写入规则见 `references/gen-workflow.md` 第四步。
+转换占位标记、或用户直接给风格关键词时，都按这个格式写；`references/styles/*.md` 里该风格追加的专属描述句，直接拼进提示正文，不要另起一段脱离 YAML 之外的"风格说明"，避免以后只读提示正文时丢失风格上下文。**每次实际传入 `--ref` 后**，把这次真正生效的稳定参考来源回填进 `ref:` 字段：风格资产用 GitHub raw URL，已采用图片用 HTTPS CDN URL；命令中临时使用的 `/tmp` 文件不得回填。`ref` 记的是“这次生成实际参考了什么”，不是“这个风格理论上可以参考什么”；**没用 `--ref` 的这一轮，不要动 `ref:` 字段**，保留上一次的记录。**只有上传成功、拿到 HTTPS CDN URL 的版本才可写入 `versions`**，同时把本次实际 provider/model 写入同编号 `generation`；正文的 `![]()` 只指向当前采用的那一版，其余版本仅留存在 `versions` 里供回看对比，具体写入规则见 `references/gen-workflow.md` 第四步。
 
 ## 用户输入工具
 
@@ -57,6 +61,16 @@ versions:   # 历次生成的版本记录；每项必须是 HTTPS CDN URL，含�
 3. 同一决策阶段中彼此独立的问题可合并提问；后一个问题依赖前一回答时，按优先级逐个问。
 4. 已由用户当前指令、调用方或文章偏好提供的信息，不重复询问。
 5. 文中出现的具体工具名均为示例；应替换为当前运行时的等价能力。
+
+### 模型配置提问规则
+
+先检查全局配置 `~/.gogoingai/wenqu-skills/image/config.json`，再检查本篇
+`{项目根目录}/wenqu-skills/{文件名}/config/image.json`：
+
+1. 两者都没有时，用原生输入工具一次询问默认 provider、模型与画幅；**不要索要密钥**，仅告知 `.env` 的本机路径，然后创建全局非敏感配置。
+2. 有全局配置、本篇没有配置时，在首次为本篇实际生成前询问是否沿用全局选择；拒绝后询问本篇选择并写入文章级配置。
+3. 有本篇配置、或用户已在当前指令/命令中指定 provider/model 时，不重复询问。
+4. 直接生图而非文章场景只读取全局配置；详细配置、命令和能力边界见 `references/image-cli.md`。
 
 ## 工具等价说明（非 Claude Code 环境）
 
@@ -121,9 +135,9 @@ versions:   # 历次生成的版本记录；每项必须是 HTTPS CDN URL，含�
 
 ## 生成图片
 
-→ 查 `references/gen-workflow.md`（环境检测 → 列出画图点并补全占位标记 → 逐张生成/质检/确认 → 写入文章 → 联动提醒）
+→ 查 `references/gen-workflow.md`（环境检测 → 列出画图点并补全占位标记 → 逐张生成/质检/确认 → 写入文章 → 联动提醒）；模型、密钥与命令参数先查 `references/image-cli.md`。
 
-逐张生成、逐张确认，不批量、不跳过用户；`gen.sh` 必须串行执行。
+逐张生成、逐张确认，不批量、不跳过用户；Codex 路径因 session 输出提取限制必须串行，其他后端也按同一确认节奏逐张处理。
 
 **单图采用标准：** 一张图只承担 1～2 个关键关系；图中文字、节点、箭头与正文术语一致，最终采用 URL 是 `versions` 中的 HTTPS 版本。满足这些条件后才可标记为“已采用”；若调用方文章存在 `references/status.md`，同步图片状态与待复查原因。
 
@@ -131,16 +145,17 @@ versions:   # 历次生成的版本记录；每项必须是 HTTPS CDN URL，含�
 
 ## 依赖
 
-- **codex CLI**（唯一的外部工具依赖，需要 ChatGPT Plus/Pro 订阅并 `codex login`）：驱动 GPT Image 2 实际生图
-- 生图脚本：`scripts/gpt-image-2-gen.sh` + `scripts/extract_image.py`——已随本技能一起分发（vendored，MIT，见 `scripts/THIRD_PARTY_NOTICES.md`），**不需要单独安装 gpt-image-2 skill**
-- 图床：`picgo`（需已配置 uploader）
+- 运行器：使用 `bun` 运行 `scripts/image-cli/main.ts`；若本机没有 Bun，直接以 `npx -y bun scripts/image-cli/main.ts` 运行同一 CLI。
+- 后端：`codex`（复用已登录订阅）、OpenAI GPT Image（`OPENAI_API_KEY`）、通义万相（`DASHSCOPE_API_KEY`）或豆包 Seedream（`ARK_API_KEY`）；密钥只放 `~/.gogoingai/wenqu-skills/image/.env`。
+- Codex 生图脚本：`scripts/gpt-image-2-gen.sh` + `scripts/extract_image.py`——已随本技能一起分发（vendored，MIT，见 `scripts/THIRD_PARTY_NOTICES.md`），**不需要单独安装 gpt-image-2 skill**。
+- 图床：`picgo`（可选，上传时需已配置 uploader）。
 - 风格参考图库：托管在 GitHub `wenqu-image-assets/styles/`（`handdrawn/` 手绘插画、`excalidraw/` 白板斜线填充、`mono-marker/` 单色马克笔、`doodle-watercolor/` 水彩涂鸦、`cream-outline/` 奶油描边思维导图、`pencil-sketch/` 彩色铅笔质感、`techppt/` 技术PPT风格，配合 `--ref` 使用，对应文档见 `references/styles/`）。图片**不随技能分发**，首次用某风格时 `scripts/fetch-ref.sh` 自动从 GitHub 下载到 `~/.cache/wenqu-image/styles/`，需网络
 
 ---
 
 ## 用户反馈与偏好持久化
 
-不再向用户提议修改本技能仓库的文档（`references/pitfalls.md`、`references/styles/*.md`、`references/templates/*.md` 等），遇到新画图踩坑或用户给出的持久化偏好，改为记进**调用方文章自己的**存储目录：`{项目根目录}/wenqu-skills/{文件名}/references/preferences.md`「配图偏好」表（表结构见 wenqu-write 的 `references/planning/questionnaire.md`「写入 preferences.md」一节）。
+不再向用户提议修改本技能仓库的文档（`references/pitfalls.md`、`references/styles/*.md`、`references/templates/*.md` 等），遇到新画图踩坑或用户给出的持久化偏好，改为记进**调用方文章自己的**存储目录：`{项目根目录}/wenqu-skills/{文件名}/references/preferences.md`「配图偏好」表（表结构见 wenqu-write 的 `references/planning/questionnaire.md`「写入 preferences.md」一节）。provider、模型和画幅例外：它们只写入同级的 `config/image.json`，避免同写作偏好混在一起。
 
 **判定标准**：这条反馈下次给这篇文章画图还用得上吗？
 - 是（默认风格、配色规则、某类结构反复出现的踩坑修法、用户明确要求"以后都这样画"）→ 当场追加一行进 `references/preferences.md`「配图偏好」表，格式：`| ID | 内容 | 来源 | 状态 |`

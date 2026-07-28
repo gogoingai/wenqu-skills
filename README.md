@@ -136,13 +136,24 @@ SkillHub 中的每个技能都有各自的目录版本和审核状态；它们�
 
 ### `wenqu-image`
 
-`wenqu-image` 需要 `codex` CLI 用于驱动图片生成流程。完成安装并登录：
+`wenqu-image` 支持四条生图路径：已登录的 Codex、OpenAI GPT Image、通义万相和豆包 Seedream。安装后可先检查本机环境：
 
 ```bash
-codex login
+bun ~/.agents/skills/wenqu-image/scripts/image-cli/main.ts --check --json
 ```
 
-即可使用图片生成能力。
+Codex 路径需要 `codex login`；其他 API 密钥仅写入本机
+`~/.gogoingai/wenqu-skills/image/.env`，默认模型、画幅与可选 API 地址写入同目录
+`config.json`。文章可在 `wenqu-skills/{文章文件名}/config/image.json` 覆盖模型选择，不能保存密钥或地址。
+
+```bash
+bun ~/.agents/skills/wenqu-image/scripts/image-cli/main.ts \
+  --provider dashscope --model qwen-image-2.0-pro --ar 16:9 \
+  --prompt "一张中文技术架构示意图" --out /tmp/diagram.png --upload
+```
+
+运行器使用 Bun；未安装 Bun 时，把上述 `bun` 替换为 `npx -y bun`。`--upload` 由 CLI 自己调用已配置的 PicGo。完整配置、参考图能力和 Agent 问答规则见
+[`wenqu-image/references/image-cli.md`](wenqu-image/references/image-cli.md)。
 
 ### `wenqu-library`
 

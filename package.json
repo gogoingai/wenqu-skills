@@ -5,6 +5,7 @@
     "release:check": "node scripts/check-release.mjs",
     "release:check:runtime": "node scripts/check-release.mjs --runtime",
     "release:check:skillhub": "node scripts/check-release.mjs --skillhub",
-    "test:release": "node --test tests/release-validation.test.mjs"
+    "test:release": "node --test tests/release-validation.test.mjs",
+    "test:image": "bun test tests/image-cli.test.ts"
   }
 }

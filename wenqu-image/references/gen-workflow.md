@@ -9,32 +9,33 @@
 
 逐张生成、逐张确认，不批量、不跳过用户。每张图经过自动质检后再给用户看，用户确认后再写入文章，再进入下一张。
 
-**重新设计/改版时，先给方案再生成**：如果是用户反馈某张图不满意要求重做（不是第一次生成全新图），先用文字简述新方案（结构、节点、信息密度安排），等用户确认方向没问题，再调用 gen.sh。直接生成再展示结果的方式，在方向没对齐时会导致反复返工。仅当用户明确说"直接生成/不用确认"时跳过这一步。
+**重新设计/改版时，先给方案再生成**：如果是用户反馈某张图不满意要求重做（不是第一次生成全新图），先用文字简述新方案（结构、节点、信息密度安排），等用户确认方向没问题，再调用图片 CLI。直接生成再展示结果的方式，在方向没对齐时会导致反复返工。仅当用户明确说"直接生成/不用确认"时跳过这一步。
 
-**⚠️ gen.sh 必须串行执行**：gen.sh 靠"生成前后对比 codex session 文件"来找到自己的输出，并行运行时多个进程会互相抢对方的 session 文件，导致多张图生成结果相同（错图）。即使用户说"并行/全部一起"，也要逐张顺序跑，不能改。
+**⚠️ 逐张生成必须串行**：Codex 路径靠"生成前后对比 codex session 文件"来找到自己的输出，并行会互相抢结果；其他后端虽无此限制，也必须等当前图质检、上传、用户确认后再处理下一张，避免文章版本与反馈串图。
 
 ---
 
 ## 第一步：检测并配置环境
 
-优先跑一次自带的检测脚本，它会自动检查 codex CLI、随技能分发的内置生图脚本和 picgo，并尝试自动安装/同步 picgo 配置（含从 PicGo GUI 同步图床配置）。不需要另行安装 `gpt-image-2` skill：
+优先运行一次图片 CLI 的环境检测。它检查 Bun、Codex、PicGo 和四个后端的密钥状态；输出不含密钥。不需要另行安装 `gpt-image-2` skill：
 
 ```bash
-bash ~/.agents/skills/wenqu-image/scripts/gen-image.sh --check
+bun ~/.agents/skills/wenqu-image/scripts/image-cli/main.ts --check --json
 ```
 
-`STATUS: ready` 说明环境齐全可以直接生成；`STATUS: not_ready` 会打印具体缺什么、怎么装。
+按 `runtime` 与 `providers` 字段判断当前可用路径；Codex 使用当前登录态，OpenAI、通义和 Seedream 的密钥只从 `~/.gogoingai/wenqu-skills/image/.env` 读取。配置格式和模型能力见 `image-cli.md`。
 
-脚本没覆盖或自动安装失败时，手动确认：
+若检测到缺失依赖，按下表手动确认：
 
 | 工具 | 验证命令 | 缺失时 |
 |------|---------|--------|
-| `codex` CLI | `codex --version` | 安装 Codex CLI 并运行 `codex login` |
+| `bun` 或 `npx` | `bun --version` | 推荐 `brew install oven-sh/bun/bun`；没有 Bun 时，用 `npx -y bun` 运行同一 CLI |
+| `codex` CLI（仅 Codex 路径） | `codex --version` | 安装 Codex CLI 并运行 `codex login` |
 | `picgo` | `picgo --version` | `npm install -g picgo` 或 `brew install picgo` |
 
 picgo 图床配置：运行 `picgo set uploader` 按提示填写图床信息；配置后 `picgo upload 任意图片.png` 验证，看到 `https://` 开头的 URL 说明成功。
 
-PicGo GUI 用户：运行上面的检测脚本时会尝试把 GUI 的当前图床配置同步到 CLI；若同步失败，再运行 `picgo set uploader` 手动配置。
+PicGo GUI 用户需先让 PicGo CLI 使用同一 uploader；图片 CLI 不会自动安装、同步或修改图床配置。
 
 ---
 
@@ -67,19 +68,17 @@ PicGo GUI 用户：运行上面的检测脚本时会尝试把 GUI 的当前图�
 **每次生成都用新的随机文件名**（不管是第一次生成还是重新生成/改图）：文件名前缀统一用 `article-img`，随机后缀用 `RAND=$(openssl rand -hex 8)`（16 位十六进制，比旧版更长，避免碰撞）。`/tmp` 下的文件只用于本轮生成、质检与上传，**不得写入文章、`ref` 或 `versions`**。不复用旧文件名去覆盖 CDN——每一版图片都要有自己独立的 HTTPS URL，才能在文章的 `versions` 版本数组里保留、回看每一版（见第四步）：
 
 ```bash
-# 第一步：生成图片（生成脚本没有 --upload 参数）
+# 生成并上传；provider/model 未指定时读取本篇或全局配置
 RAND=$(openssl rand -hex 8)
-bash ~/.agents/skills/wenqu-image/scripts/gpt-image-2-gen.sh \
+bun ~/.agents/skills/wenqu-image/scripts/image-cli/main.ts \
   --prompt "提示文本" \
   --out /tmp/article-img-${RAND}.png \
-  --timeout-sec 300
-
-# 第二步：上传图床（沿用同一个随机文件名）
-picgo upload /tmp/article-img-${RAND}.png
-# 输出的 https:// URL 即为这一版的 CDN 地址
+  --article-config "{项目根目录}/wenqu-skills/{文件名}/config/image.json" \
+  --upload
+# 输出的 https:// URL 即为这一版的 CDN 地址；上传失败时只保留本地文件
 ```
 
-重新生成/改图时同样跑一遍上面两步，`--prompt`（或 3.3b 图改模式的 `--ref`）换成调整后的内容，`RAND` 照常重新生成一个新的，**不要沿用旧图的文件名**。
+重新生成/改图时同样跑一遍上面命令，`--prompt`（或图改模式的 `--ref`）换成调整后的内容，`RAND` 照常重新生成一个新的，**不要沿用旧图的文件名**。需要覆盖全局选择时，加 `--provider` 与 `--model`；不得在命令或文章中携带密钥。
 
 > **本轮生成的每一版 HTTPS URL 都要记下来**（哪怕质检不通过、用户否决），先在对话里临时记着，第四步写入文章时一并追加进 `versions` 数组——不要生成完不满意就把 URL 丢掉不管，那一版可能后面还有对比价值。上传失败的本地文件不属于版本，不得写入历史。
 
@@ -113,7 +112,7 @@ picgo upload /tmp/article-img-${RAND}.png
 
 质检结果分三档：通过 → 3.3；有瑕疵但可接受 → 附说明展示给用户；有明显问题 → **直接进入 3.3b 自动修复重试，不停下来问用户，但每次都打印 URL**。
 
-> **质检是强制步骤，与生成路径无关**：无论用 `gen-image.sh`、还是切换到 `--ref` 图改模式（gpt-image-2 gen.sh），每次生成后都必须完整执行 3.2 质检并输出质检结论，不能因为"切了路径"就跳过。
+> **质检是强制步骤，与生成路径无关**：无论是首次生成、还是通过图片 CLI 的 `--ref` 图改模式，每次生成后都必须完整执行 3.2 质检并输出质检结论，不能因为"切了路径"就跳过。
 
 ### 3.3 先上传，再展示给用户确认
 
@@ -168,17 +167,14 @@ picgo upload /tmp/article-img-${RAND}.png
 **图改模式（视觉/文字问题时使用）：**
 
 ```bash
-# 1. 用 gpt-image-2 的 gen.sh 以原图为参考修改，输出文件名同样用新的随机后缀
+# 1. 用图片 CLI 以原图为参考修改，输出文件名同样用新的随机后缀
 RAND=$(openssl rand -hex 8)
-bash ~/.agents/skills/wenqu-image/scripts/gpt-image-2-gen.sh \
+bun ~/.agents/skills/wenqu-image/scripts/image-cli/main.ts \
   --prompt "在这张图基础上只改：[具体说明改什么]，其他完全保持原样" \
   --ref /tmp/原图.png \
   --out /tmp/article-img-${RAND}.png \
-  --timeout-sec 300
-
-# 2. 手动上传（gpt-image-2 的 gen.sh 没有 --upload 参数）
-picgo upload /tmp/article-img-${RAND}.png
-# 输出的 URL 即为这一版的 CDN 地址
+  --upload
+# 输出的 https:// URL 即为这一版的 CDN 地址
 ```
 
 > 用了 `--ref` 就要记住这次实际传的参考图是什么：已采用图记录其 CDN URL，风格库图记录 GitHub raw URL（`wenqu-image-assets/styles/` 下对应图的 raw 地址）。命令可临时传入 `fetch-ref.sh` 下载到 `~/.cache/` 或 `/tmp` 的本地文件，但**本地路径不得写入 `ref:` 字段**（见第四步）。
@@ -237,7 +233,7 @@ picgo upload /tmp/article-img-${RAND}.png
 写入时，**必须做以下几件事，缺一不可**：
 1. 把最终成功的提示词回写到文章代码块（哪怕只改了一个字也要更新）——提示词是图片的"源码"，内容变更重新生成时用的是最新版
 2. `ref` 字段**只在本轮实际用了 `--ref`（风格参考图或图改模式）时才更新**：风格资产写稳定相对路径，已采用图写 HTTPS CDN URL；**本地路径、`file://` 与 `/tmp` 一律不得写入**。本轮没用 `--ref` 时，保持原值不动，不要清空或删除这一行。
-3. 把本轮上传成功的**每一版 HTTPS CDN URL**（含质检不通过、用户否决的版本）追加进 frontmatter 的 `versions` 数组，编号接着已有的最大版本号往后延续，**不删除、不覆盖任何一条已有记录**，每条带一句简要说明（初版/否决原因/最终采用等）；本地文件和上传失败结果不得进入历史
+3. 把本轮上传成功的**每一版 HTTPS CDN URL**（含质检不通过、用户否决的版本）追加进 frontmatter 的 `versions` 数组，编号接着已有的最大版本号往后延续，**不删除、不覆盖任何一条已有记录**，每条带一句简要说明（初版/否决原因/最终采用等）；同编号追加 `generation.vN.provider` 与 `generation.vN.model`。本地文件和上传失败结果不得进入历史
 4. 把 `![标题](URL)` 更新为用户最终确认采用的那一版 URL；若这一轮用户选 C（跳过）或还没确认，`versions` 照样追加，但 `![]()` 保留上一次确认过的版本，不指向未确认的新版本
 
 常见漏洞：只插了 URL 没更新代码块；忘了把否决的版本也记进 `versions`；把 `/tmp`、绝对路径或 `file://` 写进 `ref` / `versions`；`ref` 没变化却被误清空。写入完成后核对“代码块改了吗？ref 是稳定来源吗？versions 都是 HTTPS URL 吗？”再继续下一张。
@@ -253,6 +249,10 @@ versions:
   v1: https://cdn.example.com/article-img-1111aaaa2222bbbb.png   # 初版
   v2: https://cdn.example.com/article-img-3333cccc4444dddd.png   # 用户反馈箭头方向错，否决
   v3: https://cdn.example.com/article-img-5555eeee6666ffff.png   # 修正箭头方向后，用户确认采用
+generation:
+  v1: { provider: codex, model: codex-image-gen }
+  v2: { provider: dashscope, model: qwen-image-2.0-pro }
+  v3: { provider: dashscope, model: qwen-image-2.0-pro }
 ---
 # 画图提示：[图片标题]（此处为最终生成成功的版本）
 # ...
@@ -285,8 +285,10 @@ versions:
 
 | 场景 | 结果 |
 |------|------|
-| codex 未安装 | 打印安装步骤，跳过，文章不变 |
-| 生图脚本缺失（vendored 文件不应缺失，出现说明技能安装不完整） | 打印重装指引（`npx skills add/update`），跳过，文章不变 |
-| picgo 未安装 | 自动安装；失败则保留画图提示与本轮结果，不写入正文、`ref` 或 `versions`，提示完成配置后重试上传 |
+| 没有可用 provider | 输出全局 `.env`/`config.json` 路径；Agent 用原生输入工具完成非敏感默认选择，文章不变 |
+| Bun 与 npx 都缺失 | 打印 Bun 安装指引，跳过，文章不变 |
+| Codex 未安装（仅指定 Codex 时） | 打印安装步骤，跳过，文章不变 |
+| 生图脚本缺失（Codex vendored 文件） | 打印重装指引（`npx skills add/update`），跳过，文章不变 |
+| picgo 未安装 | 保留画图提示与本轮结果，不写入正文、`ref` 或 `versions`，提示完成配置后重试上传 |
 | picgo 未配置图床 | 保留画图提示与本轮结果，不写入正文、`ref` 或 `versions`，打印配置指引并等待重试上传 |
 | 全部就绪 | 生成 → 质检 → 上传 → 用户确认 → CDN URL 写入文章 |

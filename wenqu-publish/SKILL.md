@@ -7,7 +7,7 @@ description: >-
   "export a publication-ready draft" 等英文表达时使用。
 slug: wenqu-publish
 displayName: 文曲·发布
-version: 0.1.11
+version: 0.1.12
 summary: 定稿内容清洗成发布版：删创作痕迹、生成标题/简介/封面、输出发布目录。
 license: MIT
 homepage: https://github.com/gogoingai/wenqu-skills

@@ -2,6 +2,13 @@
 
 本文件记录仓库里所有技能的重大变更，按发布时间倒序排列。
 
+## 0.1.12 - wenqu-image 多模型 CLI
+
+- `wenqu-image` 新增随技能分发的 TypeScript/Bun CLI：保留 Codex 登录路径，并接入 OpenAI GPT Image、通义万相和豆包 Seedream；Bun 缺失时以 `npx -y bun` 运行。
+- 新增全局非敏感图片配置、仅本机的 `.env` 密钥文件和文章级 `config/image.json` 覆盖；支持 provider、模型、画幅、可选 API Base URL、参考图能力校验、JSON 状态输出和安全重试。
+- 更新 Agent 原生问答规则、逐张确认工作流、provider/model 溯源记录、中英文 README 与离线 CLI/adapter 回归测试。
+- 新增 ClawHub（OpenClaw 生态）发布渠道：`openclaw.plugin.json` + `.clawhubignore` + `scripts/publish-clawhub.mjs`，RELEASE.md 与 DEVELOPMENT.md 补充对应流程与变更矩阵。
+
 ## 0.1.11 - 跨运行时分发与发布工程化
 
 - WorkBuddy 直接复用 `.claude-plugin/marketplace.json`，不再维护重复的专用市场清单；并与仓库根 `VERSION`、Claude Code 插件统一为 `0.1.11`。

@@ -1,0 +1,22 @@
+# Exclude non-runtime / heavy files from the ClawHub plugin package.
+# Patterns are anchored to repo root with a leading "/" so they do NOT match
+# runtime paths like wenqu-image/scripts/fetch-ref.sh.
+
+/wenqu-image-assets/
+/docs/
+/scripts/
+/tests/
+/.github/
+/.claude/
+/.codebuddy-plugin/
+/CHANGELOG.md
+/DEVELOPMENT.md
+/RELEASE.md
+/README.en.md
+/package.json
+/package-lock.json
+/VERSION
+/reports/
+.DS_Store
+*.pyc
+__pycache__/

@@ -143,11 +143,27 @@ an agent to install all six skills through SkillHub, paste:
 
 ### `wenqu-image`
 
-`wenqu-image` uses the `codex` CLI for image generation. Install it and sign in:
+`wenqu-image` supports four image paths: a signed-in Codex CLI, OpenAI GPT Image,
+DashScope Qwen Image, and Volcengine Seedream. Check the local environment after installation:
 
 ```bash
-codex login
+bun ~/.agents/skills/wenqu-image/scripts/image-cli/main.ts --check --json
 ```
+
+The Codex path requires `codex login`. Store API secrets only in the local
+`~/.gogoingai/wenqu-skills/image/.env`; store default model, aspect ratio, and optional
+API base URLs in `config.json` in the same directory. An article can override model selection
+in `wenqu-skills/{article-file-name}/config/image.json`; it must never contain secrets or endpoints.
+
+```bash
+bun ~/.agents/skills/wenqu-image/scripts/image-cli/main.ts \
+  --provider dashscope --model qwen-image-2.0-pro --ar 16:9 \
+  --prompt "A Chinese technical architecture diagram" --out /tmp/diagram.png --upload
+```
+
+The CLI runs with Bun; if Bun is unavailable, replace `bun` with `npx -y bun`. The CLI itself invokes configured PicGo for `--upload`. See
+[`wenqu-image/references/image-cli.md`](wenqu-image/references/image-cli.md) for configuration,
+reference-image capabilities, and agent interaction rules.
 
 ### `wenqu-library`
 

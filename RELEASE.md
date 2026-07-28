@@ -8,12 +8,12 @@
 
 | 轨道 | 用途 | 必须保持一致的文件 |
 |---|---|---|
-| 插件包版本 | Claude Code / WorkBuddy 市场安装的 `wenqu-skills` 整包 | `VERSION`、`.claude-plugin/plugin.json`、`.claude-plugin/marketplace.json` |
-| 单技能版本 | SkillHub 上单个技能的发布版本 | 对应 `wenqu-*/SKILL.md` 的 `version` |
+| 插件包版本 | Claude Code / WorkBuddy 市场安装的 `wenqu-skills` 整包；ClawHub 的 `@gogoingai/wenqu-skills` 插件包也跟随此版本 | `VERSION`、`.claude-plugin/plugin.json`、`.claude-plugin/marketplace.json` |
+| 单技能版本 | SkillHub 与 ClawHub 上单个技能的发布版本 | 对应 `wenqu-*/SKILL.md` 的 `version` |
 
 单技能版本必须是合法 SemVer，但不必等于插件包版本。例如，插件包可以保持 `0.1.8`，而已独立发布到 SkillHub 的技能可以是 `0.1.9`。
 
-每个 `SKILL.md` 同时保留 Claude 需要的 `name`、`description`，以及 WorkBuddy / SkillHub 使用的 `slug`、`displayName`、`version`、`summary`、`license`。`slug` 是稳定且全仓唯一的 kebab-case 标识；更新 SkillHub 技能时不得改它。所有技能还要提供 `metadata.openclaw.homepage`，指向其 GitHub 技能目录，供 OpenClaw 的 Skills UI 显示来源链接。
+每个 `SKILL.md` 同时保留 Claude 需要的 `name`、`description`，以及 WorkBuddy / SkillHub 使用的 `slug`、`displayName`、`version`、`summary`、`license`。`slug` 是稳定且全仓唯一的 kebab-case 标识；更新 SkillHub 技能时不得改它。**ClawHub 不读 frontmatter 的 `version`/`displayName`（发布时用 `--version`/`--name` 显式传），`slug` 默认取文件夹名**；保留这些字段不冲突。所有技能还要提供 `metadata.openclaw.homepage`，指向其 GitHub 技能目录，供 OpenClaw 的 Skills UI 显示来源链接。
 
 ## 发布前关卡
 
@@ -54,7 +54,8 @@
    ```
 
    SkillHub 的 API Token 只能由账号持有人配置和使用，不能写进仓库、脚本或日志。
-4. 使用 `npx skills update` 更新本机通过 GitHub 安装的技能快照；它不是 symlink，不能替代推送后的远端验证。
+4. 仅对本次需要发布的 ClawHub 技能或插件包，执行 `node scripts/publish-clawhub.mjs --changelog "本次变更说明"`（先 `--dry-run` 预检；底层命令与坑见脚本头部注释）。ClawHub 的 token 同样只能由账号持有人配置和使用，不能写进仓库、脚本或日志。
+5. 使用 `npx skills update` 更新本机通过 GitHub 安装的技能快照；它不是 symlink，不能替代推送后的远端验证。
 
 ## 渠道验收
 
@@ -75,3 +76,9 @@
 ### SkillHub
 
 先确认 dry-run 成功，再执行单技能正式发布。发布后以 SkillHub 页面显示的版本、审核状态和下载内容为准；平台可能仍有审核或限频，因此不要把“命令成功返回”误写为“已公开上架”。
+
+### ClawHub
+
+[clawhub.ai](https://clawhub.ai)（OpenClaw 生态市场），与 SkillHub 是独立注册表。本仓以 org publisher `@gogoingai` 发布（CLI：`npm i -g clawhub` + `clawhub login`，需 Node >=22）。发布用 `node scripts/publish-clawhub.mjs`（含 release 校验、限频重试、脏工作区警告；`--dry-run` 预检；底层命令与坑见脚本头部注释）。插件包发布需 `openclaw.plugin.json` + `.clawhubignore`（已建，勿删）。
+
+先 `--dry-run` 预检再正式发。发布后进 `pending.publication` 审核态，`clawhub.ai/dashboard` 可见、Moderate CLEAN 后公开；**发布到 ClawHub 即按 MIT-0**（frontmatter `license` 被忽略，仓库本体仍是 MIT）。同样不要把“命令成功返回”误写为“已公开上架”。
