@@ -2,6 +2,10 @@
 
 本文件记录仓库里所有技能的重大变更，按发布时间倒序排列。
 
+## 0.1.13 - ClawHub 插件包重新发布
+
+- 因 ClawHub 中的 `0.1.12` release 停留在不可见的扫描中间态，使用新版本重新提交完整插件包。
+
 ## 0.1.12 - wenqu-image 多模型 CLI
 
 - `wenqu-image` 新增随技能分发的 TypeScript/Bun CLI：保留 Codex 登录路径，并接入 OpenAI GPT Image、通义万相和豆包 Seedream；Bun 缺失时以 `npx -y bun` 运行。

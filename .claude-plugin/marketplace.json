@@ -8,7 +8,7 @@
     {
       "name": "wenqu-skills",
       "source": "./",
-      "version": "0.1.12",
+      "version": "0.1.13",
       "description": "面向中文内容的循证创作工作流：素材收集、规划、写作、审查、配图、翻译与可发布产物。"
     }
   ]
