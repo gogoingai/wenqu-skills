@@ -49,4 +49,3 @@
 | `memoryos-sample.md` | 架构深挖型文章节选（Mode B 参考） |
 | `powermem-sample.md` | 含折线图、公式卡片的画图提示示例 |
 | `mem0-sample.md` | 版本对比型文章节选（Mode C 参考） |
-| `claude-memory-sample.md` | 完整文章样例（Mode B · R2），12 处画图提示全覆盖 |

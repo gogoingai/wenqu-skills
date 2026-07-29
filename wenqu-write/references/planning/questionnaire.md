@@ -561,7 +561,7 @@ AskUserQuestion({
 
 再次打开同一篇文章时：
 1. 检查 `{项目根目录}/wenqu-skills/{文件名}/SKILL.md` → **有**则直接加载它（里面已含创建时拷贝的画像快照，不必再去读全局画像文件），告知用户「已加载上次对本篇的补充说明」；**没有但发现旧格式**（`.wenqu-write/{文件名}.context.md` 或目录化之前的 `wenqu-skills/{文件名}.context.md`）→ 按 `SKILL.md`「上下文存储位置」一节的兼容规则迁移
-2. 检查 `references/skeleton.md`、`references/materials/index.md`、`references/terms.md`、`references/change-impact.md`、`references/preferences.md` → 有则静默加载；有未闭环变更时在本轮收尾运行 R7，按已记录偏好执行，不重复问
+2. 静默加载 `references/skeleton.md`、`references/terms.md`、`references/change-impact.md`、`references/preferences.md`（存在时）；**不默认加载 `references/materials/index.md` 或原始素材**，仅在本轮需要核实事实、撰写对应章节或审查引用时，按 `SKILL.md`「外部素材安全边界」先查索引、再按素材 ID 读取单条文件；有未闭环变更时在本轮收尾运行 R7，按已记录偏好执行，不重复问
 3. `SKILL.md` **不存在且无旧格式文件**（本篇是第一次建立）→ 按前面的流程，先加载/建立全局画像，确认后拷贝一份快照写进新建的 SKILL.md
 
 **补充提问**：规划中发现某维度信息不足，只用 `AskUserQuestion` 补问 1~2 题：
