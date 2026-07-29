@@ -86,4 +86,6 @@ bun ~/.agents/skills/wenqu-image/scripts/image-cli/main.ts \
 | `dashscope` | `qwen-image-2.0-pro` | `DASHSCOPE_API_KEY` | Qwen 默认模型不支持；仅 `wan2.7-image*` 可用 |
 | `seedream` | `doubao-seedream-5-0-260128` | `ARK_API_KEY` | Seedream 5.0 / 4.5 / 4.0 支持 |
 
+> Codex 后端没有控制尺寸的参数；`--ar` 通过在指令里提示比例让 agent 传给生图工具，属 best-effort--比例通常正确，精确像素可能略有偏差。其他后端把尺寸写进 HTTP 请求，硬保证。
+
 模型或账号权限发生变化时，使用 `--model` 显式指定可用模型；CLI 不会静默把失败请求切换到另一个付费后端。

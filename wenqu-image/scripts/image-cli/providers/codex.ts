@@ -13,6 +13,7 @@ export async function generate(request: ResolvedGeneration): Promise<void> {
   if (!existsSync(script)) throw new Error(`Bundled Codex renderer is missing: ${script}`);
   if (!Bun.which("codex")) throw new Error("codex CLI is required for the codex provider. Run codex login first.");
   const args = ["bash", script, "--prompt", request.prompt, "--out", request.outputPath];
+  if (request.aspectRatio) args.push("--ar", request.aspectRatio);
   for (const reference of request.references) args.push("--ref", reference);
   const process = Bun.spawn(args, { stdout: "inherit", stderr: "inherit" });
   const exitCode = await process.exited;

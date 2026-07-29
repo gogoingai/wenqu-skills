@@ -14,7 +14,7 @@
 # intentionally omitted so the rollout remains available for extraction.
 #
 # Usage:
-#   gen.sh --prompt "<text>" --out <path.png> [--ref <image>]... [--timeout-sec N]
+#   gen.sh --prompt "<text>" --out <path.png> [--ar <ratio>] [--ref <image>]... [--timeout-sec N]
 #
 # Exit codes:
 #   0 success (path printed on stdout)
@@ -31,6 +31,7 @@ SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 PROMPT=""
 OUT=""
+AR=""
 REF_IMAGES=()
 TIMEOUT_SEC=300
 
@@ -38,6 +39,7 @@ while [[ $# -gt 0 ]]; do
   case "$1" in
     --prompt)      PROMPT="$2"; shift 2 ;;
     --out)         OUT="$2"; shift 2 ;;
+    --ar)          AR="$2"; shift 2 ;;
     --ref)         REF_IMAGES+=("$2"); shift 2 ;;
     --timeout-sec) TIMEOUT_SEC="$2"; shift 2 ;;
     -h|--help)     sed -n '2,24p' "$0"; exit 0 ;;
@@ -73,6 +75,23 @@ if [[ ${#REF_IMAGES[@]} -gt 0 ]]; then
 fi
 
 instruction="Use the imagegen tool to generate the image for the following request."
+if [[ -n "$AR" ]]; then
+  # Codex 没有控制尺寸的参数；在指令里用文字提示比例，agent 会传给 image_gen 工具（best-effort）。
+  case "$AR" in
+    1:1)  size="1024x1024"; orient="square" ;;
+    16:9) size="2048x1152"; orient="landscape" ;;
+    9:16) size="1152x2048"; orient="portrait" ;;
+    3:2)  size="1536x1024"; orient="landscape" ;;
+    2:3)  size="1024x1536"; orient="portrait" ;;
+    4:3)  size="1536x1152"; orient="landscape" ;;
+    3:4)  size="1152x1536"; orient="portrait" ;;
+    *)    size=""; orient="" ;;
+  esac
+  instruction+=" Generate at a ${AR} aspect ratio"
+  [[ -n "$orient" ]] && instruction+=" (${orient})"
+  [[ -n "$size" ]] && instruction+=". Suggested size: ${size}"
+  instruction+="."
+fi
 if [[ ${#REF_IMAGES[@]} -gt 0 ]]; then
   instruction+=" Use the attached image(s) as visual reference / input for image-to-image."
 fi
