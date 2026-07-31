@@ -133,9 +133,9 @@ function createTemporaryClawPack() {
     ['pack', '.', '--json', '--ignore-scripts', '--pack-destination', directory],
     { cwd: root, encoding: 'utf8' },
   );
-  process.stdout.write(result.stdout ?? '');
-  process.stderr.write(result.stderr ?? '');
   if (result.status !== 0) {
+    process.stdout.write(result.stdout ?? '');
+    process.stderr.write(result.stderr ?? '');
     rmSync(directory, { recursive: true, force: true });
     throw new Error('npm pack failed');
   }
