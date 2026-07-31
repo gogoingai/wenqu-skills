@@ -24,8 +24,9 @@
 // 标准流程：先 git commit + push（干净状态），再跑本脚本。从脏工作区发会导致 provenance
 // 不一致（记录的 commit 不含未提交改动）。脚本会对脏工作区发警告。
 
-import { readFileSync } from 'node:fs';
-import { resolve } from 'node:path';
+import { mkdtempSync, readFileSync, rmSync } from 'node:fs';
+import { tmpdir } from 'node:os';
+import { basename, resolve } from 'node:path';
 import { spawnSync } from 'node:child_process';
 import { validateRelease, formatReport } from './lib/release-validation.mjs';
 
@@ -125,6 +126,38 @@ async function runWithRetry(label, cmdArgs) {
   return false;
 }
 
+function createTemporaryClawPack() {
+  const directory = mkdtempSync(resolve(tmpdir(), 'wenqu-clawpack-'));
+  const result = spawnSync(
+    'npm',
+    ['pack', '.', '--json', '--ignore-scripts', '--pack-destination', directory],
+    { cwd: root, encoding: 'utf8' },
+  );
+  process.stdout.write(result.stdout ?? '');
+  process.stderr.write(result.stderr ?? '');
+  if (result.status !== 0) {
+    rmSync(directory, { recursive: true, force: true });
+    throw new Error('npm pack failed');
+  }
+
+  let packed;
+  try {
+    packed = JSON.parse(result.stdout)[0];
+  } catch {
+    rmSync(directory, { recursive: true, force: true });
+    throw new Error('npm pack did not return JSON output');
+  }
+  if (!packed?.filename) {
+    rmSync(directory, { recursive: true, force: true });
+    throw new Error('npm pack did not return a tarball filename');
+  }
+
+  return {
+    path: resolve(directory, packed.filename),
+    cleanup: () => rmSync(directory, { recursive: true, force: true }),
+  };
+}
+
 const ok = [];
 const fail = [];
 
@@ -173,13 +206,24 @@ if (!skillsOnly) {
     console.error('✗ package validate 失败');
     fail.push('plugin');
   } else {
-    const cmdArgs = [
-      'package', 'publish', '.', '--family', 'bundle-plugin',
-      '--name', PLUGIN_NAME, '--version', pluginVersion, '--owner', OWNER, '--changelog', changelog,
-    ];
-    if (dryRun) cmdArgs.push('--dry-run');
-    if (await runWithRetry(`${PLUGIN_NAME}@${pluginVersion}`, cmdArgs)) ok.push('plugin');
-    else fail.push('plugin');
+    let clawPack;
+    try {
+      clawPack = createTemporaryClawPack();
+      console.log(`ClawPack: ${basename(clawPack.path)}（临时文件，不写入仓库）`);
+      const cmdArgs = [
+        'package', 'publish', clawPack.path, '--family', 'bundle-plugin',
+        '--name', PLUGIN_NAME, '--version', pluginVersion, '--owner', OWNER, '--changelog', changelog,
+        '--source-repo', REPO, '--source-commit', SHA, '--source-ref', REF, '--source-path', '.',
+      ];
+      if (dryRun) cmdArgs.push('--dry-run');
+      if (await runWithRetry(`${PLUGIN_NAME}@${pluginVersion}`, cmdArgs)) ok.push('plugin');
+      else fail.push('plugin');
+    } catch (error) {
+      console.error(`✗ ClawPack 打包失败: ${error.message}`);
+      fail.push('plugin');
+    } finally {
+      clawPack?.cleanup();
+    }
   }
 }
 

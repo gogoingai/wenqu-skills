@@ -7,6 +7,7 @@ const IMAGE_EXTENSIONS = new Set(['.png', '.jpg', '.jpeg', '.webp', '.gif', '.sv
 const REFERENCE_TEXT_EXTENSIONS = new Set(['.md', '.sh']);
 const IMAGE_ASSET_REFERENCE = /wenqu-image-assets\/styles\/([A-Za-z0-9._/-]+\.(?:png|jpe?g|webp|gif|svg))/gi;
 const SKILLHUB_SLUG = /^[a-z0-9](?:[a-z0-9-]{0,126}[a-z0-9])$/;
+const CLAWHUB_PACKAGE_NAME = '@gogoingai/wenqu-skills';
 
 function error(diagnostics, code, message, path) {
   diagnostics.push({ severity: 'error', code, message, path });
@@ -169,6 +170,38 @@ export function validateRelease(rootDirectory) {
   const changelog = readText(changelogPath, diagnostics, 'CHANGELOG_MISSING');
   if (version && changelog && !changelog.includes(`## ${version}`)) {
     error(diagnostics, 'CHANGELOG_VERSION_MISSING', `CHANGELOG.md has no entry for ${version}`, changelogPath);
+  }
+
+  const packagePath = resolve(root, 'package.json');
+  const packageJson = readJson(packagePath, diagnostics);
+  if (packageJson) {
+    if (packageJson.name !== CLAWHUB_PACKAGE_NAME) {
+      error(
+        diagnostics,
+        'PACKAGE_NAME_MISMATCH',
+        `package.json declares ${packageJson.name ?? 'no name'}; expected ${CLAWHUB_PACKAGE_NAME}`,
+        packagePath,
+      );
+    }
+    if (packageJson.version !== version) {
+      error(
+        diagnostics,
+        'PACKAGE_VERSION_MISMATCH',
+        `package.json declares ${packageJson.version ?? 'no version'}; expected ${version ?? 'none'}`,
+        packagePath,
+      );
+    }
+  }
+
+  const openClawPath = resolve(root, 'openclaw.plugin.json');
+  const openClawManifest = readJson(openClawPath, diagnostics);
+  if (openClawManifest && openClawManifest.version !== version) {
+    error(
+      diagnostics,
+      'OPENCLAW_VERSION_MISMATCH',
+      `openclaw.plugin.json declares ${openClawManifest.version ?? 'no version'}; expected ${version ?? 'none'}`,
+      openClawPath,
+    );
   }
 
   const pluginPath = resolve(root, '.claude-plugin', 'plugin.json');

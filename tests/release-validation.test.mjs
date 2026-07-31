@@ -27,6 +27,16 @@ function createFixture(options = {}) {
 
   writeFileSync(join(root, 'VERSION'), `${version}\n`);
   writeFileSync(join(root, 'CHANGELOG.md'), `## ${version} - Test release\n`);
+  writeJson(join(root, 'package.json'), {
+    name: '@gogoingai/wenqu-skills',
+    version: options.packageVersion ?? version,
+    private: true,
+  });
+  writeJson(join(root, 'openclaw.plugin.json'), {
+    id: 'wenqu-skills',
+    name: 'Wenqu Skills',
+    version: options.openClawVersion ?? version,
+  });
   writeJson(join(root, '.claude-plugin', 'plugin.json'), {
     name: 'wenqu-skills',
     version,
@@ -122,6 +132,26 @@ test('reports a marketplace version that differs from the plugin release version
   try {
     const report = validateRelease(fixture.root);
     assert.ok(report.diagnostics.some(({ code }) => code === 'MARKET_VERSION_MISMATCH'));
+  } finally {
+    fixture.cleanup();
+  }
+});
+
+test('reports a package version that differs from the plugin release version', () => {
+  const fixture = createFixture({ packageVersion: '0.1.7' });
+  try {
+    const report = validateRelease(fixture.root);
+    assert.ok(report.diagnostics.some(({ code }) => code === 'PACKAGE_VERSION_MISMATCH'));
+  } finally {
+    fixture.cleanup();
+  }
+});
+
+test('reports an OpenClaw manifest version that differs from the plugin release version', () => {
+  const fixture = createFixture({ openClawVersion: '0.1.7' });
+  try {
+    const report = validateRelease(fixture.root);
+    assert.ok(report.diagnostics.some(({ code }) => code === 'OPENCLAW_VERSION_MISMATCH'));
   } finally {
     fixture.cleanup();
   }

@@ -8,7 +8,7 @@
 
 | 轨道 | 用途 | 必须保持一致的文件 |
 |---|---|---|
-| 插件包版本 | Claude Code / WorkBuddy 市场安装的 `wenqu-skills` 整包；ClawHub 的 `@gogoingai/wenqu-skills` 插件包也跟随此版本 | `VERSION`、`.claude-plugin/plugin.json`、`.claude-plugin/marketplace.json` |
+| 插件包版本 | Claude Code / WorkBuddy 市场安装的 `wenqu-skills` 整包；ClawHub 的 `@gogoingai/wenqu-skills` 插件包也跟随此版本 | `VERSION`、`package.json`、`openclaw.plugin.json`、`.claude-plugin/plugin.json`、`.claude-plugin/marketplace.json` |
 | 单技能版本 | SkillHub 与 ClawHub 上单个技能的发布版本 | 对应 `wenqu-*/SKILL.md` 的 `version` |
 
 单技能版本必须是合法 SemVer，但不必等于插件包版本。例如，插件包可以保持 `0.1.8`，而已独立发布到 SkillHub 的技能可以是 `0.1.9`。
@@ -54,7 +54,7 @@
    ```
 
    SkillHub 的 API Token 只能由账号持有人配置和使用，不能写进仓库、脚本或日志。
-4. 仅对本次需要发布的 ClawHub 技能或插件包，执行 `node scripts/publish-clawhub.mjs --changelog "本次变更说明"`（先 `--dry-run` 预检；底层命令与坑见脚本头部注释）。ClawHub 的 token 同样只能由账号持有人配置和使用，不能写进仓库、脚本或日志。
+4. 仅对本次需要发布的 ClawHub 技能或插件包，执行 `node scripts/publish-clawhub.mjs --changelog "本次变更说明"`（先 `--dry-run` 预检）。脚本用 `npm pack` 在系统临时目录生成 ClawPack `.tgz`，上传后立即清理；该发布包不会写入或提交到 Git。ClawHub 的 token 同样只能由账号持有人配置和使用，不能写进仓库、脚本或日志。
 5. 使用 `npx skills update` 更新本机通过 GitHub 安装的技能快照；它不是 symlink，不能替代推送后的远端验证。
 
 ## 渠道验收
