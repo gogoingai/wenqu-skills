@@ -54,7 +54,7 @@
    ```
 
    SkillHub 的 API Token 只能由账号持有人配置和使用，不能写进仓库、脚本或日志。
-4. 仅对本次需要发布的 ClawHub 技能或插件包，执行 `node scripts/publish-clawhub.mjs --changelog "本次变更说明"`（先 `--dry-run` 预检）。脚本用 `npm pack` 在系统临时目录生成 ClawPack `.tgz`，上传后立即清理；该发布包不会写入或提交到 Git。ClawHub 的 token 同样只能由账号持有人配置和使用，不能写进仓库、脚本或日志。
+4. 仅对本次需要发布的 ClawHub 技能或插件包，执行 `node scripts/publish-clawhub.mjs --changelog "本次变更说明"`（先 `--dry-run` 预检）。插件包以目录直传的 bundle 方式发布，不会在仓库生成或提交压缩包。ClawHub 的 token 同样只能由账号持有人配置和使用，不能写进仓库、脚本或日志。
 5. 使用 `npx skills update` 更新本机通过 GitHub 安装的技能快照；它不是 symlink，不能替代推送后的远端验证。
 
 ## 渠道验收
