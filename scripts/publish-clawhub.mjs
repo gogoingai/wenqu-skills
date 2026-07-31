@@ -110,11 +110,12 @@ async function runWithRetry(label, cmdArgs) {
     const r = spawnSync(CLAWHUB, cmdArgs, { encoding: 'utf8' });
     process.stdout.write(r.stdout ?? '');
     process.stderr.write(r.stderr ?? '');
-    if (r.status === 0) {
+    const out = `${r.stdout ?? ''}${r.stderr ?? ''}`;
+    const commandReportedError = /(?:^|\n)Error:\s|Plugin Inspector blocked publish/i.test(out);
+    if (r.status === 0 && !commandReportedError) {
       console.log(`✓ ${label}`);
       return true;
     }
-    const out = `${r.stdout ?? ''}${r.stderr ?? ''}`;
     if (/429|rate|frequency|频繁|频率|reset in/i.test(out) && attempt < 4) {
       console.error(`  ⏳ ${label} 限频，等 ${60 * attempt}s 重试 (${attempt}/4)...`);
       await sleep(60_000 * attempt);
