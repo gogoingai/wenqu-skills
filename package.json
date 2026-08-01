@@ -24,8 +24,6 @@
     "LICENSE"
   ],
   "scripts": {
-    "release:check:runtime": "node scripts/check-release.mjs --runtime",
-    "release:check:skillhub": "node scripts/check-release.mjs --skillhub",
     "test:image": "bun test tests/image-cli.test.ts"
   }
 }
