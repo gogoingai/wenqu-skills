@@ -1,14 +1,38 @@
 {
   "$schema": "https://raw.githubusercontent.com/gogoingai/skills-eval/main/src/skills_eval/schemas/skills-eval.schema.json",
   "schemaVersion": 1,
-  "extends": ["wenqu"],
+  "format": {
+    "requiredRootFiles": ["README.md", "README.en.md", "VERSION"],
+    "requiredSkillFrontmatter": ["name", "description", "slug"],
+    "forbiddenPaths": [".DS_Store"],
+    "referenceExtensions": [".md", ".txt", ".pdf", ".png", ".jpg", ".jpeg", ".webp"]
+  },
+  "release": {
+    "versionFile": "VERSION",
+    "requireVersionSemver": true,
+    "changelogFile": "CHANGELOG.md",
+    "changelogVersionHeading": "## {version}",
+    "assetReferences": {
+      "assetDirectory": "wenqu-image-assets/styles",
+      "documentationDirectory": "wenqu-image",
+      "referencePrefix": "wenqu-image-assets/styles"
+    }
+  },
   "publishing": {
     "targets": [
-      { "name": "claude-plugin", "enabled": true },
+      {
+        "name": "claude-plugin",
+        "enabled": true,
+        "options": { "skillDirectoryPrefix": "wenqu-" }
+      },
       { "name": "workbuddy", "enabled": true },
       { "name": "skillhub", "enabled": true },
       { "name": "openclaw", "enabled": true },
-      { "name": "clawhub", "enabled": true }
+      {
+        "name": "clawhub",
+        "enabled": true,
+        "options": { "packageName": "@gogoingai/wenqu-skills" }
+      }
     ]
   },
   "report": {
