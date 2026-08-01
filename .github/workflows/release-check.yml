@@ -9,10 +9,13 @@ on:
 jobs:
   static-release-check:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      actions: read
+      pull-requests: write
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: gogoingai/skills-eval@v0.1.6
         with:
-          node-version: 22
-      - run: npm run test:release
-      - run: npm run release:check
+          path: .
+          comment: true

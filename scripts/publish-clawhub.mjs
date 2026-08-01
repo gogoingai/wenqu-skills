@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 // 批量发布 wenqu 技能 + 插件包到 ClawHub (clawhub.ai)。
 //
-// 自动：登录态检查 -> release 校验 -> 逐个 skill publish（读 SKILL.md 的 slug/displayName/version）
+// 自动：登录态检查 -> skills-eval 审查 -> 逐个 skill publish（读 SKILL.md 的 slug/displayName/version）
 //      -> package publish（插件包 @gogoingai/wenqu-skills）-> 限频重试 -> 汇总。
 //      幂等：内容未变更的技能/插件秒级 no-op 成功，不重新触发审核。
 //
@@ -27,10 +27,10 @@
 import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { spawnSync } from 'node:child_process';
-import { validateRelease, formatReport } from './lib/release-validation.mjs';
 
 const root = process.cwd();
 const CLAWHUB = process.env.CLAWHUB_BIN || 'clawhub';
+const SKILLS_EVAL = process.env.SKILLS_EVAL_BIN || 'skills-eval';
 const OWNER = 'gogoingai';
 const PLUGIN_NAME = '@gogoingai/wenqu-skills';
 const REPO = process.env.CLAWHUB_SOURCE_REPO || 'gogoingai/wenqu-skills';
@@ -83,11 +83,26 @@ if (probe.status !== 0) {
 }
 console.log(`登录态: ${probe.stdout.trim()}`);
 
-// --- release 校验（复用 check-release 的同一套规则）---
-const report = validateRelease(root);
-console.log(formatReport(report));
-if (report.diagnostics.some((d) => d.severity === 'error')) {
-  console.error('✗ release 校验未过，终止发布');
+// --- 静态与安全审查 ---
+const audit = spawnSync(SKILLS_EVAL, ['check', '.'], { cwd: root, encoding: 'utf8' });
+process.stdout.write(audit.stdout ?? '');
+process.stderr.write(audit.stderr ?? '');
+if (audit.error?.code === 'ENOENT') {
+  console.error('✗ skills-eval 未找到。先执行：pipx install "skills-eval>=0.1.4,<0.2"');
+  process.exit(2);
+}
+if (audit.status !== 0) {
+  console.error('✗ skills-eval 审查未通过，终止发布');
+  process.exit(1);
+}
+
+let skillDirectories;
+try {
+  const manifest = JSON.parse(readFileSync(resolve(root, '.claude-plugin', 'plugin.json'), 'utf8'));
+  if (!Array.isArray(manifest.skills)) throw new Error('skills must be an array');
+  skillDirectories = manifest.skills.map((skillPath) => resolve(root, skillPath));
+} catch (error) {
+  console.error(`✗ 无法读取已声明的 Skill：${error.message}`);
   process.exit(1);
 }
 
@@ -131,7 +146,7 @@ const fail = [];
 
 // --- 技能 ---
 if (!pluginOnly) {
-  const skills = (report.skillDirectories ?? []).filter(
+  const skills = skillDirectories.filter(
     (d) => only.length === 0 || only.some((n) => d.endsWith('/' + n)),
   );
   if (only.length && skills.length !== only.length) {

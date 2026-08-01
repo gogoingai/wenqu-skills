@@ -2,6 +2,15 @@
   "$schema": "https://raw.githubusercontent.com/gogoingai/skills-eval/main/src/skills_eval/schemas/skills-eval.schema.json",
   "schemaVersion": 1,
   "extends": ["wenqu"],
+  "publishing": {
+    "targets": [
+      { "name": "claude-plugin", "enabled": true },
+      { "name": "workbuddy", "enabled": true },
+      { "name": "skillhub", "enabled": true },
+      { "name": "openclaw", "enabled": true },
+      { "name": "clawhub", "enabled": true }
+    ]
+  },
   "report": {
     "language": "auto"
   },

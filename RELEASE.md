@@ -18,11 +18,11 @@
 ## 发布前关卡
 
 1. 说明本次变更，并更新 `CHANGELOG.md` 的对应版本条目。
-2. 运行仓库级测试和静态检查：
+2. 首次使用时安装 Skills Eval；随后运行完整静态与安全审查：
 
    ```bash
-   npm run test:release
-   npm run release:check
+   pipx install "skills-eval>=0.1.4,<0.2"
+   skills-eval check .
    ```
 
 3. 本机已安装 Claude Code 与 WorkBuddy 时，运行两端原生清单校验：
@@ -39,9 +39,9 @@
 
    此命令会逐个执行 `skillhub publish <skill目录> --dry-run`。若 CLI 未安装，会明确报 `SKILLHUB_CLI_MISSING`；可安装 CLI 或用 `SKILLHUB_BIN` 指向可执行文件后重试。
 
-静态检查会预先拦截：市场版本不一致、新技能漏入插件清单、缺失或重复 slug，以及技能目录中的图片文件、风格图片的失效或空引用。
+Skills Eval 会预先拦截：市场版本不一致、新技能漏入插件清单、缺失或重复 slug，以及技能目录中的图片文件、风格图片的失效或空引用；同时执行已配置的安全扫描。
 
-仓库的 GitHub Actions 会在 PR 和 `master` 推送时自动运行 `npm run test:release` 与 `npm run release:check`。它不运行依赖本机客户端或账号的 Claude/WorkBuddy/SkillHub 校验。
+仓库的 GitHub Actions 会在 PR 和 `master` 推送时自动运行 `skills-eval check .`。它不运行依赖本机客户端或账号的 Claude/WorkBuddy/SkillHub 校验。
 
 ## 正式发布顺序
 
@@ -54,7 +54,7 @@
    ```
 
    SkillHub 的 API Token 只能由账号持有人配置和使用，不能写进仓库、脚本或日志。
-4. 仅对本次需要发布的 ClawHub 技能或插件包，执行 `node scripts/publish-clawhub.mjs --changelog "本次变更说明"`（先 `--dry-run` 预检）。插件包以目录形式直接打包发布，不会在仓库生成或提交压缩包。ClawHub 的 token 同样只能由账号持有人配置和使用，不能写进仓库、脚本或日志。
+4. 仅对本次需要发布的 ClawHub 技能或插件包，执行 `node scripts/publish-clawhub.mjs --changelog "本次变更说明"`（先 `--dry-run` 预检）。脚本会先运行 `skills-eval check .`。插件包以目录形式直接打包发布，不会在仓库生成或提交压缩包。ClawHub 的 token 同样只能由账号持有人配置和使用，不能写进仓库、脚本或日志。
 5. 使用 `npx skills update` 更新本机通过 GitHub 安装的技能快照；它不是 symlink，不能替代推送后的远端验证。
 
 ## 渠道验收
