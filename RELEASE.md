@@ -21,7 +21,7 @@
 2. 首次使用时安装 Skills Eval；随后运行完整静态、安全与平台原生审查：
 
    ```bash
-   pipx install "skills-eval>=0.1.11,<0.2"
+   pipx install "skills-eval>=0.1.12,<0.2"
    skills-eval check . \
      --external-target claude-plugin \
      --external-target workbuddy \
