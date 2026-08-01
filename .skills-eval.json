@@ -1,0 +1,20 @@
+{
+  "$schema": "https://raw.githubusercontent.com/gogoingai/skills-eval/main/src/skills_eval/schemas/skills-eval.schema.json",
+  "schemaVersion": 1,
+  "extends": ["wenqu"],
+  "report": {
+    "language": "auto"
+  },
+  "security": {
+    "sources": [
+      {
+        "name": "cisco",
+        "enabled": true,
+        "options": {
+          "policy": "balanced",
+          "useBehavioral": true
+        }
+      }
+    ]
+  }
+}

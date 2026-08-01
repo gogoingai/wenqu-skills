@@ -1,5 +1,5 @@
 # 技术PPT风格参考库（techppt-style）
-> 属于 wenqu-image 技能的风格库家族，见 [SKILL.md](../../SKILL.md) 总览；通用画图规范见 [core-principles.md](../core-principles.md)、[pitfalls.md](../pitfalls.md)。
+> 通用画图规范见 [core-principles.md](../core-principles.md)、[pitfalls.md](../pitfalls.md)。
 
 
 > 参考图存放于 `https://github.com/gogoingai/wenqu-skills/tree/master/wenqu-image-assets/styles/techppt/`
@@ -58,4 +58,3 @@
 ```
 参考图风格。标题「[标题]」。中央核心词「[核心词]」，外圈顺时针排列[N]个步骤：「[步骤1]」→「[步骤2]」→…→回到步骤1。补充说明「[注释]」。所有文字用中文，拼写清晰。
 ```
-

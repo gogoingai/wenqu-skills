@@ -1,5 +1,5 @@
 # 彩色铅笔质感风格参考库（pencil-sketch-style）
-> 属于 wenqu-image 技能的风格库家族，见 [SKILL.md](../../SKILL.md) 总览；通用画图规范见 [core-principles.md](../core-principles.md)、[pitfalls.md](../pitfalls.md)。
+> 通用画图规范见 [core-principles.md](../core-principles.md)、[pitfalls.md](../pitfalls.md)。
 
 
 > 参考图存放于 `https://github.com/gogoingai/wenqu-skills/tree/master/wenqu-image-assets/styles/pencil-sketch/`

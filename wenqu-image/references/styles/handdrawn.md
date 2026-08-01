@@ -1,5 +1,5 @@
 # 手绘插画风格参考库（handdrawn-style）
-> 属于 wenqu-image 技能的风格库家族，见 [SKILL.md](../../SKILL.md) 总览；通用画图规范见 [core-principles.md](../core-principles.md)、[pitfalls.md](../pitfalls.md)。
+> 通用画图规范见 [core-principles.md](../core-principles.md)、[pitfalls.md](../pitfalls.md)。
 
 
 > 参考图存放于 `https://github.com/gogoingai/wenqu-skills/tree/master/wenqu-image-assets/styles/handdrawn/`
@@ -76,4 +76,3 @@ bash ~/.agents/skills/wenqu-image/scripts/gpt-image-2-gen.sh \
 ```
 参考图风格。中央核心词「[核心词]」，四角延伸分支：「[分支A]」「[分支B]」「[分支C]」「[分支D]」。底部一句话总结「[总结]」。所有文字用中文，拼写清晰。
 ```
-

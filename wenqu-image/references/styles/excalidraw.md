@@ -1,5 +1,5 @@
 # Excalidraw 风格参考库（excalidraw-style）
-> 属于 wenqu-image 技能的风格库家族，见 [SKILL.md](../../SKILL.md) 总览；通用画图规范见 [core-principles.md](../core-principles.md)、[pitfalls.md](../pitfalls.md)。
+> 通用画图规范见 [core-principles.md](../core-principles.md)、[pitfalls.md](../pitfalls.md)。
 
 
 > 参考图存放于 `https://github.com/gogoingai/wenqu-skills/tree/master/wenqu-image-assets/styles/excalidraw/`
@@ -91,4 +91,3 @@
 ```
 参考图风格，横向宽屏构图。时间演化图，时间轴上 [N] 个节点，之字形排列说明卡片：[版本1]「[一句话说明]」→[版本2]「[一句话说明]」→…（最新版本可突出强调）。所有文字用中文，拼写清晰。
 ```
-

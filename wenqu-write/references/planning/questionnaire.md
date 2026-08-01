@@ -401,11 +401,11 @@ AskUserQuestion({
 > 标识：`aid-xxxxxxxx` · 对应文章文件：`{当前文件名}.md`
 
 ## 索引
-- [素材库](references/materials/index.md)
-- [骨架](references/skeleton.md)
-- [版本记录](references/changelog.md)
-- [变更影响记录](references/change-impact.md)
-- [术语表](references/terms.md)
+- 素材库：`references/materials/index.md`
+- 骨架：`references/skeleton.md`
+- 版本记录：`references/changelog.md`
+- 变更影响记录：`references/change-impact.md`
+- 术语表：`references/terms.md`
 
 
 ## 背景

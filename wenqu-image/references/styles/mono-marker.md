@@ -1,5 +1,5 @@
 # 单色马克笔风格参考库（mono-marker-style）
-> 属于 wenqu-image 技能的风格库家族，见 [SKILL.md](../../SKILL.md) 总览；通用画图规范见 [core-principles.md](../core-principles.md)、[pitfalls.md](../pitfalls.md)。
+> 通用画图规范见 [core-principles.md](../core-principles.md)、[pitfalls.md](../pitfalls.md)。
 
 
 > 参考图存放于 `https://github.com/gogoingai/wenqu-skills/tree/master/wenqu-image-assets/styles/mono-marker/`
@@ -55,4 +55,3 @@
 ```
 参考图风格，[颜色]单色调。顶部「[入口节点]」，箭头向下进入分组框「[分组名]」，框内纵向串联 [N] 个节点：「[步骤1]」→「[步骤2]」→…，每个节点引出说明文字：「[说明1]」「[说明2]」…分组框下方指向底部横向排列的 [N] 个节点：「[分支1]」「[分支2]」…所有文字用中文，拼写清晰。
 ```
-
