@@ -1,14 +1,14 @@
 ---
 name: wenqu-publish
 description: >-
-  将中文草稿整理为可对外发布的版本：清理创作标记、生成标题候选、简介和封面图，并输出独立
-  发布目录，适用于文章、报告、教程、项目介绍和说明材料。当用户要求“发布这篇内容”“生成发布版”
+  将中文草稿整理为可对外发布的版本：清理创作标记、生成候选标题、简介与封面图，并输出独立的发布目录，
+  适用于文章、报告、教程、项目介绍和说明材料。当用户要求“发布这篇内容”“生成发布版”
   “准备发布”或“导出发布版”，或使用 "publish this article", "prepare a release version",
   "export a publication-ready draft" 等英文表达时使用。
 slug: wenqu-publish
 displayName: 文曲·发布
-version: 0.1.12
-summary: 定稿内容清洗成发布版：删创作痕迹、生成标题/简介/封面、输出发布目录。
+version: 0.1.15
+summary: 把定稿清洗成发布版：删创作痕迹、生成标题、简介与封面、输出发布目录。
 license: MIT
 homepage: https://github.com/gogoingai/wenqu-skills
 metadata:
@@ -32,9 +32,9 @@ metadata:
 
 ## 工具等价说明（非 Claude Code 环境）
 
-本文档里的 `Skill` 是 Claude Code 的工具名。没有该工具的 agent 上执行本技能时：
+本文档里的 `Skill` 是 Claude Code 的工具名。在没有该工具的 agent 上运行本技能时：
 
-- `Skill` 工具（调用 wenqu-image 生成封面）→ 没有跨技能调用机制就直接 Read `wenqu-image` 的 `SKILL.md` 和 `references/` 文件，照着内联执行
+- `Skill` 工具（调用 wenqu-image 生成封面）→ 没有跨技能调用机制就直接 Read `wenqu-image` 的 `SKILL.md` 和 `references/` 文件，照其内联执行
 
 ---
 
@@ -44,7 +44,7 @@ metadata:
 |---------|------|
 | "发布这篇文章"、"生成发布版"、"准备发布"、"导出发布版" | 进入「发布流程」 |
 
-被调用前提：文章通常已经通过 `wenqu-write` 走过完整写作流程（有对应的 `wenqu-skills/{文件名}/` 存储）。若没有该存储（用户直接拿一篇现成 Markdown 要求发布），走「降级模式」（见 `references/workflow.md`）。
+调用前提：文章通常已经通过 `wenqu-write` 走过完整写作流程（有对应的 `wenqu-skills/{文件名}/` 存储）。若没有该存储（用户直接拿一篇现成 Markdown 要求发布），走「降级模式」（见 `references/workflow.md`）。
 
 ---
 
@@ -54,12 +54,12 @@ metadata:
 
 核心动作概览：
 1. 读取本篇 `wenqu-skills/{文件名}/references/changelog.md` 确定当前草稿版本号
-2. 检查全文是否还有未处理的配图占位/未生成的画图提示，用 `AskUserQuestion` 确认是否要先补齐
+2. 检查全文是否还有未处理的配图占位、未生成的画图提示，用 `AskUserQuestion` 确认是否要先补齐
 3. 清洗正文：去掉项目生成标识引用块、去掉所有 `# 画图提示` 代码块（只保留图片本身）
 4. 用 `AskUserQuestion` 确认标题（→ `references/title-summary.md`）
-5. 用 `AskUserQuestion` 确认约100字简介（→ `references/title-summary.md`）
-6. 用 `Skill` 工具调用 **wenqu-image** 生成封面图（→ `references/cover-prompt.md` 的专属规范，不同于文中说明图）
-7. 产出写入 `{项目根目录}/wenqu-skills/{文件名}/publish/v{N}/`，不覆盖历史发布版本
+5. 用 `AskUserQuestion` 确认约 100 字的简介（→ `references/title-summary.md`）
+6. 用 `Skill` 工具调用 **wenqu-image** 生成封面图（→ `references/cover-prompt.md` 的专属规范，不同于文中说明性配图）
+7. 产物写入 `{项目根目录}/wenqu-skills/{文件名}/publish/v{N}/`，不覆盖历史发布版本
 8. 在 `references/changelog.md` 追加一行发布记录
 
 ---
@@ -67,10 +67,10 @@ metadata:
 ## 依赖
 
 - **wenqu-write** 的存储结构（`wenqu-skills/{文件名}/`）——非必需但强烈推荐，缺失时降级为仅清洗当前文件
-- **wenqu-image**（可选但推荐）：生成封面图；未安装时跳过封面，仅产出清洗后的正文+标题+简介，并告知用户手动配图
+- **wenqu-image**（可选但推荐）：生成封面图；未安装时跳过封面，仅产出清洗后的正文、标题、简介，并告知用户手动配图
 
 ---
 
 ## 自动发布扩展点
 
-当前版本只落本地文件，不做任何网络推送。`references/auto-publish.md` 是预留的扩展说明文档，记录了未来接入公众号/掘金/个人博客等平台自动发布时的接口约定和考虑点，目前是占位文档。
+当前版本只写本地文件，不做任何网络推送。`references/auto-publish.md` 是预留的扩展说明文档，记录了未来接入公众号、掘金、个人博客等平台自动发布时的接口约定与注意事项，目前是占位文档。

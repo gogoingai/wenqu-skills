@@ -1,6 +1,6 @@
 # Wenqu Skills 发布手册
 
-本手册只在用户已明确授权发布时使用。检查命令不会提交、推送、打标签或正式发布；正式发布命令必须由人明确执行。
+本手册只在用户已明确授权发布时使用。检查命令不会提交、推送、打标签或正式发布；正式发布命令必须由人工明确执行。
 
 ## 版本模型
 
@@ -39,9 +39,9 @@
 
    此命令会逐个执行 `skillhub publish <skill目录> --dry-run`。若 CLI 未安装，会明确报 `SKILLHUB_CLI_MISSING`；可安装 CLI 或用 `SKILLHUB_BIN` 指向可执行文件后重试。
 
-静态检查会预先拦截：市场版本不一致、漏进插件清单的新技能、缺失或重复 slug、技能目录中的图片文件、以及风格图片的失效/空引用。
+静态检查会预先拦截：市场版本不一致、新技能漏入插件清单、缺失或重复 slug，以及技能目录中的图片文件、风格图片的失效或空引用。
 
-仓库的 GitHub Actions 会在 PR 和 `master` 推送时自动运行 `npm run test:release` 与 `npm run release:check`。它不运行依赖本机客户端或账号的 Claude、WorkBuddy、SkillHub 关卡。
+仓库的 GitHub Actions 会在 PR 和 `master` 推送时自动运行 `npm run test:release` 与 `npm run release:check`。它不运行依赖本机客户端或账号的 Claude/WorkBuddy/SkillHub 校验。
 
 ## 正式发布顺序
 
@@ -54,7 +54,7 @@
    ```
 
    SkillHub 的 API Token 只能由账号持有人配置和使用，不能写进仓库、脚本或日志。
-4. 仅对本次需要发布的 ClawHub 技能或插件包，执行 `node scripts/publish-clawhub.mjs --changelog "本次变更说明"`（先 `--dry-run` 预检）。插件包以目录直传的 bundle 方式发布，不会在仓库生成或提交压缩包。ClawHub 的 token 同样只能由账号持有人配置和使用，不能写进仓库、脚本或日志。
+4. 仅对本次需要发布的 ClawHub 技能或插件包，执行 `node scripts/publish-clawhub.mjs --changelog "本次变更说明"`（先 `--dry-run` 预检）。插件包以目录形式直接打包发布，不会在仓库生成或提交压缩包。ClawHub 的 token 同样只能由账号持有人配置和使用，不能写进仓库、脚本或日志。
 5. 使用 `npx skills update` 更新本机通过 GitHub 安装的技能快照；它不是 symlink，不能替代推送后的远端验证。
 
 ## 渠道验收
@@ -79,6 +79,6 @@
 
 ### ClawHub
 
-[clawhub.ai](https://clawhub.ai)（OpenClaw 生态市场），与 SkillHub 是独立注册表。本仓以 org publisher `@gogoingai` 发布（CLI：`npm i -g clawhub` + `clawhub login`，需 Node >=22）。发布用 `node scripts/publish-clawhub.mjs`（含 release 校验、限频重试、脏工作区警告；`--dry-run` 预检；底层命令与坑见脚本头部注释）。插件包发布需 `openclaw.plugin.json` + `.clawhubignore`（已建，勿删）。
+[clawhub.ai](https://clawhub.ai)（OpenClaw 生态市场），与 SkillHub 是独立注册表。本仓以 org publisher `@gogoingai` 发布（CLI：`npm i -g clawhub`、`clawhub login`，需 Node >=22）。发布用 `node scripts/publish-clawhub.mjs`（含 release 校验、限频重试、脏工作区警告；`--dry-run` 预检；底层命令与坑见脚本头部注释）。插件包发布需 `openclaw.plugin.json`、`.clawhubignore`（已建，勿删）。
 
-先 `--dry-run` 预检再正式发。发布后进 `pending.publication` 审核态，`clawhub.ai/dashboard` 可见、Moderate CLEAN 后公开；**发布到 ClawHub 即按 MIT-0**（frontmatter `license` 被忽略，仓库本体仍是 MIT）。同样不要把“命令成功返回”误写为“已公开上架”。
+先 `--dry-run` 预检再正式发。发布后进入 `pending.publication` 审核状态，`clawhub.ai/dashboard` 可见、Moderate 标记为 CLEAN 后公开；**发布到 ClawHub 即按 MIT-0**（frontmatter `license` 被忽略，仓库本体仍是 MIT）。同样不要把“命令成功返回”误写为“已公开上架”。

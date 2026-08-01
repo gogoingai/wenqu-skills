@@ -32,4 +32,4 @@ crwl <url> --deep-crawl bfs --max-pages <N> -o markdown -O <输出文件>
 
 ## 安装与健康条件
 
-用户授权后，agent 优先运行 `uv tool install --upgrade crawl4ai`；无 uv 时使用 `python3 -m pip install --user -U crawl4ai`，随后运行 `crawl4ai-setup` 和 `crawl4ai-doctor`。只有 doctor 成功并能抓取公开页面，才把 `crwl` 作为本轮下载器；否则自动原生下载。
+用户授权后，agent 优先运行 `uv tool install --upgrade crawl4ai`；无 uv 时使用 `python3 -m pip install --user -U crawl4ai`，随后运行 `crawl4ai-setup` 和 `crawl4ai-doctor`。只有 doctor 成功并能抓取公开页面，才把 `crwl` 作为本轮下载器；否则自动改用原生下载。

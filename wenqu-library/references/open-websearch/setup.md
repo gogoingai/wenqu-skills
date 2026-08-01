@@ -15,7 +15,7 @@ open-websearch search "<本次主题>" --limit 1 --json
 ## 失败处理
 
 - npm 下载失败、命令未进入 PATH 或 smoke check 失败：记录原因，本轮只使用 agent 原生搜索。
-- 受限网络下安装失败：先判断 npm registry/proxy 问题；不改全局 npm 配置、不安装浏览器、不启动 daemon，除非用户针对这些变更再次授权。
-- 搜索运行时单引擎失败：保留其它结果与 `partialFailures`；CLI 整体失败则跳过补充搜索。
+- 受限网络下安装失败：先判断 npm registry 与 proxy 问题；不改全局 npm 配置、不安装浏览器、不启动 daemon，除非用户另行授权这些变更。
+- 搜索运行时单引擎失败：保留其他结果与 `partialFailures`；CLI 整体失败则跳过补充搜索。
 
 普通 Wenqu 搜索不安装 Playwright。只有用户明确要求 Bing 浏览器模式，且已有基础 CLI 后，才单独说明所需浏览器依赖并取得新的授权。

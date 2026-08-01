@@ -8,7 +8,7 @@
 
 文曲取意于文曲星，遵循中国传统文章创作路径，从博观积累、谋篇布局，到属文成篇、推敲润色，最终完成文章发布。
 
-文曲将传统文章创作方法与现代 Agent 能力结合，通过多个专业化技能协同，帮助创作者完成从素材积累、内容构思、文章撰写，到质量优化、图文完善和发布输出的完整流程。
+文曲将传统文章创作方法与现代 Agent 能力结合，由多个专业化技能协同，覆盖从素材积累、文章撰写、质量优化到发布输出的完整流程。
 
 ## 创作流程
 
@@ -16,15 +16,15 @@
 博观积累 -> 谋篇布局 -> 属文成篇 -> 推敲润色 -> 校勘审定 -> 丹青绘意 -> 译笔传意 -> 刊行成章
 ```
 
-不同技能覆盖其中多个阶段，共同完成从素材积累到文章发布的完整创作流程。
+不同技能各覆盖其中若干阶段，彼此衔接成完整创作链路。
 
 ## 技能组成
 
 | 技能 | 创作阶段 | 作用 |
 | --- | --- | --- |
-| [`wenqu-library`](wenqu-library/) | 博观积累 | 素材收集与整理：按“规划、搜索、下载、整理”四步收集素材，以 agent 原生搜索为主、可选 CLI 补充候选，支持 crwl 网页抓取（含微信公众号），为文章、报告、教程、项目介绍和说明材料沉淀可复用素材。 |
-| [`wenqu-write`](wenqu-write/) | 谋篇布局、属文成篇 | 中文内容创作主流程：完成需求理解、选题分析、规划、结构设计、逐节写作和内容完善，并协调其他技能完成翻译、配图和审查。 |
-| [`wenqu-review`](wenqu-review/) | 推敲润色、校勘审定 | 内容质量优化：检查事实依据、逻辑结构、表达方式、英文术语、翻译腔和 AI 写作痕迹，并提供修改建议。 |
+| [`wenqu-library`](wenqu-library/) | 博观积累 | 素材收集与整理：按“规划、搜索、下载、整理”四步收集素材，以 agent 原生搜索为主、可选 CLI 补充候选，支持 crwl 网页抓取（含微信公众号），为文章、报告与教程整理出可复用素材。 |
+| [`wenqu-write`](wenqu-write/) | 谋篇布局、属文成篇 | 中文内容创作主流程：完成需求理解、规划与结构设计、逐节写作与内容完善，并协调其他技能完成翻译、配图与审查。 |
+| [`wenqu-review`](wenqu-review/) | 推敲润色、校勘审定 | 内容质量优化：检查事实依据与逻辑结构、表达方式与英文术语、翻译腔与 AI 写作痕迹，并提供修改建议。 |
 | [`wenqu-image`](wenqu-image/) | 丹青绘意 | 内容视觉设计：规划配图需求，生成图片提示词，完成 AI 生图、质量检查和上传流程。 |
 | [`wenqu-translate`](wenqu-translate/) | 译笔传意 | 跨语言内容转换：将英文材料转换为符合中文表达习惯的内容。 |
 | [`wenqu-publish`](wenqu-publish/) | 刊行成章 | 发布版本整理：清理创作痕迹，生成标题、简介、封面等发布素材，输出最终发布版本。 |
@@ -37,7 +37,7 @@
 
 文章并非一次生成，而是在长期积累、反复推敲和持续完善中形成。
 
-文曲希望将这一创作过程融入 AI Agent，让文章创作从一次性的内容生成，变成可积累、可优化、可持续演进的创作体系。
+文曲希望将这一创作过程融入 AI Agent，使文章创作不再是一次性生成，而是可积累、可持续演进的创作体系。
 
 ## 安装完整工作流
 
@@ -50,11 +50,11 @@ npx skills add gogoingai/wenqu-skills --all -g
 - `--all`：安装全部技能，并安装到检测到的 Agent。
 - `-g`：安装到用户全局目录。
 
-> 如果安装时看到 `eve`/`promptscript does not support global skill installation` 报错，可以忽略--`npx skills` 工具内置的 agent 里只有这两个不支持全局安装（工具自身的限制，与本仓库无关），其余 agent（包括 Claude Code）不受影响，照常安装成功。
+> 如果安装时看到 `eve`/`promptscript does not support global skill installation` 报错，可以忽略——`npx skills` 工具内置的 agent 中，只有这两个不支持全局安装（工具自身的限制，与本仓库无关），其余 agent（包括 Claude Code）不受影响，照常安装成功。
 
 ### Claude Code 插件市场
 
-先添加文曲市场，再安装唯一的 `wenqu-skills` 插件；它包含文库、写作、审查、配图、翻译与发布全部六个技能：
+先添加文曲市场，再安装唯一的 `wenqu-skills` 插件；它包含全部六个技能：
 
 ```text
 /plugin marketplace add gogoingai/wenqu-skills
@@ -152,7 +152,7 @@ bun ~/.agents/skills/wenqu-image/scripts/image-cli/main.ts \
   --prompt "一张中文技术架构示意图" --out /tmp/diagram.png --upload
 ```
 
-运行器使用 Bun；未安装 Bun 时，把上述 `bun` 替换为 `npx -y bun`。`--upload` 由 CLI 自己调用已配置的 PicGo。完整配置、参考图能力和 Agent 问答规则见
+运行时使用 Bun；未安装 Bun 时，把上述 `bun` 替换为 `npx -y bun`。`--upload` 由 CLI 自己调用已配置的 PicGo。完整配置与 Agent 问答规则见
 [`wenqu-image/references/image-cli.md`](wenqu-image/references/image-cli.md)。
 
 ### `wenqu-library`
@@ -160,8 +160,8 @@ bun ~/.agents/skills/wenqu-image/scripts/image-cli/main.ts \
 `wenqu-library` 每次都先运行 agent 自带的联网搜索；可选的全局 CLI 套件只负责补充搜索和增强下载：
 
 - `open-websearch`：补充多引擎搜索候选，不替代原生搜索；
-- `crwl`（Crawl4AI）：优先下载动态页面与微信公众号；对已定义食谱的直连搜索失败可作浏览器检索恢复，不可用时自动回退 agent 自带能力。
+- `crwl`（Crawl4AI）：优先下载动态页面与微信公众号；直连搜索失败时，可用已定义食谱走浏览器检索恢复，不可用时自动回退 agent 自带能力。
 
-技能检测到缺失项时，会说明安装内容与浏览器运行环境，并请求一次授权；授权后由 agent 自行安装、设置和验证。用户无需复制命令、配置 PATH 或排障。
+技能检测到缺失项时，会说明安装内容与浏览器运行环境，并请求一次授权；授权后由 agent 自行完成安装与验证，用户无需配置环境或排障。
 
 完整的引擎选择、CLI 参数和站点抓取策略见 [`wenqu-library/references/open-websearch/`](wenqu-library/references/open-websearch/) 与 [`wenqu-library/references/crawl4ai/`](wenqu-library/references/crawl4ai/)。

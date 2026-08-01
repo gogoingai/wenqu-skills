@@ -42,7 +42,7 @@
 }
 ```
 
-文章配置禁止 `baseUrl`、`providers` 和任何凭据字段。Codex 不接受 Wenqu 的地址或 profile 定制，始终使用当前本机 Codex 登录配置。
+文章配置禁止 `baseUrl`、`providers` 和任何凭据字段。Codex 不接受自定义地址或 profile，始终使用当前本机 Codex 登录配置。
 
 `.env` 示例（只在本机保存，不提交、不贴进对话）：
 
@@ -52,7 +52,7 @@ DASHSCOPE_API_KEY=...
 ARK_API_KEY=...
 ```
 
-若 `.env` 对组或其他用户可读，CLI 会拒绝加载并提示执行 `chmod 600 ~/.gogoingai/wenqu-skills/image/.env`。进程环境变量优先于 `.env`，不会被文件内值覆盖。
+若 `.env` 对用户组或其他用户可读，CLI 会拒绝加载并提示执行 `chmod 600 ~/.gogoingai/wenqu-skills/image/.env`。进程环境变量优先于 `.env`，文件内值不会覆盖它。
 
 ## 命令
 
@@ -86,6 +86,6 @@ bun ~/.agents/skills/wenqu-image/scripts/image-cli/main.ts \
 | `dashscope` | `qwen-image-2.0-pro` | `DASHSCOPE_API_KEY` | Qwen 默认模型不支持；仅 `wan2.7-image*` 可用 |
 | `seedream` | `doubao-seedream-5-0-260128` | `ARK_API_KEY` | Seedream 5.0 / 4.5 / 4.0 支持 |
 
-> Codex 后端没有控制尺寸的参数；`--ar` 通过在指令里提示比例让 agent 传给生图工具，属 best-effort--比例通常正确，精确像素可能略有偏差。其他后端把尺寸写进 HTTP 请求，硬保证。
+> Codex 后端没有控制尺寸的参数；`--ar` 通过在指令里提示比例让 agent 传给生图工具，属于尽力而为——比例通常正确，精确像素可能略有偏差。其他后端把尺寸写进 HTTP 请求，严格保证。
 
-模型或账号权限发生变化时，使用 `--model` 显式指定可用模型；CLI 不会静默把失败请求切换到另一个付费后端。
+模型或账号权限发生变化时，使用 `--model` 显式指定可用模型；CLI 不会在失败时静默切换到另一个付费后端。

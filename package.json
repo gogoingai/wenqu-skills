@@ -1,7 +1,7 @@
 {
   "name": "@gogoingai/wenqu-skills",
-  "version": "0.1.14",
-  "description": "面向中文内容的循证创作工作流：素材收集、规划、写作、审查、配图、翻译与可发布产物。",
+  "version": "0.1.15",
+  "description": "面向中文文章写作的技能集：素材可溯源、译文自然、成稿没有 AI 味，覆盖调研、起草、审查、配图、翻译、发布全流程。",
   "private": true,
   "license": "MIT",
   "homepage": "https://github.com/gogoingai/wenqu-skills",
@@ -20,7 +20,7 @@
     "wenqu-translate",
     "wenqu-publish",
     "README.md",
-    "README.zh-CN.md",
+    "README.en.md",
     "LICENSE"
   ],
   "scripts": {
