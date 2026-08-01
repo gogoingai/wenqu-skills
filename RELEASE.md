@@ -41,7 +41,7 @@
 
 Skills Eval 会预先拦截：市场版本不一致、新技能漏入插件清单、缺失或重复 slug，以及技能目录中的图片文件、风格图片的失效或空引用；同时执行已配置的安全扫描。
 
-仓库的 GitHub Actions 会在 PR 和 `master` 推送时自动运行 `skills-eval check .`。它不运行依赖本机客户端或账号的 Claude/WorkBuddy/SkillHub 校验。
+仓库的 GitHub Actions 会在 PR 和 `master` 推送时自动运行 `skills-eval check .`，并在 PR 中更新一条审查评论。它不运行依赖本机客户端或账号的 Claude/WorkBuddy/SkillHub 校验。
 
 ## 正式发布顺序
 
