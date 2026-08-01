@@ -1,27 +1,14 @@
-# Platform-native release checks
+# 发布脚本
 
-Run `skills-eval check .` before every release. It owns Wenqu's static
-repository checks and configured security scanning; this directory only keeps
-the checks that must call a platform-native CLI.
-
-When Claude Code and WorkBuddy are installed on the machine, also run their
-native manifest validators:
+发布前的静态、安全和平台原生校验统一由 Skills Eval 执行：
 
 ```bash
-npm run release:check:runtime
+skills-eval check . --external
 ```
 
-To package every declared skill with SkillHub's own dry-run validator, first
-install and log in to the SkillHub CLI, then run:
+它会运行 Claude Code、WorkBuddy、SkillHub dry-run 与 ClawHub package validate
+中已启用的项目，但不会正式发布。缺少客户端、登录态或网络不可用时，报告会在“外部发布校验”中单独说明。
 
-```bash
-npm run release:check:skillhub
-```
-
-This is still a preflight: it runs `skillhub publish <skill> --dry-run` and
-never performs a formal publication. If the CLI is not on `PATH`, set
-`SKILLHUB_BIN` to its executable path.
-
-`npm run release:check:runtime` invokes Claude Code and WorkBuddy's native
-manifest validators when installed. `npm run release:check:skillhub` invokes
-SkillHub's per-Skill publish dry-run. Neither command replaces Skills Eval.
+本目录只保留有副作用的正式发布脚本：`publish-skillhub.sh` 与
+`publish-clawhub.mjs`。它们的具体发布参数与 dry-run 用法见脚本头部注释和
+仓库根目录的 [RELEASE.md](../RELEASE.md)。
