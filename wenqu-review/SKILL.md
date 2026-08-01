@@ -7,7 +7,7 @@ description: >-
   使用；可独立运行，也可作为其他写作技能的内联审查阶段。
 slug: wenqu-review
 displayName: 文曲·审查
-version: 0.1.15
+version: 0.1.16
 summary: 中文内容质量审查：事实核查、逻辑连贯、英文术语、翻译腔与 AI 写作痕迹检测。
 license: MIT
 homepage: https://github.com/gogoingai/wenqu-skills

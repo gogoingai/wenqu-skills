@@ -7,7 +7,7 @@ description: >-
   翻译可转交 baoyu-translate。
 slug: wenqu-translate
 displayName: 文曲·翻译
-version: 0.1.15
+version: 0.1.16
 summary: 英文材料（README、论文、源码注释、文档）翻译成自然中文，用于内容创作与阅读。
 license: MIT
 homepage: https://github.com/gogoingai/wenqu-skills

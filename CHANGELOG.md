@@ -2,6 +2,14 @@
 
 本文件记录仓库里所有技能的重大变更，按发布时间倒序排列。
 
+## 0.1.16 - 运行时迁入 wenqu-cli
+
+- `wenqu-image` 与 `wenqu-library` 的运行时（生图 CLI、Crawl4AI 与 open-websearch 适配）迁出到独立仓库 [`wenqu-cli`](https://github.com/gogoingai/wenqu-cli)；技能目录不再内嵌脚本，改由 `wenqu image` / `wenqu library` 命令调用。
+- `wenqu-image`：新增 OpenRouter 生图路径（共五条：Codex、OpenAI GPT Image、OpenRouter、通义万相、豆包 Seedream）；密钥改存 `credentials.env`；删除 `scripts/image-cli/`、`extract_image.py`、`fetch-ref.sh`、`gpt-image-2-gen.sh` 与 `references/image-cli.md`，相关说明改指 wenqu-cli。
+- `wenqu-library`：删除 `references/crawl4ai/` 与 `references/open-websearch/`，合并为 `references/wenqu-cli.md`。
+- README 依赖说明同步改为 `wenqu-cli`；`package.json` 移除已失效的 `release:check:runtime` 与 `test:image` 脚本。
+- 插件包与 6 个单技能版本更新为 0.1.16。
+
 ## 0.1.15 - 全技能中文表述审查与润色
 
 - 6 个技能 + 项目级文档全面审查中文表述：修复 AI 味、翻译腔、生硬黑话与 `+//` 速记符号滥用；统一「其他/其它」->「其他」、「落盘」->「写入」、破折号全角。
