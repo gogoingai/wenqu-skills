@@ -38,9 +38,11 @@
 | 跨技能变更记录 | 仓库根 `CHANGELOG.md` |
 | 维护原则（本文件） | 仓库根 `DEVELOPMENT.md` |
 
-## 4. 开发与发布边界
+## 4. 开发、PR 与发布边界
 
-本地修改完成后，先保留在工作区供审阅；**只有获得明确发布授权后**，才进入 [RELEASE.md](RELEASE.md) 的发布流程。不要因为技能文件已改完，就自动提交、推送或发布。
+本地修改完成后，先保留在工作区供审阅；**所有技能、元数据、图片资源和发布配置的变更都必须通过 PR 合入 `master`，不得直接推送 `master`。** 不要因为技能文件已改完，就自动提交、推送或发布。
+
+标准顺序是：创建功能分支 -> 本地运行对应检查 -> 提交并创建 PR -> 查看 PR 中的 Skills Eval 评论与检查 -> 获得合并授权后合入 `master`。平台正式发布是合并后的独立动作，仍需明确授权并按 [RELEASE.md](RELEASE.md) 执行。
 
 `npx skills add` 拉取的是独立快照（不是 symlink），因此远端发布成功后才需要更新本机已安装快照：
 
@@ -64,8 +66,8 @@ npx skills update             # 同步到本地技能目录（~/.agents/skills/�
 | 新增或删除技能 | 对应 `SKILL.md`、`.claude-plugin/plugin.json` 的 `skills[]`、README 技能列表 | `skills-eval check .` |
 | 修改技能流程或元数据 | 对应 `SKILL.md`、必要的 `references/`、单技能版本（如发布到 SkillHub） | `skills-eval check .` |
 | 新增、迁移风格图片 | `wenqu-image-assets/styles/`、至少一处说明或命令引用 | `skills-eval check .` |
-| 修改插件、市场 | `VERSION`、`.claude-plugin/plugin.json`、共享的 `.claude-plugin/marketplace.json` | `skills-eval check . --external` |
-| 修改 ClawHub 插件包配置 | `openclaw.plugin.json`、`.clawhubignore` | `skills-eval check . --external`（需本机登录 clawhub） |
+| 修改插件、市场 | `VERSION`、`.claude-plugin/plugin.json`、共享的 `.claude-plugin/marketplace.json` | `skills-eval check . --external-target claude-plugin --external-target workbuddy --external-target clawhub` |
+| 修改 ClawHub 插件包配置 | `openclaw.plugin.json`、`.clawhubignore` | `skills-eval check . --external-target clawhub`（仅本地包校验，无需登录） |
 | 发布到 SkillHub / ClawHub | 变更技能的版本和 changelog 说明；ClawHub 不读 frontmatter 版本，发布时显式传 `--version` | `skills-eval check . --external`；再运行对应的正式发布脚本或其 `--dry-run` |
 
-`scripts/README.md` 记录每项自动检查的精确范围；`RELEASE.md` 记录有副作用操作的顺序与人工验证步骤。
+`scripts/README.md` 记录每项自动检查的精确范围；`RELEASE.md` 记录 PR 合入后有副作用操作的顺序与人工验证步骤。

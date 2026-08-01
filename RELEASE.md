@@ -1,6 +1,6 @@
 # Wenqu Skills 发布手册
 
-本手册只在用户已明确授权发布时使用。检查命令不会提交、推送、打标签或正式发布；正式发布命令必须由人工明确执行。
+本手册只在用户已明确授权发布时使用。**所有技能发布相关改动（包括版本、changelog、清单和 Skill 内容）必须先通过 PR 合入 `master`，不得直接推送 `master`。** 检查命令不会提交、推送、打标签或正式发布；正式发布命令必须由人工明确执行。
 
 ## 版本模型
 
@@ -17,26 +17,29 @@
 
 ## 发布前关卡
 
-1. 说明本次变更，并更新 `CHANGELOG.md` 的对应版本条目。
+1. 在功能分支说明本次变更，并更新 `CHANGELOG.md` 的对应版本条目。
 2. 首次使用时安装 Skills Eval；随后运行完整静态、安全与平台原生审查：
 
    ```bash
-   pipx install "skills-eval>=0.1.9,<0.2"
-   skills-eval check . --external
+   pipx install "skills-eval>=0.1.11,<0.2"
+   skills-eval check . \
+     --external-target claude-plugin \
+     --external-target workbuddy \
+     --external-target clawhub
    ```
 
-   该命令会按已启用的发布目标执行：Claude Code 与 WorkBuddy 的原生清单校验、每个已选 Skill 的 SkillHub `--dry-run`，以及 ClawHub `package validate`。它不会发布 Skill 或插件包；缺少 CLI、登录态或网络不可用会在报告的“外部发布校验”中单独报出。
+   该命令会执行不依赖平台登录态的原生校验：Claude Code 与 WorkBuddy 的本地清单校验，以及 ClawHub `package validate`。它不会发布 Skill 或插件包；报告的“外部发布校验”会明确列出本次实际执行的目标。
 
    若 CLI 不在 `PATH`，可设置 `CODEBUDDY_BIN`、`SKILLHUB_BIN` 或 `CLAWHUB_BIN` 指向对应可执行文件。
 
-3. GitHub Actions 在 PR 和 `master` 推送时会自动运行 `skills-eval check .`，并在 PR 中更新一条审查评论。为保证 PR 校验无需平台账号，它不执行 `--external`；平台发布前仍须在受控本机完成第 2 步。
+3. 创建 PR。GitHub Actions 会运行通用格式、安全检查，以及 Claude Code、WorkBuddy、ClawHub 的免登录原生校验，并在 PR 中更新一条审查评论。确认检查通过、报告无待处理项并获得合并授权后，才合入 `master`。SkillHub 的远端 `--dry-run` 不在 PR 运行，仍在发布前的受控环境完成。
 
 Skills Eval 会预先拦截：市场版本不一致、新技能漏入插件清单、缺失或重复 slug，以及技能目录中的图片文件、风格图片的失效或空引用；同时执行已配置的安全扫描。
 
 ## 正式发布顺序
 
-1. 获得发布授权后，提交并推送通过检查的变更。
-2. 远端仓库更新后，Claude Code 与 WorkBuddy 市场均可读取新的清单；在干净环境或测试配置中重新安装验证。
+1. PR 合入 `master` 后，获得正式发布授权；从合入后的 `master` 执行发布，不从未合入分支发布。
+2. 远端 `master` 更新后，Claude Code 与 WorkBuddy 市场均可读取新的清单；在干净环境或测试配置中重新安装验证。
 3. 仅对本次需要发布的 SkillHub 技能，显式执行：
 
    ```bash

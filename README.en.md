@@ -182,3 +182,15 @@ verifies it; users do not need to manually adjust `PATH` or debug the setup.
 See [`wenqu-library/references/open-websearch/`](wenqu-library/references/open-websearch/)
 and [`wenqu-library/references/crawl4ai/`](wenqu-library/references/crawl4ai/) for
 engine selection, CLI parameters, and site-capture strategies.
+
+## Maintenance and releases
+
+Every change to Skills, manifests, versions, image assets, or release
+configuration must be merged into `master` through a pull request; direct
+pushes are not allowed. Each pull request runs Skills Eval automatically and
+posts its format, security, Claude Code, WorkBuddy, and ClawHub validation
+report as a PR comment.
+
+See the [development guide](DEVELOPMENT.md) before making a change. For a
+version or marketplace release, follow the [release guide](RELEASE.md) only
+after the pull request has been merged.
