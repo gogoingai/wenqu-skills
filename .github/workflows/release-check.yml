@@ -15,7 +15,8 @@ jobs:
       pull-requests: write
     steps:
       - uses: actions/checkout@v4
-      - uses: gogoingai/skills-eval@v0.1.6
+      - uses: gogoingai/skills-eval@v0.1.12
         with:
           path: .
           comment: true
+          external-targets: claude-plugin,workbuddy,clawhub

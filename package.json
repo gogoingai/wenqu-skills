@@ -22,9 +22,5 @@
     "README.md",
     "README.en.md",
     "LICENSE"
-  ],
-  "scripts": {
-    "release:check:runtime": "node scripts/check-release.mjs --runtime",
-    "release:check:skillhub": "node scripts/check-release.mjs --skillhub"
-  }
+  ]
 }

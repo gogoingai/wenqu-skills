@@ -4,7 +4,7 @@
 
 > 一套面向 AI Agent 的完整文章创作工作流。
 
-![文曲 Logo](docs/logo.png)
+![文曲 Logo](assets/logo.png)
 
 文曲取意于文曲星，遵循中国传统文章创作路径，从博观积累、谋篇布局，到属文成篇、推敲润色，最终完成文章发布。
 
@@ -76,7 +76,7 @@ Codex 可直接识别本仓库的插件市场，并安装包含全部六个技�
 
 1. 在左侧边栏打开“插件”，选择“创建”->“添加插件市场”。
 
-   ![在 Codex 中打开添加插件市场](docs/codex/plugin-marketplace-01-add.png)
+   ![在 Codex 中打开添加插件市场](assets/codex/plugin-marketplace-01-add.png)
 
 2. 输入下面的仓库来源，**Git 引用**和**稀疏路径**保持为空，然后添加市场：
 
@@ -86,7 +86,7 @@ Codex 可直接识别本仓库的插件市场，并安装包含全部六个技�
 
 3. 切到“个人”页签，找到 **Wenqu Skills**，点击“安装”。
 
-   ![从 Codex 个人市场安装 Wenqu Skills](docs/codex/plugin-marketplace-02-install.png)
+   ![从 Codex 个人市场安装 Wenqu Skills](assets/codex/plugin-marketplace-02-install.png)
 
 安装后新开一个 Codex task，让新会话加载插件中的技能。
 
@@ -101,7 +101,7 @@ WorkBuddy 有两条安装路径：**市场**用于添加 GitHub 或本地来源�
 
 1. 打开“专家·技能·连接器”，选择“技能”，切到“市场”页签后点击 **+**。
 
-   ![打开 WorkBuddy 市场](docs/workbuddy/marketplace-01-open.png)
+   ![打开 WorkBuddy 市场](assets/workbuddy/marketplace-01-open.png)
 
 2. 输入仓库来源并提交：
 
@@ -109,11 +109,11 @@ WorkBuddy 有两条安装路径：**市场**用于添加 GitHub 或本地来源�
    gogoingai/wenqu-skills
    ```
 
-   ![添加 Wenqu Skills 市场源](docs/workbuddy/marketplace-02-add-source.png)
+   ![添加 Wenqu Skills 市场源](assets/workbuddy/marketplace-02-add-source.png)
 
 3. 选择新增的 `wenqu-skills` 市场，在 **Wenqu Skills** 卡片上点击 **+**，开始安装。
 
-   ![在 WorkBuddy 市场选择 Wenqu Skills](docs/workbuddy/marketplace-03-install.png)
+   ![在 WorkBuddy 市场选择 Wenqu Skills](assets/workbuddy/marketplace-03-install.png)
 
 4. 等待插件出现在“我安装的”中，再重载或重启 WorkBuddy，让技能出现在列表中。
 
@@ -122,7 +122,7 @@ WorkBuddy 有两条安装路径：**市场**用于添加 GitHub 或本地来源�
 第二条路径**不需要**添加 GitHub 市场源。打开“专家·技能·连接器”，切到 **SkillHub** 页签，搜索
 `wenqu`，在想安装的技能卡片上点击 **+**。WorkBuddy 会显示六个独立的文曲技能：文库、写作、审查、配图、翻译与发布。
 
-![在 WorkBuddy SkillHub 搜索文曲技能](docs/workbuddy/skillhub-01-search-wenqu.png)
+![在 WorkBuddy SkillHub 搜索文曲技能](assets/workbuddy/skillhub-01-search-wenqu.png)
 
 SkillHub 中的每个技能都有各自的目录版本和审核状态；它们不是 GitHub 市场里的整包插件。
 
@@ -161,3 +161,9 @@ wenqu image generate \
 `wenqu-library` 每次都先运行 agent 自带的联网搜索；受管的 `wenqu library` 命令只负责补充多引擎候选和增强下载。它内置 Crawl4AI 适配：百度、必应、Brave 与搜狗直连失败时可做一次浏览器回退；下载支持动态网页、受限同源抓取和已确认的微信公众号 URL，失败时自动回退 agent 自带能力。
 
 完整的引擎选择、CLI 参数和站点抓取策略见 [`wenqu-library/references/wenqu-cli.md`](wenqu-library/references/wenqu-cli.md)。
+
+## 维护与发布
+
+技能、清单、版本、图片资源和发布配置的任何改动都必须通过 PR 合入 `master`，不得直接推送。每个 PR 会自动运行 Skills Eval，并在 PR 评论中展示格式、安全以及 Claude Code、WorkBuddy、ClawHub 的原生校验报告。
+
+维护者请先阅读 [开发手册](DEVELOPMENT.md)；涉及版本和平台发布时，再按 [发布手册](RELEASE.md) 在 PR 合入后执行。

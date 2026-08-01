@@ -3,6 +3,7 @@
 # runtime paths like wenqu-image/scripts/fetch-ref.sh.
 
 /wenqu-image-assets/
+/assets/
 /docs/
 /scripts/
 /tests/

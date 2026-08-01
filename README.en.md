@@ -4,7 +4,7 @@
 
 > A complete article-creation workflow for AI agents.
 
-![Wenqu logo](docs/logo.png)
+![Wenqu logo](assets/logo.png)
 
 Inspired by the Chinese literary star Wenqu, Wenqu Skills follows a traditional
 path from broad research and planning to drafting, refinement, illustration,
@@ -76,7 +76,7 @@ complete `wenqu-skills` package, containing all six skills.
 
 1. In the sidebar, open **Plugins**. Choose **Create** → **Add plugin marketplace**.
 
-   ![Open Add plugin marketplace in Codex](docs/codex/plugin-marketplace-01-add.png)
+   ![Open Add plugin marketplace in Codex](assets/codex/plugin-marketplace-01-add.png)
 
 2. Enter the repository source below. Leave **Git ref** and **Sparse path** empty,
    then add the marketplace.
@@ -87,7 +87,7 @@ complete `wenqu-skills` package, containing all six skills.
 
 3. Open the **Personal** tab, find **Wenqu Skills**, and click **Install**.
 
-   ![Install Wenqu Skills from the Codex personal marketplace](docs/codex/plugin-marketplace-02-install.png)
+   ![Install Wenqu Skills from the Codex personal marketplace](assets/codex/plugin-marketplace-02-install.png)
 
 Start a new Codex task after installation so it loads the plugin skills.
 
@@ -104,7 +104,7 @@ Use this route to install the complete workflow directly from this repository.
 1. Open **Expert · Skills · Connectors**, select **Skills**, then choose the
    **Marketplace** tab and click **+**.
 
-   ![Open WorkBuddy Marketplace](docs/workbuddy/marketplace-01-open.png)
+   ![Open WorkBuddy Marketplace](assets/workbuddy/marketplace-01-open.png)
 
 2. Enter the repository source and submit it:
 
@@ -112,11 +112,11 @@ Use this route to install the complete workflow directly from this repository.
    gogoingai/wenqu-skills
    ```
 
-   ![Add the Wenqu Skills marketplace source](docs/workbuddy/marketplace-02-add-source.png)
+   ![Add the Wenqu Skills marketplace source](assets/workbuddy/marketplace-02-add-source.png)
 
 3. Select the resulting `wenqu-skills` marketplace and click **+** on **Wenqu Skills** to begin installation.
 
-   ![Choose Wenqu Skills from the WorkBuddy marketplace](docs/workbuddy/marketplace-03-install.png)
+   ![Choose Wenqu Skills from the WorkBuddy marketplace](assets/workbuddy/marketplace-03-install.png)
 
 4. Wait until the plugin appears under **My Installed**, then reload or restart WorkBuddy so the skills appear.
 
@@ -127,7 +127,7 @@ Open **Expert · Skills · Connectors**, select the **SkillHub** tab, search for
 `wenqu`, and click **+** on each skill you want. WorkBuddy shows six individual
 Wenqu skills: Library, Write, Review, Image, Translate, and Publish.
 
-![Search for Wenqu skills in WorkBuddy SkillHub](docs/workbuddy/skillhub-01-search-wenqu.png)
+![Search for Wenqu skills in WorkBuddy SkillHub](assets/workbuddy/skillhub-01-search-wenqu.png)
 
 Each SkillHub skill has its own catalog version and review status; it is not the
 same package as the GitHub Marketplace plugin.
@@ -176,3 +176,15 @@ capability.
 
 See [`wenqu-library/references/wenqu-cli.md`](wenqu-library/references/wenqu-cli.md)
 for engine selection, CLI parameters, and capture strategies.
+
+## Maintenance and releases
+
+Every change to Skills, manifests, versions, image assets, or release
+configuration must be merged into `master` through a pull request; direct
+pushes are not allowed. Each pull request runs Skills Eval automatically and
+posts its format, security, Claude Code, WorkBuddy, and ClawHub validation
+report as a PR comment.
+
+See the [development guide](DEVELOPMENT.md) before making a change. For a
+version or marketplace release, follow the [release guide](RELEASE.md) only
+after the pull request has been merged.
