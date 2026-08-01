@@ -21,10 +21,10 @@
 **--ref 必须**，推荐参考图（按目标图类型选最接近的）：
 
 ```
---ref "$(bash ~/.agents/skills/wenqu-image/scripts/fetch-ref.sh techppt/techppt-03-building.png)"   # 两列对比、分层
---ref "$(bash ~/.agents/skills/wenqu-image/scripts/fetch-ref.sh techppt/techppt-04-circular.png)"   # 环形循环
---ref "$(bash ~/.agents/skills/wenqu-image/scripts/fetch-ref.sh techppt/techppt-01-formula.png)"    # 公式拆解
---ref "$(bash ~/.agents/skills/wenqu-image/scripts/fetch-ref.sh techppt/techppt-02-two-column.png)" # 双框对比
+--ref "$(wenqu image fetch-ref techppt/techppt-03-building.png)"   # 两列对比、分层
+--ref "$(wenqu image fetch-ref techppt/techppt-04-circular.png)"   # 环形循环
+--ref "$(wenqu image fetch-ref techppt/techppt-01-formula.png)"    # 公式拆解
+--ref "$(wenqu image fetch-ref techppt/techppt-02-two-column.png)" # 双框对比
 ```
 
 **prompt 只写"参考图风格与内容"，不要逐条复述视觉细节**（边框配色、机器人吉祥物等一律交给 `--ref`）：

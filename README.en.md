@@ -26,7 +26,7 @@ publish-ready output.
 
 | Skill | Writing stage | What it does |
 | --- | --- | --- |
-| [`wenqu-library`](wenqu-library/) | Research | Plans, searches, downloads, and indexes reusable source material for articles, reports, tutorials, project introductions, and explainers. Native agent search is the primary path; optional CLIs supplement candidates and `crwl` can capture web pages, including WeChat articles. |
+| [`wenqu-library`](wenqu-library/) | Research | Plans, searches, downloads, and indexes reusable source material for articles, reports, tutorials, project introductions, and explainers. Native agent search is the primary path; `wenqu library` supplements candidates and captures web pages, including WeChat articles. |
 | [`wenqu-write`](wenqu-write/) | Plan and draft | Coordinates requirements, topic analysis, planning, structure, section-by-section writing, translation, illustrations, and review for Chinese content. |
 | [`wenqu-review`](wenqu-review/) | Refine and review | Checks factual claims, structure, wording, English terminology, translationese, and AI-writing traces, then provides actionable revisions. |
 | [`wenqu-image`](wenqu-image/) | Illustrate | Plans visuals for content, writes image prompts, generates images, performs quality checks, and uploads adopted images. |
@@ -139,46 +139,40 @@ an agent to install all six skills through SkillHub, paste:
 
 > Follow [https://skillhub.cn/install/skillhub.md](https://skillhub.cn/install/skillhub.md) to install wenqu-library, wenqu-write, wenqu-review, wenqu-image, wenqu-translate, and wenqu-publish.
 
-## Dependencies
+## Dependency
+
+- [`wenqu-cli`](https://github.com/gogoingai/wenqu-cli): runtime for `wenqu-image` and `wenqu-library`.
 
 ### `wenqu-image`
 
-`wenqu-image` supports four image paths: a signed-in Codex CLI, OpenAI GPT Image,
-DashScope Qwen Image, and Volcengine Seedream. Check the local environment after installation:
+`wenqu-image` supports five image paths: a signed-in Codex CLI, OpenAI GPT Image,
+OpenRouter, DashScope Qwen Image, and Volcengine Seedream. Check the local environment after installation:
 
 ```bash
-bun ~/.agents/skills/wenqu-image/scripts/image-cli/main.ts --check --json
+wenqu image doctor --json
 ```
 
 The Codex path requires `codex login`. Store API secrets only in the local
-`~/.gogoingai/wenqu-skills/image/.env`; store default model, aspect ratio, and optional
+`~/.gogoingai/wenqu-skills/image/credentials.env`; store default model, aspect ratio, and optional
 API base URLs in `config.json` in the same directory. An article can override model selection
 in `wenqu-skills/{article-file-name}/config/image.json`; it must never contain secrets or endpoints.
 
 ```bash
-bun ~/.agents/skills/wenqu-image/scripts/image-cli/main.ts \
+wenqu image generate \
   --provider dashscope --model qwen-image-2.0-pro --ar 16:9 \
-  --prompt "A Chinese technical architecture diagram" --out /tmp/diagram.png --upload
+  --prompt "A Chinese technical architecture diagram" --out /tmp/diagram --timeout-sec 300 --upload
 ```
 
-The CLI runs with Bun; if Bun is unavailable, replace `bun` with `npx -y bun`. The CLI itself invokes configured PicGo for `--upload`. See
-[`wenqu-image/references/image-cli.md`](wenqu-image/references/image-cli.md) for configuration,
-reference-image capabilities, and agent interaction rules.
+The CLI itself invokes configured PicGo for `--upload`.
 
 ### `wenqu-library`
 
-`wenqu-library` always starts with the agent's native web search. Optional global
-CLIs only supplement search and downloading:
+`wenqu-library` always starts with the agent's native web search. The managed
+`wenqu library` commands only supplement multi-engine discovery and downloading.
+Its Crawl4AI adapter can make one browser fallback for failed Baidu, Bing, Brave,
+and Sogou searches; downloads support dynamic pages, bounded same-origin crawls,
+and confirmed public WeChat article URLs. Failures fall back to the agent's native
+capability.
 
-- `open-websearch` adds multi-engine search candidates; it never replaces native search.
-- `crwl` (Crawl4AI) captures dynamic pages and WeChat articles. If a known direct
-  search recipe fails, it can fall back to browser search; otherwise it falls back
-  to the agent's native capability.
-
-When a dependency is missing, the skill explains what will be installed and asks
-once for authorization. After approval, the agent installs, configures, and
-verifies it; users do not need to manually adjust `PATH` or debug the setup.
-
-See [`wenqu-library/references/open-websearch/`](wenqu-library/references/open-websearch/)
-and [`wenqu-library/references/crawl4ai/`](wenqu-library/references/crawl4ai/) for
-engine selection, CLI parameters, and site-capture strategies.
+See [`wenqu-library/references/wenqu-cli.md`](wenqu-library/references/wenqu-cli.md)
+for engine selection, CLI parameters, and capture strategies.

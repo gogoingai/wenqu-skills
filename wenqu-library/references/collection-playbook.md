@@ -30,57 +30,42 @@
 1. **相似文章先于相关素材**——先看别人怎么切题，再决定还缺什么料。
 2. 关键词中英文各准备 2~3 组，覆盖同义表达。
 3. 清单给用户确认时说明预计抓取数量；范围锁定里明确排除的内容不安排搜索。
-4. CLI 安装授权不属于内容范围确认：只有检测到增强 CLI 缺失时才提示，且只请求一次授权。
+4. CLI 更新授权不属于内容范围确认：每次需要增强 CLI 时先提示将更新到最新版，且每个任务只请求一次授权。
 
 ## 增强 CLI 检查、授权与降级
 
-每次收集流程开始时，agent 检查 `open-websearch`、`crwl`、`crawl4ai-setup` 和 `crawl4ai-doctor` 是否可直接调用；用户级安装但未进入 PATH 的命令，agent 使用已发现的绝对路径或当前 PATH，不要求用户修改 shell 配置。
+每次收集流程开始时，agent 先按 `wenqu-cli.md` 更新 Wenqu CLI，再运行 `wenqu doctor --json` 检查受管运行环境；健康检查本身不改变状态。`wenqu-cli` 包含 Python 依赖，Chromium 是唯一需要显式下载的大型依赖。
 
-- `open-websearch` 已可调用：作为搜索补充使用。
-- Crawl4AI 的三个命令都可调用：作为下载增强使用；首次或最近失败后先运行 `crawl4ai-doctor`。
-- 有任一项缺失或健康检查失败：agent 发出一次清晰的授权提示，列出缺失项及副作用，例如：
+- `wenqu doctor --json` 显示 ready：用 `wenqu library search` 与 `wenqu library fetch` 作为增强路径。
+- 浏览器缺失：agent 先运行 `wenqu setup library --dry-run --json` 展示将下载的内容；得到用户明确授权后执行 `wenqu setup library`，再运行 `wenqu doctor --json` 验证。
+- `wenqu` 缺失、安装或浏览器设置失败：agent 不要求用户复制命令、配置 PATH 或排障；搜索继续使用 agent 自带的联网搜索工具，下载继续使用 agent 自带抓取，并把不可用原因写入本轮失败记录。
 
-  > 我可以现在为后续素材收集安装增强 CLI：`open-websearch` 用于补充多引擎搜索，Crawl4AI 的 `crwl` 用于下载动态页面和公众号；后者还会下载浏览器运行环境。安装、浏览器设置和健康检查都由我完成。是否授权我现在安装缺失项？
-
-- 用户明确授权后，agent 自行执行并验证：
-
-  ```bash
-  npm install -g open-websearch
-  uv tool install --upgrade crawl4ai
-  crawl4ai-setup
-  crawl4ai-doctor
-  ```
-
-  `uv` 不可用时，agent 改用 `python3 -m pip install --user -U crawl4ai` 提供用户级 CLI；若该路径也不可用，记录安装失败并继续原生流程。安装完成后，agent 自行确认 `open-websearch` 能输出 JSON 搜索结果、`crawl4ai-doctor` 成功且 `crwl` 能抓取一个公开页面。
-
-- 用户拒绝、安装失败或验证失败：agent 不要求用户复制命令、配置 PATH 或排障；搜索继续使用 agent 自带的联网搜索工具，下载继续使用 agent 自带抓取，并把不可用原因写入本轮失败记录。
-
-不启动 `open-websearch` daemon，不配置 MCP，不使用 `npx`，也不使用 Crawl4AI Python API。
+不要安装或启动第二套搜索/抓取 CLI、daemon、MCP 或单独的 Crawl4AI CLI；它们不再是 Wenqu 文库的运行时契约。
 
 ## 第 2 步：搜索与候选合并
 
 1. **先跑原生搜索**：对清单中每组关键词使用 agent 自带的联网搜索工具；这是每轮必跑的基础候选集。每组取前 3~5 条，记录标题、URL、一句话相关性与检索渠道 `agent-native`。
-2. **再跑可选补充搜索**：`open-websearch` 可调用时，对相同关键词运行其 CLI；解析 JSON 结果，记录引擎名为 `open-websearch:{engine}`。单个搜索引擎失败时保留其他引擎结果和失败信息；只有 CLI 无结果或整体失败时才不新增候选，不影响原生搜索。
-3. **按食谱恢复浏览器检索**：仅当一个已请求的直连引擎失败或无候选，且 `crawl4ai/search-recovery.md` 为该引擎定义了食谱时，才用 `crwl` 对同一关键词执行一次浏览器检索。成功候选标为 `crwl-serp:{engine}`；验证页、登录页、付费墙、空结果或无法还原原始 URL 时只记录失败，不反复重试，也不绕过访问控制。公众号发现使用独立的同会话食谱，不能把搜狗跳转链接交给另一条命令重放。
+2. **再跑可选补充搜索**：`wenqu library search` 可调用时，对相同关键词运行它；解析 JSON envelope，将结果记录为 `wenqu-cli:{engine}`，`channel` 不是 `direct` 时追加为 `wenqu-cli:{engine}:{channel}`。单个搜索引擎失败时保留其他引擎结果和失败信息；只有 CLI 无结果或整体失败时才不新增候选，不影响原生搜索。
+3. **受管浏览器回退**：CLI 默认只会为百度、必应、Brave 与搜狗在直连失败或空结果时执行一次受限的 Crawl4AI 回退；结果 `channel` 为 `browser`。验证页、登录页、付费墙、空结果或无法还原原始 URL 时只记录失败，不反复重试，也不绕过访问控制。需要禁用回退时传 `--no-browser-fallback`。
 4. **统一去重后再下载**：合并原生、直连补充和浏览器恢复候选，先按规范化 URL 去重，再按内容标题与正文摘要辅助识别同文转载。规范化时移除 fragment 与常见追踪参数；不得改写带签名的 URL 或微信公众号 `src=11` 入口。重复项保留一条候选，并合并全部检索渠道。
 5. **统一分级**：官方文档与源码 > 官方博客 > 知名技术媒体 > 个人博客 > 内容农场；同内容转载优先保留原始出处。只在合并、去重和分级后安排下载，不再让用户逐条确认。
 6. 用户直接提供 URL 时不做检索；该条标为 `用户提供`，仍与搜索候选一起去重和分级。
 7. 原生搜索连续两轮找不到满意结果时，在清单上标注“未找到，待用户补充”，不硬凑低质量来源。
-8. **论文与研究报告例外**：先由 agent 原生搜索按题名、作者、DOI、会议或期刊和年份定位论文 PDF 或官方落地页；`open-websearch` 没有学术专用引擎，只能补充解读性文章与外围候选。具体边界见 `open-websearch/engines.md`。
+8. **论文与研究报告例外**：先由 agent 原生搜索按题名、作者、DOI、会议或期刊和年份定位论文 PDF 或官方落地页；Wenqu CLI 没有学术专用引擎，只能补充解读性文章与外围候选。具体引擎范围见 `wenqu-cli.md`。
 
 ## 第 3 步：下载
 
-可用时使用 `crwl`，产物直接写入本篇素材目录对应分类下；完整命令、配置边界与失败处理见 `crawl4ai/cli.md`，公众号路径见 `crawl4ai/site-recipes.md`。`open-websearch` 的完整引擎选择、CLI 协议与安装边界分别见 `open-websearch/engines.md`、`open-websearch/cli.md`、`open-websearch/setup.md`。
+可用时使用 `wenqu library fetch`，产物直接写入本篇素材目录对应分类下；完整命令、引擎范围、浏览器边界与失败处理见 `wenqu-cli.md`。
 
 ```bash
 # 单页
-crwl <url> -o markdown -O {materials}/articles/<域名>/<slug>.md
+wenqu library fetch <url> --out {materials}/articles/<域名>/<slug>.md --json
 
 # 整站与文档站（产物是合并单文件，====== 分隔）
-crwl <url> --deep-crawl bfs --max-pages <N> -o markdown -O {materials}/docs/<站点>.md
+wenqu library fetch <url> --max-pages <N> --out {materials}/docs/<站点>.md --json
 ```
 
-- `crwl` 不可用、健康检查失败或某页抓取失败时，agent 自动改用原生下载；不能因增强项失败放弃该候选。
+- Wenqu CLI 不可用、健康检查失败或某页抓取失败时，agent 自动改用原生下载；不能因增强项失败放弃该候选。
 - 批量下载逐个串行执行，避免浏览器实例争抢资源或触发反爬。
 - 边抓边登记：每成功一项即写 URL、检索渠道与文件路径；失败也登记 URL、实际下载方式和原因。
 - 文件命名：`articles/` 下按来源域名建二级目录，文件名用内容 slug，不用随机串。

@@ -22,7 +22,7 @@
 
 | 技能 | 创作阶段 | 作用 |
 | --- | --- | --- |
-| [`wenqu-library`](wenqu-library/) | 博观积累 | 素材收集与整理：按“规划、搜索、下载、整理”四步收集素材，以 agent 原生搜索为主、可选 CLI 补充候选，支持 crwl 网页抓取（含微信公众号），为文章、报告与教程整理出可复用素材。 |
+| [`wenqu-library`](wenqu-library/) | 博观积累 | 素材收集与整理：按“规划、搜索、下载、整理”四步收集素材，以 agent 原生搜索为主、`wenqu library` 补充候选并抓取网页（含微信公众号），为文章、报告与教程整理出可复用素材。 |
 | [`wenqu-write`](wenqu-write/) | 谋篇布局、属文成篇 | 中文内容创作主流程：完成需求理解、规划与结构设计、逐节写作与内容完善，并协调其他技能完成翻译、配图与审查。 |
 | [`wenqu-review`](wenqu-review/) | 推敲润色、校勘审定 | 内容质量优化：检查事实依据与逻辑结构、表达方式与英文术语、翻译腔与 AI 写作痕迹，并提供修改建议。 |
 | [`wenqu-image`](wenqu-image/) | 丹青绘意 | 内容视觉设计：规划配图需求，生成图片提示词，完成 AI 生图、质量检查和上传流程。 |
@@ -132,36 +132,32 @@ SkillHub 中的每个技能都有各自的目录版本和审核状态；它们�
 
 > 请根据 [https://skillhub.cn/install/skillhub.md](https://skillhub.cn/install/skillhub.md)，安装 wenqu-library、wenqu-write、wenqu-review、wenqu-image、wenqu-translate、wenqu-publish。
 
-## 外部依赖
+## 依赖
+
+- [`wenqu-cli`](https://github.com/gogoingai/wenqu-cli)：为 `wenqu-image` 和 `wenqu-library` 提供运行时。
 
 ### `wenqu-image`
 
-`wenqu-image` 支持四条生图路径：已登录的 Codex、OpenAI GPT Image、通义万相和豆包 Seedream。安装后可先检查本机环境：
+`wenqu-image` 支持五条生图路径：已登录的 Codex、OpenAI GPT Image、OpenRouter、通义万相和豆包 Seedream。安装后可先检查本机环境：
 
 ```bash
-bun ~/.agents/skills/wenqu-image/scripts/image-cli/main.ts --check --json
+wenqu image doctor --json
 ```
 
 Codex 路径需要 `codex login`；其他 API 密钥仅写入本机
-`~/.gogoingai/wenqu-skills/image/.env`，默认模型、画幅与可选 API 地址写入同目录
+`~/.gogoingai/wenqu-skills/image/credentials.env`，默认模型、画幅与可选 API 地址写入同目录
 `config.json`。文章可在 `wenqu-skills/{文章文件名}/config/image.json` 覆盖模型选择，不能保存密钥或地址。
 
 ```bash
-bun ~/.agents/skills/wenqu-image/scripts/image-cli/main.ts \
+wenqu image generate \
   --provider dashscope --model qwen-image-2.0-pro --ar 16:9 \
-  --prompt "一张中文技术架构示意图" --out /tmp/diagram.png --upload
+  --prompt "一张中文技术架构示意图" --out /tmp/diagram --timeout-sec 300 --upload
 ```
 
-运行时使用 Bun；未安装 Bun 时，把上述 `bun` 替换为 `npx -y bun`。`--upload` 由 CLI 自己调用已配置的 PicGo。完整配置与 Agent 问答规则见
-[`wenqu-image/references/image-cli.md`](wenqu-image/references/image-cli.md)。
+`--upload` 由 CLI 自己调用已配置的 PicGo。
 
 ### `wenqu-library`
 
-`wenqu-library` 每次都先运行 agent 自带的联网搜索；可选的全局 CLI 套件只负责补充搜索和增强下载：
+`wenqu-library` 每次都先运行 agent 自带的联网搜索；受管的 `wenqu library` 命令只负责补充多引擎候选和增强下载。它内置 Crawl4AI 适配：百度、必应、Brave 与搜狗直连失败时可做一次浏览器回退；下载支持动态网页、受限同源抓取和已确认的微信公众号 URL，失败时自动回退 agent 自带能力。
 
-- `open-websearch`：补充多引擎搜索候选，不替代原生搜索；
-- `crwl`（Crawl4AI）：优先下载动态页面与微信公众号；直连搜索失败时，可用已定义食谱走浏览器检索恢复，不可用时自动回退 agent 自带能力。
-
-技能检测到缺失项时，会说明安装内容与浏览器运行环境，并请求一次授权；授权后由 agent 自行完成安装与验证，用户无需配置环境或排障。
-
-完整的引擎选择、CLI 参数和站点抓取策略见 [`wenqu-library/references/open-websearch/`](wenqu-library/references/open-websearch/) 与 [`wenqu-library/references/crawl4ai/`](wenqu-library/references/crawl4ai/)。
+完整的引擎选择、CLI 参数和站点抓取策略见 [`wenqu-library/references/wenqu-cli.md`](wenqu-library/references/wenqu-cli.md)。

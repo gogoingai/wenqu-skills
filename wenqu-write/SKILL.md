@@ -170,7 +170,7 @@ metadata:
 
 **先查文库**：动笔收集前，先查 `wenqu-library`（`$HOME/.gogoingai/wenqu-skills/library/`）有没有相关主题的素材条目（L1、L2……），避免重复收集；若文库已有，直接引用条目编号登记到本篇 `materials/index.md`。详见 `wenqu-library` 技能。
 
-**需要联网收集素材时**（找相似文章、官方文档、论文、案例），调用 `wenqu-library` 的四步收集流程（规划 → 搜索 → 下载 → 整理），传入 Step 1/1.5 的规划结果；该流程以 **agent 原生搜索为主**，可用时由 `open-websearch` 补充候选；对已配置食谱的直连失败引擎，才可由 `crwl` 恢复浏览器检索，随后统一去重、分级和下载。抓取的网页原文写入 `references/materials/` 对应分类子目录，索引登记进 `materials/index.md`，并保留 `agent-native`、`open-websearch:{engine}`、`crwl-serp:{engine}` 或 `用户提供` 等检索渠道。不要自己临时用搜索/抓取工具零散抓取后只记在对话里。
+**需要联网收集素材时**（找相似文章、官方文档、论文、案例），调用 `wenqu-library` 的四步收集流程（规划 → 搜索 → 下载 → 整理），传入 Step 1/1.5 的规划结果；该流程以 **agent 原生搜索为主**，可用时由 `wenqu library` 补充候选。百度、必应、Brave 与搜狗直连失败时，CLI 可做一次受限的浏览器回退，随后统一去重、分级和下载。抓取的网页原文写入 `references/materials/` 对应分类子目录，索引登记进 `materials/index.md`，并保留 `agent-native`、`wenqu-cli:{engine}`、`wenqu-cli:{engine}:{channel}` 或 `用户提供` 等检索渠道。不要自己临时用搜索/抓取工具零散抓取后只记在对话里。
 
 在 Step 1 快速扫描的基础上深入读源码、README、论文，为写骨架做准备。**这一步的所有产出都要登记进 `references/materials/index.md`（大段内容写入分类子目录文件，index.md 登记路径），不能只记在对话里**——上下文一旦被压缩或会话间隔较久，脑子里记的素材会全部丢失，骨架和审查都得靠回头翻对话记录，费时又费 token：
 - 核心机制 3~5 个的完整实现细节 → 追加/补全 index.md 对应条目（大段摘录写入 `materials/local/`）

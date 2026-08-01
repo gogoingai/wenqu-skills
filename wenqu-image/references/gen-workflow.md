@@ -17,19 +17,30 @@
 
 ## 第一步：检测并配置环境
 
-优先运行一次图片 CLI 的环境检测。它检查 Bun、Codex、PicGo 和四个后端的密钥状态；输出不含密钥。不需要另行安装 `gpt-image-2` skill：
+每次需要调用图片 CLI 时，先说明将联网更新 Wenqu CLI 并请求一次明确授权。获授权后，优先用 `pipx` 隔离安装并更新到最新版；若 `pipx` 不存在，才改用当前 Python，必要时加 `--user` 并补齐该 Python 的脚本目录：
 
 ```bash
-bun ~/.agents/skills/wenqu-image/scripts/image-cli/main.ts --check --json
+pipx install --force wenqu-cli
+# 若没有 pipx：
+python3 -m pip install --upgrade wenqu-cli
+# 若上条因权限失败：
+python3 -m pip install --user --upgrade wenqu-cli
+export PATH="$(python3 -m site --user-base)/bin:$PATH"
 ```
 
-按 `runtime` 与 `providers` 字段判断当前可用路径；Codex 使用当前登录态，OpenAI、通义和 Seedream 的密钥只从 `~/.gogoingai/wenqu-skills/image/.env` 读取。配置格式和模型能力见 `image-cli.md`。
+随后优先运行一次图片 CLI 的环境检测。它检查 Wenqu CLI、Codex、PicGo 和五个后端的密钥状态；输出不含密钥。不需要另行安装 `gpt-image-2` skill：
+
+```bash
+wenqu image doctor --json
+```
+
+按 `runtime` 与 `providers` 字段判断当前可用路径；Codex 使用当前登录态，OpenAI、OpenRouter、通义和 Seedream 的密钥默认只从 `~/.gogoingai/wenqu-skills/image/credentials.env` 读取。临时切换私有密钥文件时，显式传 `--env-file /secure/provider-credentials.env`；该文件也必须是 owner-only（`chmod 600`）。
 
 若检测到缺失依赖，按下表手动安装或处理：
 
 | 工具 | 验证命令 | 缺失时 |
 |------|---------|--------|
-| `bun` 或 `npx` | `bun --version` | 推荐 `brew install oven-sh/bun/bun`；没有 Bun 时，用 `npx -y bun` 运行同一 CLI |
+| `wenqu` | `wenqu image doctor --json` | 按上面的 Python 命令更新 `wenqu-cli` |
 | `codex` CLI（仅 Codex 路径） | `codex --version` | 安装 Codex CLI 并运行 `codex login` |
 | `picgo` | `picgo --version` | `npm install -g picgo` 或 `brew install picgo` |
 
@@ -70,9 +81,9 @@ PicGo GUI 用户需先让 PicGo CLI 使用同一 uploader；图片 CLI 不会自
 ```bash
 # 生成并上传；provider/model 未指定时读取本篇或全局配置
 RAND=$(openssl rand -hex 8)
-bun ~/.agents/skills/wenqu-image/scripts/image-cli/main.ts \
+wenqu image generate \
   --prompt "提示文本" \
-  --out /tmp/article-img-${RAND}.png \
+  --out /tmp/article-img-${RAND} \
   --article-config "{项目根目录}/wenqu-skills/{文件名}/config/image.json" \
   --upload
 # 输出的 https:// URL 即为这一版的 CDN 地址；上传失败时只保留本地文件
@@ -169,15 +180,15 @@ bun ~/.agents/skills/wenqu-image/scripts/image-cli/main.ts \
 ```bash
 # 1. 用图片 CLI 以原图为参考修改，输出文件名同样用新的随机后缀
 RAND=$(openssl rand -hex 8)
-bun ~/.agents/skills/wenqu-image/scripts/image-cli/main.ts \
+wenqu image generate \
   --prompt "在这张图基础上只改：[具体说明改什么]，其他完全保持原样" \
   --ref /tmp/原图.png \
-  --out /tmp/article-img-${RAND}.png \
+  --out /tmp/article-img-${RAND} \
   --upload
 # 输出的 https:// URL 即为这一版的 CDN 地址
 ```
 
-> 用了 `--ref` 就要记住这次实际传的参考图是什么：已采用图记录其 CDN URL，风格库图记录 GitHub raw URL（`wenqu-image-assets/styles/` 下对应图的 raw 地址）。命令可临时传入 `fetch-ref.sh` 下载到 `~/.cache/` 或 `/tmp` 的本地文件，但**本地路径不得写入 `ref:` 字段**（见第四步）。
+> 用了 `--ref` 就要记住这次实际传的参考图是什么：已采用图记录其 CDN URL，风格库图记录 GitHub raw URL（`wenqu-image-assets/styles/` 下对应图的 raw 地址）。命令可临时传入 `wenqu image fetch-ref` 下载到受管缓存，但本地路径不得写入 `ref:` 字段（见第四步）。
 
 **重新生成时的常见修复策略：**
 
@@ -285,10 +296,10 @@ generation:
 
 | 场景 | 结果 |
 |------|------|
-| 没有可用 provider | 输出全局 `.env`/`config.json` 路径；Agent 用原生输入工具完成非敏感默认选择，文章不变 |
-| Bun 与 npx 都缺失 | 打印 Bun 安装指引，跳过，文章不变 |
+| 没有可用 provider | 输出全局 `credentials.env`/`config.json` 路径；Agent 用原生输入工具完成非敏感默认选择，文章不变 |
+| Wenqu CLI 缺失 | 打印 `wenqu-cli` 安装指引，跳过，文章不变 |
 | Codex 未安装（仅指定 Codex 时） | 打印安装步骤，跳过，文章不变 |
-| 生图脚本缺失（Codex vendored 文件） | 打印重装指引（`npx skills add/update`），跳过，文章不变 |
+| `wenqu image` 子命令不可用 | 打印 `wenqu-cli` 更新指引，跳过，文章不变 |
 | picgo 未安装 | 保留画图提示与本轮结果，不写入正文、`ref` 或 `versions`，提示完成配置后重试上传 |
 | picgo 未配置图床 | 保留画图提示与本轮结果，不写入正文、`ref` 或 `versions`，打印配置指引并等待重试上传 |
 | 全部就绪 | 生成 → 质检 → 上传 → 用户确认 → CDN URL 写入文章 |

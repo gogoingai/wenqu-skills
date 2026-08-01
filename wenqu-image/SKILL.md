@@ -37,7 +37,7 @@ metadata:
 ​```
 ---
 style: 单色马克笔   # 对应风格库表里的风格名；无风格关键词时写"默认极简PPT"
-ref: https://raw.githubusercontent.com/gogoingai/wenqu-skills/master/wenqu-image-assets/styles/mono-marker/mono-marker-02-branch-decision.png   # 实际用过的参考图；只允许 HTTPS URL（风格图托管在 GitHub，本地经 fetch-ref.sh 取）；临时本地路径不得写入；本轮没用 --ref 时保持原值不动；该字段从未用过时才省略
+ref: https://raw.githubusercontent.com/gogoingai/wenqu-skills/master/wenqu-image-assets/styles/mono-marker/mono-marker-02-branch-decision.png   # 实际用过的参考图；只允许 HTTPS URL（风格图托管在 GitHub，本地经 wenqu image fetch-ref 取）；临时本地路径不得写入；本轮没用 --ref 时保持原值不动；该字段从未用过时才省略
 versions:   # 历次生成的版本记录；每项必须是 HTTPS CDN URL，含质检不通过/用户否决版本，编号递增，不删除、不覆盖
   v1: https://cdn.example.com/article-img-1111aaaa2222bbbb.png   # 简要说明
 generation: # 与 versions 同编号，记录实际渲染后端；不存密钥或 API 地址
@@ -67,10 +67,10 @@ generation: # 与 versions 同编号，记录实际渲染后端；不存密钥�
 先检查全局配置 `~/.gogoingai/wenqu-skills/image/config.json`，再检查本篇
 `{项目根目录}/wenqu-skills/{文件名}/config/image.json`：
 
-1. 两者都没有时，用原生输入工具一次询问默认 provider、模型与画幅；**不要索要密钥**，仅告知 `.env` 的本机路径，然后创建全局非敏感配置。
+1. 两者都没有时，用原生输入工具一次询问默认 provider、模型与画幅；**不要索要密钥**，仅告知 `credentials.env` 的本机路径，然后创建全局非敏感配置。
 2. 有全局配置、本篇没有配置时，在首次为本篇实际生成前询问是否沿用全局选择；拒绝后询问本篇选择并写入文章级配置。
 3. 有本篇配置、或用户已在当前指令/命令中指定 provider/model 时，不重复询问。
-4. 直接生图（非文章场景）只读取全局配置；详细配置、命令和能力边界见 `references/image-cli.md`。
+4. 直接生图（非文章场景）只读取全局配置；运行时命令由 `wenqu image` 提供。
 
 ## 工具等价说明（非 Claude Code 环境）
 
@@ -135,7 +135,7 @@ generation: # 与 versions 同编号，记录实际渲染后端；不存密钥�
 
 ## 生成图片
 
-→ 查 `references/gen-workflow.md`（环境检测 → 列出画图点并补全占位标记 → 逐张生成/质检/确认 → 写入文章 → 联动提醒）；模型、密钥与命令参数先查 `references/image-cli.md`。
+→ 查 `references/gen-workflow.md`（环境检测 → 列出画图点并补全占位标记 → 逐张生成/质检/确认 → 写入文章 → 联动提醒）。
 
 逐张生成、逐张确认，不批量、不跳过用户；Codex 路径受 session 输出提取限制，必须串行，其他后端也按同一确认节奏逐张处理。
 
@@ -143,13 +143,12 @@ generation: # 与 versions 同编号，记录实际渲染后端；不存密钥�
 
 ---
 
-## 依赖
+## 运行时要求
 
-- 运行器：使用 `bun` 运行 `scripts/image-cli/main.ts`；若本机没有 Bun，直接以 `npx -y bun scripts/image-cli/main.ts` 运行同一 CLI。
-- 后端：`codex`（复用已登录订阅）、OpenAI GPT Image（`OPENAI_API_KEY`）、通义万相（`DASHSCOPE_API_KEY`）或豆包 Seedream（`ARK_API_KEY`）；密钥只放 `~/.gogoingai/wenqu-skills/image/.env`。
-- Codex 生图脚本：`scripts/gpt-image-2-gen.sh` 与 `scripts/extract_image.py`——已随本技能一起分发（vendored，MIT，见 `scripts/THIRD_PARTY_NOTICES.md`），**不需要单独安装 gpt-image-2 skill**。
+- 运行器：`wenqu image` CLI（`doctor`、`config-init`、`generate`、`fetch-ref`）。该 CLI 独立于 skill 安装；每次调用前先获授权更新 `wenqu-cli`，再运行 `wenqu image doctor --json` 确认。它会随包安装所需 Python 依赖；Crawl4AI 与浏览器只属于 `wenqu library`，不是 image 的前置条件。
+- 后端：`codex`（复用已登录订阅）、OpenAI GPT Image（`OPENAI_API_KEY`）、OpenRouter（`OPENROUTER_API_KEY`）、通义万相（`DASHSCOPE_API_KEY`）或豆包 Seedream（`ARK_API_KEY`）；密钥只放 `~/.gogoingai/wenqu-skills/image/credentials.env`。
 - 图床：`picgo`（可选，上传时需已配置 uploader）。
-- 风格参考图库：托管在 GitHub `wenqu-image-assets/styles/`（`handdrawn/` 手绘插画、`excalidraw/` 白板斜线填充、`mono-marker/` 单色马克笔、`doodle-watercolor/` 水彩涂鸦、`cream-outline/` 奶油描边思维导图、`pencil-sketch/` 彩色铅笔质感、`techppt/` 技术PPT风格，配合 `--ref` 使用，对应文档见 `references/styles/`）。图片**不随技能分发**，首次用某风格时 `scripts/fetch-ref.sh` 自动从 GitHub 下载到 `~/.cache/wenqu-image/styles/`，需要联网
+- 风格参考图库：托管在 GitHub `wenqu-image-assets/styles/`（`handdrawn/` 手绘插画、`excalidraw/` 白板斜线填充、`mono-marker/` 单色马克笔、`doodle-watercolor/` 水彩涂鸦、`cream-outline/` 奶油描边思维导图、`pencil-sketch/` 彩色铅笔质感、`techppt/` 技术PPT风格，配合 `--ref` 使用，对应文档见 `references/styles/`）。图片不随技能分发，首次使用以 `wenqu image fetch-ref` 下载到受管缓存，需要联网。
 
 ---
 

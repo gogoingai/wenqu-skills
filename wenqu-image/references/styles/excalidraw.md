@@ -23,13 +23,13 @@
 **--ref 必须**，推荐参考图（按目标图类型选最接近的）：
 
 ```
---ref "$(bash ~/.agents/skills/wenqu-image/scripts/fetch-ref.sh excalidraw/excalidraw-03-dense-layered-arch.png)"       # 多层嵌套架构，信息密度高
---ref "$(bash ~/.agents/skills/wenqu-image/scripts/fetch-ref.sh excalidraw/excalidraw-02-nested-groups.png)"            # 简单嵌套分组
---ref "$(bash ~/.agents/skills/wenqu-image/scripts/fetch-ref.sh excalidraw/excalidraw-01-linear-flow.png)"              # 横向线性流程
---ref "$(bash ~/.agents/skills/wenqu-image/scripts/fetch-ref.sh excalidraw/excalidraw-04-sequence-race-condition.png)"  # 时序图/生命线
---ref "$(bash ~/.agents/skills/wenqu-image/scripts/fetch-ref.sh excalidraw/excalidraw-05-branch-decision-flow.png)"     # 竖向分支决策流程
---ref "$(bash ~/.agents/skills/wenqu-image/scripts/fetch-ref.sh excalidraw/excalidraw-06-side-by-side-comparison.png)"  # 左右对比图
---ref "$(bash ~/.agents/skills/wenqu-image/scripts/fetch-ref.sh excalidraw/excalidraw-07-timeline-evolution.png)"       # 时间演化/版本迭代图
+--ref "$(wenqu image fetch-ref excalidraw/excalidraw-03-dense-layered-arch.png)"       # 多层嵌套架构，信息密度高
+--ref "$(wenqu image fetch-ref excalidraw/excalidraw-02-nested-groups.png)"            # 简单嵌套分组
+--ref "$(wenqu image fetch-ref excalidraw/excalidraw-01-linear-flow.png)"              # 横向线性流程
+--ref "$(wenqu image fetch-ref excalidraw/excalidraw-04-sequence-race-condition.png)"  # 时序图/生命线
+--ref "$(wenqu image fetch-ref excalidraw/excalidraw-05-branch-decision-flow.png)"     # 竖向分支决策流程
+--ref "$(wenqu image fetch-ref excalidraw/excalidraw-06-side-by-side-comparison.png)"  # 左右对比图
+--ref "$(wenqu image fetch-ref excalidraw/excalidraw-07-timeline-evolution.png)"       # 时间演化/版本迭代图
 ```
 
 **prompt 只写"参考图风格与内容"，不要逐条复述视觉细节**（斜线排线、潦草描边、手写字体等一律交给 `--ref`）：

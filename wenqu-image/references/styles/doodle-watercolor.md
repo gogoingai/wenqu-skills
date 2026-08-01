@@ -24,10 +24,10 @@
 **① --ref 必须**：水彩晕染质感和装饰涂鸦元素仅靠文字描述很难稳定复现，务必传参考图：
 
 ```
---ref "$(bash ~/.agents/skills/wenqu-image/scripts/fetch-ref.sh doodle-watercolor/doodle-watercolor-01-ai-learning-flow.png)"   # 横向多阶段流程（锚点图，白底翻译版）
---ref "$(bash ~/.agents/skills/wenqu-image/scripts/fetch-ref.sh doodle-watercolor/doodle-watercolor-02-stage-flow.png)"         # 横向三阶段流程
---ref "$(bash ~/.agents/skills/wenqu-image/scripts/fetch-ref.sh doodle-watercolor/doodle-watercolor-03-layered-arch.png)"       # 竖向三层架构
---ref "$(bash ~/.agents/skills/wenqu-image/scripts/fetch-ref.sh doodle-watercolor/doodle-watercolor-04-branch-decision.png)"    # 竖向判断分支流程
+--ref "$(wenqu image fetch-ref doodle-watercolor/doodle-watercolor-01-ai-learning-flow.png)"   # 横向多阶段流程（锚点图，白底翻译版）
+--ref "$(wenqu image fetch-ref doodle-watercolor/doodle-watercolor-02-stage-flow.png)"         # 横向三阶段流程
+--ref "$(wenqu image fetch-ref doodle-watercolor/doodle-watercolor-03-layered-arch.png)"       # 竖向三层架构
+--ref "$(wenqu image fetch-ref doodle-watercolor/doodle-watercolor-04-branch-decision.png)"    # 竖向判断分支流程
 ```
 
 **② prompt 风格描述**，开头必须加：
