@@ -21,7 +21,7 @@
 **`--ref` 必须**：传入参考图锚定视觉风格（自然线条、水彩填色感），仅靠 prompt 描述无法稳定复现。推荐参考图：
 
 ```
---ref "$(bash ~/.agents/skills/wenqu-image/scripts/fetch-ref.sh handdrawn/handdrawn-01-skill-creation-loop.png)"
+--ref "$(wenqu image fetch-ref handdrawn/handdrawn-01-skill-creation-loop.png)"
 ```
 
 （也可换 `handdrawn-02` 至 `handdrawn-07`，选和目标图类型最接近的，见下方索引）
@@ -36,10 +36,10 @@
 
 ```bash
 RAND=$(openssl rand -hex 8)
-bash ~/.agents/skills/wenqu-image/scripts/gpt-image-2-gen.sh \
+wenqu image generate --provider codex \
   --prompt "参考图风格。[图内容描述...]。所有文字用中文。" \
-  --ref "$(bash ~/.agents/skills/wenqu-image/scripts/fetch-ref.sh handdrawn/handdrawn-01-skill-creation-loop.png)" \
-  --out /tmp/article-img-${RAND}.png \
+  --ref "$(wenqu image fetch-ref handdrawn/handdrawn-01-skill-creation-loop.png)" \
+  --out /tmp/article-img-${RAND} \
   --timeout-sec 300
 ```
 

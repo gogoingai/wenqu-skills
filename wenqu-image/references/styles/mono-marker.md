@@ -23,10 +23,10 @@
 **--ref 必须**：这套风格的"波浪线注释"、"同色系分组框"等细节仅靠文字描述很难稳定复现，务必传参考图：
 
 ```
---ref "$(bash ~/.agents/skills/wenqu-image/scripts/fetch-ref.sh mono-marker/mono-marker-01-gateway-flow.png)"          # 竖向分组流程
---ref "$(bash ~/.agents/skills/wenqu-image/scripts/fetch-ref.sh mono-marker/mono-marker-02-branch-decision.png)"       # 含判断菱形的分支合并
---ref "$(bash ~/.agents/skills/wenqu-image/scripts/fetch-ref.sh mono-marker/mono-marker-03-layered-arch.png)"          # 多层横向分层架构
---ref "$(bash ~/.agents/skills/wenqu-image/scripts/fetch-ref.sh mono-marker/mono-marker-04-sync-async-comparison.png)" # 左右并排对比
+--ref "$(wenqu image fetch-ref mono-marker/mono-marker-01-gateway-flow.png)"          # 竖向分组流程
+--ref "$(wenqu image fetch-ref mono-marker/mono-marker-02-branch-decision.png)"       # 含判断菱形的分支合并
+--ref "$(wenqu image fetch-ref mono-marker/mono-marker-03-layered-arch.png)"          # 多层横向分层架构
+--ref "$(wenqu image fetch-ref mono-marker/mono-marker-04-sync-async-comparison.png)" # 左右并排对比
 ```
 
 **prompt 只写"参考图风格与内容"，不要逐条复述视觉细节**（单色调、波浪线注释、分组框等一律交给 `--ref`）：

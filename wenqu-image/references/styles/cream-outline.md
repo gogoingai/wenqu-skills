@@ -22,10 +22,10 @@
 **① --ref 必须**：
 
 ```
---ref "$(bash ~/.agents/skills/wenqu-image/scripts/fetch-ref.sh cream-outline/cream-outline-01-stage-flow.png)"       # 横向三阶段流程
---ref "$(bash ~/.agents/skills/wenqu-image/scripts/fetch-ref.sh cream-outline/cream-outline-02-mindmap.png)"          # 思维导图辐射布局
---ref "$(bash ~/.agents/skills/wenqu-image/scripts/fetch-ref.sh cream-outline/cream-outline-03-layered-arch.png)"     # 竖向三层架构
---ref "$(bash ~/.agents/skills/wenqu-image/scripts/fetch-ref.sh cream-outline/cream-outline-04-branch-decision.png)"  # 竖向判断分支流程
+--ref "$(wenqu image fetch-ref cream-outline/cream-outline-01-stage-flow.png)"       # 横向三阶段流程
+--ref "$(wenqu image fetch-ref cream-outline/cream-outline-02-mindmap.png)"          # 思维导图辐射布局
+--ref "$(wenqu image fetch-ref cream-outline/cream-outline-03-layered-arch.png)"     # 竖向三层架构
+--ref "$(wenqu image fetch-ref cream-outline/cream-outline-04-branch-decision.png)"  # 竖向判断分支流程
 ```
 
 **② prompt 只写"参考图风格与内容"，不要逐条复述视觉细节**（见 `pitfalls.md` 踩坑 9）：

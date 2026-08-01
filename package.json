@@ -22,8 +22,5 @@
     "README.md",
     "README.en.md",
     "LICENSE"
-  ],
-  "scripts": {
-    "test:image": "bun test tests/image-cli.test.ts"
-  }
+  ]
 }

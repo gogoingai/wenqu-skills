@@ -83,7 +83,7 @@ materials/
 ```markdown
 | 编号 | 摘要 | 来源类型 | 来源 | 检索渠道 | 文件路径 | 用途 | 标签 | 关联章节 | 日期 |
 | M1 | xxx 机制源码摘录 | 实现事实 | src/cache.py:42 | 本地文件 | local/cache-lru.md | 事实素材 | 缓存,LRU | 2.1 | 2026-07-25 |
-| M2 | 某公众号文章：XX 系统实践 | 外部研究 | https://mp.weixin.qq.com/s/xxx | agent-native、open-websearch:sogou | articles/mp.weixin.qq.com/xx.md | 写法参考 | 架构 | 待定 | 2026-07-25 |
+| M2 | 某公众号文章：XX 系统实践 | 外部研究 | https://mp.weixin.qq.com/s/xxx | agent-native、wenqu-cli:sogou | articles/mp.weixin.qq.com/xx.md | 写法参考 | 架构 | 待定 | 2026-07-25 |
 ```
 
 登记规则：
@@ -91,7 +91,7 @@ materials/
 1. **来源必填**：网页素材填完整原始 URL（不是域名，是能回到原文的那条链接）；本地素材填 `path:line`；确实没有来源的标「用户口述或粘贴」
 2. **来源类型**沿用 provenance 词汇：实现事实、团队选择、外部研究、合理推断、简化场景、待确认（边界见 `wenqu-write` 的 `references/planning/content-provenance.md`）
 3. **编号唯一**：M1、M2…… 全篇唯一，骨架和审查引用这个编号
-4. **检索渠道必填**：填 `agent-native`、`open-websearch:{engine}`、`crwl-serp:{engine}`、`用户提供` 或 `本地文件`；同一 URL 被多个渠道发现时合并填写，不丢渠道信息
+4. **检索渠道必填**：填 `agent-native`、`wenqu-cli:{engine}`、`wenqu-cli:{engine}:{channel}`、`用户提供` 或 `本地文件`；同一 URL 被多个渠道发现时合并填写，不丢渠道信息。`channel` 仅在 CLI 输出不是 `direct` 时记录，例如 `browser` 或 `delegate:duckduckgo`
 5. **文件路径相对 materials/ 填写**；只登记不写文件的短素材（几行数字、一句话事实）该列填 `-`
 6. **用途分两类**：`写法参考`（相似文章，不能当事实来源）与 `事实素材`（支撑正文的机制、数字、案例）
 7. **标签**：2~4 个关键词，方便 grep 检索；素材多了以后按标签或目录检索，不靠通读
@@ -109,22 +109,22 @@ index.md 在主索引表之外保留两个专项区（R0 审查要读）：
 
 素材收集分四步：**规划 -> 搜索 -> 下载 -> 整理**。在 wenqu-write 的规划阶段（Step 1/1.5 完成后）执行；用户单独喊"收集素材"时同样走这四步。
 
-每一步执行细则见 `references/collection-playbook.md`；外部 CLI 按工具分目录：搜索补充见 `references/open-websearch/README.md`，浏览器检索恢复与下载增强见 `references/crawl4ai/README.md`。
+每一步执行细则见 `references/collection-playbook.md`；Wenqu CLI 的命令、引擎范围、浏览器回退和下载边界见 `references/wenqu-cli.md`。
 
 ### 1. 规划
 
-根据写作规划产出**收集清单**：要找哪些相似文章（写法参考）、哪些相关素材（事实素材）、中英文搜索关键词组合、预计抓取数量。清单列给用户确认后开始执行（**内容范围的唯一确认点**）；可选 CLI 缺失时，另行征得用户明确授权后才由 agent 安装。
+根据写作规划产出**收集清单**：要找哪些相似文章（写法参考）、哪些相关素材（事实素材）、中英文搜索关键词组合、预计抓取数量。清单列给用户确认后开始执行（**内容范围的唯一确认点**）；每次需要使用 Wenqu CLI 时，另行征得用户明确授权后由 agent 更新到最新版并验证。
 
 ### 2. 搜索
 
-**每轮都先用 agent 自带的联网搜索工具**按关键词逐组搜索，产出基础候选 URL 清单；不能用 `open-websearch` 替代或跳过这一步。若可选的 `open-websearch` CLI 可调用，再以同一组关键词补充多引擎候选。对直连失败或空结果的引擎，仅在有对应 `crwl` 浏览器食谱时执行一次受限的检索恢复；完整分流见 `references/crawl4ai/search-recovery.md`。合并全部候选、统一去重与分级后才进入下载；用户直接提供 URL 的，保留为 `用户提供` 渠道且可跳过检索。
+**每轮都先用 agent 自带的联网搜索工具**按关键词逐组搜索，产出基础候选 URL 清单；不能用 `wenqu library search` 替代或跳过这一步。Wenqu CLI 可调用时，再以同一组关键词补充多引擎候选。它对百度、必应、Brave 与搜狗的直连失败或空结果自动做一次受限的 Crawl4AI 浏览器回退；完整分流见 `references/wenqu-cli.md`。合并全部候选、统一去重与分级后才进入下载；用户直接提供 URL 的，保留为 `用户提供` 渠道且可跳过检索。
 
 ### 3. 下载
 
-优先用 `crwl`（Crawl4AI CLI）抓取，产物直接写入本篇素材目录对应分类下：
+优先用 `wenqu library fetch` 抓取，产物直接写入本篇素材目录对应分类下：
 
-- 未安装或不可用时，agent 先说明将安装的可选全局 CLI 与浏览器运行环境，及其用途；得到用户明确授权后自行安装、设置并验证。用户拒绝、安装或验证失败时，agent 直接改用自带抓取，不要求用户执行命令或配置环境
-- 单页、整站 deep-crawl（`--max-pages` 必须显式限制）、微信公众号直达与同会话发现两类食谱见 `references/crawl4ai/site-recipes.md`
+- agent 先说明将更新 Wenqu CLI、必要时下载受管浏览器运行环境的用途；得到用户明确授权后自行更新、设置并验证。用户拒绝、安装或验证失败时，agent 直接改用自带抓取，不要求用户执行命令或配置环境
+- 单页、整站抓取（`--max-pages` 必须显式限制）与微信公众号直达的命令和边界见 `references/wenqu-cli.md`
 - 边抓边登记（先记 URL 与路径，摘要后补）；失败的 URL 登记「抓取失败：原因」，不静默跳过
 
 ### 4. 整理
@@ -178,5 +178,5 @@ index.md 在主索引表之外保留两个专项区（R0 审查要读）：
 5. **规划驱动收集**：先有题目方向和大致范围，再决定收什么，不做无边界囤积；`--max-pages` 等限量参数显式设置
 6. **相似文章先于零散资料**：先看别人怎么切题，再决定还缺哪些资料
 7. **失败可见**：抓取失败的 URL 登记并标注原因，不静默跳过
-8. **CLI 只作增强**：agent 原生搜索每轮必跑；`open-websearch` 只补充候选，`crwl` 只在已定义食谱的引擎上恢复浏览器检索或增强下载，两者均不能阻断收集
-9. **agent 负责安装**：检测到可选 CLI 未安装时主动说明并请求用户明确授权；获授权后由 agent 完成全局安装、浏览器设置和健康验证，绝不让用户自行执行命令
+8. **CLI 只作增强**：agent 原生搜索每轮必跑；`wenqu library search` 只补充候选，`wenqu library fetch` 只增强下载，两者均不能阻断收集
+9. **agent 负责更新与安装**：每次需要 Wenqu CLI 时主动说明并请求用户明确授权；获授权后由 agent 更新到最新版、完成必要的浏览器设置和健康验证，绝不让用户自行执行命令

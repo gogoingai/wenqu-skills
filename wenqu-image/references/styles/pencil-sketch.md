@@ -24,10 +24,10 @@
 **① --ref 必须**：
 
 ```
---ref "$(bash ~/.agents/skills/wenqu-image/scripts/fetch-ref.sh pencil-sketch/pencil-sketch-01-stage-flow.png)"       # 横向四步编号流程
---ref "$(bash ~/.agents/skills/wenqu-image/scripts/fetch-ref.sh pencil-sketch/pencil-sketch-02-breakdown.png)"        # 长条拆解+编号卡片
---ref "$(bash ~/.agents/skills/wenqu-image/scripts/fetch-ref.sh pencil-sketch/pencil-sketch-03-branch-decision.png)"  # 竖向判断分支流程
---ref "$(bash ~/.agents/skills/wenqu-image/scripts/fetch-ref.sh pencil-sketch/pencil-sketch-04-layered-arch.png)"     # 竖向分层架构
+--ref "$(wenqu image fetch-ref pencil-sketch/pencil-sketch-01-stage-flow.png)"       # 横向四步编号流程
+--ref "$(wenqu image fetch-ref pencil-sketch/pencil-sketch-02-breakdown.png)"        # 长条拆解+编号卡片
+--ref "$(wenqu image fetch-ref pencil-sketch/pencil-sketch-03-branch-decision.png)"  # 竖向判断分支流程
+--ref "$(wenqu image fetch-ref pencil-sketch/pencil-sketch-04-layered-arch.png)"     # 竖向分层架构
 ```
 
 **② prompt 只写"参考图风格与内容"，不要逐条复述视觉细节**：
