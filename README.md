@@ -165,3 +165,9 @@ bun ~/.agents/skills/wenqu-image/scripts/image-cli/main.ts \
 技能检测到缺失项时，会说明安装内容与浏览器运行环境，并请求一次授权；授权后由 agent 自行完成安装与验证，用户无需配置环境或排障。
 
 完整的引擎选择、CLI 参数和站点抓取策略见 [`wenqu-library/references/open-websearch/`](wenqu-library/references/open-websearch/) 与 [`wenqu-library/references/crawl4ai/`](wenqu-library/references/crawl4ai/)。
+
+## 维护与发布
+
+技能、清单、版本、图片资源和发布配置的任何改动都必须通过 PR 合入 `master`，不得直接推送。每个 PR 会自动运行 Skills Eval，并在 PR 评论中展示格式、安全以及 Claude Code、WorkBuddy、ClawHub 的原生校验报告。
+
+维护者请先阅读 [开发手册](DEVELOPMENT.md)；涉及版本和平台发布时，再按 [发布手册](RELEASE.md) 在 PR 合入后执行。
