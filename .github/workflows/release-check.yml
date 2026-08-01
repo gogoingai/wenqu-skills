@@ -15,7 +15,7 @@ jobs:
       pull-requests: write
     steps:
       - uses: actions/checkout@v4
-      - uses: gogoingai/skills-eval@v0.1.9
+      - uses: gogoingai/skills-eval@v0.1.10
         with:
           path: .
           comment: true
