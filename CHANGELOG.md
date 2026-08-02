@@ -2,6 +2,11 @@
 
 本文件记录仓库里所有技能的重大变更，按发布时间倒序排列。
 
+## Unreleased - PR 阶段加入 SkillHub dry-run
+
+- `release-check` 升级到 `gogoingai/skills-eval@v0.2.1`，`external-targets` 加入 `skillhub` 并传入 `SKILLHUB_TOKEN`：SkillHub 远端 `--dry-run` 现在在 PR 阶段就跑（限频 429 由 skills-eval 自动重试 60s/120s，最多 3 次），不再只留给发布门禁。
+- RELEASE.md、DEVELOPMENT.md 同步更新 PR 校验范围与发布 Action 版本（`@v0.2.1`）。
+
 ## 0.1.17 - 发布流程迁入 skills-eval
 
 - 发布能力迁入 [`skills-eval`](https://github.com/gogoingai/skills-eval) 0.2.0：删除 `scripts/publish-clawhub.mjs`、`publish-skillhub.sh` 与 `scripts/README.md`，改由 `skills-eval publish` 统一发布 ClawHub 技能、ClawHub 插件包与 SkillHub 技能（含登录校验、防御性审查、限频重试与 provenance）。
