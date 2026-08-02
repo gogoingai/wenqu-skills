@@ -25,14 +25,15 @@
    skills-eval check . \
      --external-target claude-plugin \
      --external-target workbuddy \
-     --external-target clawhub
+     --external-target clawhub \
+     --external-target skillhub
    ```
 
-   该命令会执行不依赖平台登录态的原生校验：Claude Code 与 WorkBuddy 的本地清单校验，以及 ClawHub `package validate`。它不会发布 Skill 或插件包；报告的“外部发布校验”会明确列出本次实际执行的目标。
+   该命令会执行原生校验：Claude Code 与 WorkBuddy 的本地清单校验、ClawHub `package validate`，以及 SkillHub 的远端 `--dry-run`。SkillHub dry-run 需要本机已 `skillhub login`；未登录时可先只跑前三个本地目标，PR 检查会用配置的 token 自动补跑 SkillHub。它不会发布 Skill 或插件包；报告的“外部发布校验”会明确列出本次实际执行的目标。
 
    若 CLI 不在 `PATH`，可设置 `CODEBUDDY_BIN`、`SKILLHUB_BIN` 或 `CLAWHUB_BIN` 指向对应可执行文件。
 
-3. 创建 PR。GitHub Actions 会运行通用格式、安全检查，以及 Claude Code、WorkBuddy、ClawHub 的免登录原生校验，并在 PR 中更新一条审查评论。确认检查通过、报告无待处理项并获得合并授权后，才合入 `master`。SkillHub 的远端 `--dry-run` 不在 PR 运行，由发布工作流在正式发布前自动执行。
+3. 创建 PR。GitHub Actions 会运行通用格式、安全检查，以及 Claude Code、WorkBuddy、ClawHub 的免登录原生校验和 SkillHub 的远端 `--dry-run`（用仓库 `SKILLHUB_TOKEN` secret 登录），并在 PR 中更新一条审查评论。SkillHub dry-run 命中限频（429）时由 skills-eval 自动重试（60s/120s，最多 3 次）。确认检查通过、报告无待处理项并获得合并授权后，才合入 `master`。
 
 Skills Eval 会预先拦截：市场版本不一致、新技能漏入插件清单、缺失或重复 slug，以及技能目录中的图片文件、风格图片的失效或空引用；同时执行已配置的安全扫描。
 
@@ -47,7 +48,7 @@ Skills Eval 会预先拦截：市场版本不一致、新技能漏入插件清�
 
 2. 标签推送触发 `.github/workflows/publish.yml`：
    - 校验标签与 `VERSION` 一致（不一致立即失败）；
-   - 调用 `gogoingai/skills-eval/publish@v0.2.0`，先自动完成平台登录、SkillHub 远端 dry-run 与完整 `skills-eval check` 防御性审查，再发布全部技能到 ClawHub 与 SkillHub，并发布 ClawHub 插件包 `@gogoingai/wenqu-skills`；
+   - 调用 `gogoingai/skills-eval/publish@v0.2.1`，先自动完成平台登录、SkillHub 远端 dry-run 与完整 `skills-eval check` 防御性审查，再发布全部技能到 ClawHub 与 SkillHub，并发布 ClawHub 插件包 `@gogoingai/wenqu-skills`；
    - 发布日志作为 artifact 存档，限频（429）自动等待重试。
 
 3. 发布凭证保存在仓库 Secrets（`CLAWHUB_TOKEN`、`SKILLHUB_TOKEN`），只能由账号持有人在 GitHub 设置中配置和轮换，不得写进仓库、脚本或日志。工作流使用 `release` environment；当前未配置审批人即打标即发，需要人工闸门时在 GitHub environment 设置中添加 required reviewers 即可，无需改动工作流。
