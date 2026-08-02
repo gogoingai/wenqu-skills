@@ -1,6 +1,6 @@
 # Wenqu Skills 发布手册
 
-本手册只在用户已明确授权发布时使用。**所有技能发布相关改动（包括版本、changelog、清单和 Skill 内容）必须先通过 PR 合入 `master`，不得直接推送 `master`。** 检查命令不会提交、推送、打标签或正式发布；正式发布命令必须由人工明确执行。
+**所有技能发布相关改动（包括版本、changelog、清单和 Skill 内容）必须先通过 PR 合入 `master`，不得直接推送 `master`。** 正式发布由 GitHub Actions 自动完成：推送与 `VERSION` 一致的 `v*` 标签即触发 ClawHub 与 SkillHub 发布，无需人工执行发布命令。
 
 ## 版本模型
 
@@ -21,7 +21,7 @@
 2. 首次使用时安装 Skills Eval；随后运行完整静态、安全与平台原生审查：
 
    ```bash
-   pipx install "skills-eval>=0.1.13,<0.2"
+   pipx install "skills-eval>=0.2.0,<0.3"
    skills-eval check . \
      --external-target claude-plugin \
      --external-target workbuddy \
@@ -32,23 +32,39 @@
 
    若 CLI 不在 `PATH`，可设置 `CODEBUDDY_BIN`、`SKILLHUB_BIN` 或 `CLAWHUB_BIN` 指向对应可执行文件。
 
-3. 创建 PR。GitHub Actions 会运行通用格式、安全检查，以及 Claude Code、WorkBuddy、ClawHub 的免登录原生校验，并在 PR 中更新一条审查评论。确认检查通过、报告无待处理项并获得合并授权后，才合入 `master`。SkillHub 的远端 `--dry-run` 不在 PR 运行，仍在发布前的受控环境完成。
+3. 创建 PR。GitHub Actions 会运行通用格式、安全检查，以及 Claude Code、WorkBuddy、ClawHub 的免登录原生校验，并在 PR 中更新一条审查评论。确认检查通过、报告无待处理项并获得合并授权后，才合入 `master`。SkillHub 的远端 `--dry-run` 不在 PR 运行，由发布工作流在正式发布前自动执行。
 
 Skills Eval 会预先拦截：市场版本不一致、新技能漏入插件清单、缺失或重复 slug，以及技能目录中的图片文件、风格图片的失效或空引用；同时执行已配置的安全扫描。
 
-## 正式发布顺序
+## 正式发布（自动）
 
-1. PR 合入 `master` 后，获得正式发布授权；从合入后的 `master` 执行发布，不从未合入分支发布。
-2. 远端 `master` 更新后，Claude Code 与 WorkBuddy 市场均可读取新的清单；在干净环境或测试配置中重新安装验证。
-3. 仅对本次需要发布的 SkillHub 技能，显式执行：
+1. PR 合入 `master` 后，在最新的 `master` 上打与 `VERSION` 一致的标签并推送：
 
    ```bash
-   skillhub publish <skill目录> --changelog "本次变更说明"
+   git tag v$(cat VERSION)
+   git push origin v$(cat VERSION)
    ```
 
-   SkillHub 的 API Token 只能由账号持有人配置和使用，不能写进仓库、脚本或日志。
-4. 仅对本次需要发布的 ClawHub 技能或插件包，执行 `node scripts/publish-clawhub.mjs --changelog "本次变更说明"`（先 `--dry-run` 预检）。脚本会再次运行基础 `skills-eval check .`，作为实际发布前的防御性检查。插件包以目录形式直接打包发布，不会在仓库生成或提交压缩包。ClawHub 的 token 同样只能由账号持有人配置和使用，不能写进仓库、脚本或日志。
+2. 标签推送触发 `.github/workflows/publish.yml`：
+   - 校验标签与 `VERSION` 一致（不一致立即失败）；
+   - 调用 `gogoingai/skills-eval/publish@v0.2.0`，先自动完成平台登录、SkillHub 远端 dry-run 与完整 `skills-eval check` 防御性审查，再发布全部技能到 ClawHub 与 SkillHub，并发布 ClawHub 插件包 `@gogoingai/wenqu-skills`；
+   - 发布日志作为 artifact 存档，限频（429）自动等待重试。
+
+3. 发布凭证保存在仓库 Secrets（`CLAWHUB_TOKEN`、`SKILLHUB_TOKEN`），只能由账号持有人在 GitHub 设置中配置和轮换，不得写进仓库、脚本或日志。工作流使用 `release` environment；当前未配置审批人即打标即发，需要人工闸门时在 GitHub environment 设置中添加 required reviewers 即可，无需改动工作流。
+
+4. 远端 `master` 更新后，Claude Code 与 WorkBuddy 市场均可读取新的清单；在干净环境或测试配置中重新安装验证。
+
 5. 使用 `npx skills update` 更新本机通过 GitHub 安装的技能快照；它不是 symlink，不能替代推送后的远端验证。
+
+### 手动后备与部分发布
+
+自动工作流之外，可在 Actions 页面手动触发 `Publish` 工作流（`workflow_dispatch`），指定 targets、技能子集、changelog 或 dry-run 预检。本机已登录平台 CLI 时，也可以直接执行：
+
+```bash
+pipx run --spec "skills-eval>=0.2.0,<0.3" skills-eval publish . --changelog "本次变更说明"
+```
+
+先 `--dry-run` 预检再正式发；`--target` 与 `--skill` 可缩小范围，`--skills-only` / `--plugin-only` 控制 ClawHub 插件包维度。本机发布同样先过登录校验与防御性审查（`--skip-check` 仅限紧急情况）。
 
 ## 渠道验收
 
@@ -68,10 +84,8 @@ Skills Eval 会预先拦截：市场版本不一致、新技能漏入插件清�
 
 ### SkillHub
 
-先确认 dry-run 成功，再执行单技能正式发布。发布后以 SkillHub 页面显示的版本、审核状态和下载内容为准；平台可能仍有审核或限频，因此不要把“命令成功返回”误写为“已公开上架”。
+发布后以 SkillHub 页面显示的版本、审核状态和下载内容为准；平台可能仍有审核或限频，因此不要把“命令成功返回”误写为“已公开上架”。
 
 ### ClawHub
 
-[clawhub.ai](https://clawhub.ai)（OpenClaw 生态市场），与 SkillHub 是独立注册表。本仓以 org publisher `@gogoingai` 发布（CLI：`npm i -g clawhub`、`clawhub login`，需 Node >=22）。发布用 `node scripts/publish-clawhub.mjs`（含 release 校验、限频重试、脏工作区警告；`--dry-run` 预检；底层命令与坑见脚本头部注释）。插件包发布需 `openclaw.plugin.json`、`.clawhubignore`（已建，勿删）。
-
-先 `--dry-run` 预检再正式发。发布后进入 `pending.publication` 审核状态，`clawhub.ai/dashboard` 可见、Moderate 标记为 CLEAN 后公开；**发布到 ClawHub 即按 MIT-0**（frontmatter `license` 被忽略，仓库本体仍是 MIT）。同样不要把“命令成功返回”误写为“已公开上架”。
+[clawhub.ai](https://clawhub.ai)（OpenClaw 生态市场），与 SkillHub 是独立注册表。本仓以 org publisher `@gogoingai` 发布。发布后进入 `pending.publication` 审核状态，`clawhub.ai/dashboard` 可见、Moderate 标记为 CLEAN 后公开；**发布到 ClawHub 即按 MIT-0**（frontmatter `license` 被忽略，仓库本体仍是 MIT）。同样不要把“命令成功返回”误写为“已公开上架”。

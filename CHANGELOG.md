@@ -2,6 +2,13 @@
 
 本文件记录仓库里所有技能的重大变更，按发布时间倒序排列。
 
+## Unreleased - 发布流程迁入 skills-eval
+
+- 发布能力迁入 [`skills-eval`](https://github.com/gogoingai/skills-eval) 0.2.0：删除 `scripts/publish-clawhub.mjs`、`publish-skillhub.sh` 与 `scripts/README.md`，改由 `skills-eval publish` 统一发布 ClawHub 技能、ClawHub 插件包与 SkillHub 技能（含登录校验、防御性审查、限频重试与 provenance）。
+- 新增 `.github/workflows/publish.yml`：推送与 `VERSION` 一致的 `v*` 标签即自动发布（`release` environment，Secrets `CLAWHUB_TOKEN` / `SKILLHUB_TOKEN`），支持 `workflow_dispatch` 手动触发、指定 targets/技能子集与 dry-run 预检。
+- RELEASE.md 改写为自动发布流程：打 tag 即发布，本机 `skills-eval publish` 仅作手动后备；PR 检查与发布 Action 固定到 `gogoingai/skills-eval@v0.2.0`。
+- `.skills-eval.json` 的 clawhub 目标补充 `owner` / `sourceRepo`，skillhub 目标补充 `host`，供 `skills-eval publish` 使用。
+
 ## 0.1.16 - 运行时迁入 wenqu-cli
 
 - `wenqu-image` 与 `wenqu-library` 的运行时（生图 CLI、Crawl4AI 与 open-websearch 适配）迁出到独立仓库 [`wenqu-cli`](https://github.com/gogoingai/wenqu-cli)；技能目录不再内嵌脚本，改由 `wenqu image` / `wenqu library` 命令调用。

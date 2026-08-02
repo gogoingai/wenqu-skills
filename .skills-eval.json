@@ -26,12 +26,20 @@
         "options": { "skillDirectoryPrefix": "wenqu-" }
       },
       { "name": "workbuddy", "enabled": true },
-      { "name": "skillhub", "enabled": true },
+      {
+        "name": "skillhub",
+        "enabled": true,
+        "options": { "host": "https://api.skillhub.cn" }
+      },
       { "name": "openclaw", "enabled": true },
       {
         "name": "clawhub",
         "enabled": true,
-        "options": { "packageName": "@gogoingai/wenqu-skills" }
+        "options": {
+          "packageName": "@gogoingai/wenqu-skills",
+          "owner": "gogoingai",
+          "sourceRepo": "gogoingai/wenqu-skills"
+        }
       }
     ]
   },
