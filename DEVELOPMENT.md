@@ -68,6 +68,6 @@ npx skills update             # 同步到本地技能目录（~/.agents/skills/�
 | 新增、迁移风格图片 | `wenqu-image-assets/styles/`、至少一处说明或命令引用 | `skills-eval check .` |
 | 修改插件、市场 | `VERSION`、`.claude-plugin/plugin.json`、共享的 `.claude-plugin/marketplace.json` | `skills-eval check . --external-target claude-plugin --external-target workbuddy --external-target clawhub` |
 | 修改 ClawHub 插件包配置 | `openclaw.plugin.json`、`.clawhubignore` | `skills-eval check . --external-target clawhub`（仅本地包校验，无需登录） |
-| 发布到 SkillHub / ClawHub | 变更技能的版本和 changelog 说明；ClawHub 不读 frontmatter 版本，发布时显式传 `--version` | `skills-eval check . --external`；再运行对应的正式发布脚本或其 `--dry-run` |
+| 发布到 SkillHub / ClawHub | 变更技能的版本和 changelog 说明；ClawHub 不读 frontmatter 版本，发布时显式传 `--version` | `skills-eval check . --external`；再运行 `skills-eval publish . --dry-run` 预检 |
 
-`scripts/README.md` 记录每项自动检查的精确范围；`RELEASE.md` 记录 PR 合入后有副作用操作的顺序与人工验证步骤。
+正式发布由 `.github/workflows/publish.yml` 在打 tag 后自动执行；`RELEASE.md` 记录发布顺序、凭证配置与人工验证步骤。

@@ -1,0 +1,57 @@
+name: Publish
+
+on:
+  push:
+    tags:
+      - "v*"
+  workflow_dispatch:
+    inputs:
+      targets:
+        description: Publishing targets (comma-separated, empty = all enabled)
+        required: false
+        default: ""
+      skills:
+        description: Skills to publish (comma-separated, empty = all declared)
+        required: false
+        default: ""
+      changelog:
+        description: Changelog entry sent to the publishing platforms
+        required: false
+        default: ""
+      dry-run:
+        description: Print planned publish commands without publishing
+        type: boolean
+        required: false
+        default: false
+
+permissions:
+  contents: read
+
+concurrency:
+  group: publish
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    environment: release
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify tag matches VERSION
+        if: github.event_name == 'push'
+        run: |
+          set -euo pipefail
+          version="$(cat VERSION | tr -d '[:space:]')"
+          if [[ "${GITHUB_REF_NAME}" != "v${version}" ]]; then
+            echo "Tag ${GITHUB_REF_NAME} does not match VERSION (${version})." >&2
+            exit 1
+          fi
+      - uses: gogoingai/skills-eval/publish@v0.2.0
+        with:
+          path: .
+          targets: ${{ inputs.targets || '' }}
+          skills: ${{ inputs.skills || '' }}
+          changelog: ${{ inputs.changelog || github.ref_name }}
+          dry-run: ${{ inputs.dry-run || false }}
+          clawhub-token: ${{ secrets.CLAWHUB_TOKEN }}
+          skillhub-token: ${{ secrets.SKILLHUB_TOKEN }}
