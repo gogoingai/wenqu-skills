@@ -35,6 +35,8 @@ publish-ready output.
 
 ## Install the complete workflow
 
+> Recommended: try Wenqu via [WorkBuddy](#workbuddy) -- the hy3 model is free, and you can claim 100 credits daily.
+
 Wenqu is designed to be installed as one workflow. Install all six skills with
 [`npx skills`](https://github.com/vercel-labs/skills):
 
@@ -49,53 +51,15 @@ npx skills add gogoingai/wenqu-skills --all -g
 > warning. It is a limitation of those two agents in the installer, not of this
 > repository; the other supported agents, including Claude Code, still install normally.
 
-### Claude Code marketplace
+Update installed skills:
 
-Add the Wenqu marketplace, install the single `wenqu-skills` plugin, and reload
-the current session. The plugin contains all six skills.
-
-```text
-/plugin marketplace add gogoingai/wenqu-skills
-/plugin install wenqu-skills@wenqu-skills
-/reload-plugins
+```bash
+npx skills update -g
 ```
 
-`/reload-plugins` loads the skills into the current session immediately; new
-sessions do not need it again. To update:
+### WorkBuddy
 
-```text
-/plugin marketplace update wenqu-skills
-/plugin update wenqu-skills@wenqu-skills
-/reload-plugins
-```
-
-### Codex plugin marketplace
-
-Codex directly recognizes this repository's plugin marketplace. It installs the
-complete `wenqu-skills` package, containing all six skills.
-
-1. In the sidebar, open **Plugins**. Choose **Create** → **Add plugin marketplace**.
-
-   ![Open Add plugin marketplace in Codex](assets/codex/plugin-marketplace-01-add.png)
-
-2. Enter the repository source below. Leave **Git ref** and **Sparse path** empty,
-   then add the marketplace.
-
-   ```text
-   gogoingai/wenqu-skills
-   ```
-
-3. Open the **Personal** tab, find **Wenqu Skills**, and click **Install**.
-
-   ![Install Wenqu Skills from the Codex personal marketplace](assets/codex/plugin-marketplace-02-install.png)
-
-Start a new Codex task after installation so it loads the plugin skills.
-
-### WorkBuddy installation
-
-WorkBuddy has two installation paths: **Marketplace** adds a GitHub or local
-source and installs the complete Wenqu plugin; its built-in **SkillHub** catalog
-installs individual skills.
+WorkBuddy has two installation paths: **Marketplace** adds a GitHub or local source and installs the complete Wenqu plugin; its built-in **SkillHub** catalog installs individual skills. The hy3 model is currently free on WorkBuddy, and you can claim 100 credits daily -- a good way to try the full Wenqu workflow at no cost.
 
 #### Marketplace (GitHub source)
 
@@ -132,6 +96,48 @@ Wenqu skills: Library, Write, Review, Image, Translate, and Publish.
 Each SkillHub skill has its own catalog version and review status; it is not the
 same package as the GitHub Marketplace plugin.
 
+### Claude Code marketplace
+
+Add the Wenqu marketplace, install the single `wenqu-skills` plugin, and reload
+the current session. The plugin contains all six skills.
+
+```text
+/plugin marketplace add gogoingai/wenqu-skills
+/plugin install wenqu-skills@wenqu-skills
+/reload-plugins
+```
+
+`/reload-plugins` loads the skills into the current session immediately; new
+sessions do not need it again. To update:
+
+```text
+/plugin marketplace update wenqu-skills
+/plugin update wenqu-skills@wenqu-skills
+/reload-plugins
+```
+
+### Codex plugin marketplace
+
+Codex directly recognizes this repository's plugin marketplace. It installs the
+complete `wenqu-skills` package, containing all six skills.
+
+1. In the sidebar, open **Plugins**. Choose **Create** -> **Add plugin marketplace**.
+
+   ![Open Add plugin marketplace in Codex](assets/codex/plugin-marketplace-01-add.png)
+
+2. Enter the repository source below. Leave **Git ref** and **Sparse path** empty,
+   then add the marketplace.
+
+   ```text
+   gogoingai/wenqu-skills
+   ```
+
+3. Open the **Personal** tab, find **Wenqu Skills**, and click **Install**.
+
+   ![Install Wenqu Skills from the Codex personal marketplace](assets/codex/plugin-marketplace-02-install.png)
+
+Start a new Codex task after installation so it loads the plugin skills.
+
 ### SkillHub website or agent install
 
 [SkillHub](https://skillhub.cn) also supports agent-driven installation. To ask
@@ -159,6 +165,8 @@ openclaw skills install @gogoingai/wenqu-image
 openclaw skills install @gogoingai/wenqu-translate
 openclaw skills install @gogoingai/wenqu-publish
 ```
+
+To update: run `openclaw plugins update --all` for the plugin package, or `openclaw skills update` for individually installed skills.
 
 ## Dependency
 
