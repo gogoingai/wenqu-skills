@@ -139,6 +139,27 @@ an agent to install all six skills through SkillHub, paste:
 
 > Follow [https://skillhub.cn/install/skillhub.md](https://skillhub.cn/install/skillhub.md) to install wenqu-library, wenqu-write, wenqu-review, wenqu-image, wenqu-translate, and wenqu-publish.
 
+### ClawHub (OpenClaw)
+
+[ClawHub](https://clawhub.ai) is the skill and plugin marketplace for the OpenClaw
+ecosystem. Wenqu is at <https://clawhub.ai/gogoingai>. The recommended way is to
+install the `wenqu-skills` plugin package, which includes all six skills at once:
+
+```bash
+openclaw plugins install clawhub:@gogoingai/wenqu-skills
+```
+
+Or install the skills one by one:
+
+```bash
+openclaw skills install @gogoingai/wenqu-library
+openclaw skills install @gogoingai/wenqu-write
+openclaw skills install @gogoingai/wenqu-review
+openclaw skills install @gogoingai/wenqu-image
+openclaw skills install @gogoingai/wenqu-translate
+openclaw skills install @gogoingai/wenqu-publish
+```
+
 ## Dependency
 
 - [`wenqu-cli`](https://github.com/gogoingai/wenqu-cli): runtime for `wenqu-image` and `wenqu-library`.

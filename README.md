@@ -132,6 +132,25 @@ SkillHub 中的每个技能都有各自的目录版本和审核状态；它们�
 
 > 请根据 [https://skillhub.cn/install/skillhub.md](https://skillhub.cn/install/skillhub.md)，安装 wenqu-library、wenqu-write、wenqu-review、wenqu-image、wenqu-translate、wenqu-publish。
 
+### ClawHub（OpenClaw）
+
+[ClawHub](https://clawhub.ai) 是 OpenClaw 生态的技能与插件市场，文曲主页：<https://clawhub.ai/gogoingai>。推荐安装 `wenqu-skills` 插件包，一次获取全部六个技能：
+
+```bash
+openclaw plugins install clawhub:@gogoingai/wenqu-skills
+```
+
+也可以逐个安装技能：
+
+```bash
+openclaw skills install @gogoingai/wenqu-library
+openclaw skills install @gogoingai/wenqu-write
+openclaw skills install @gogoingai/wenqu-review
+openclaw skills install @gogoingai/wenqu-image
+openclaw skills install @gogoingai/wenqu-translate
+openclaw skills install @gogoingai/wenqu-publish
+```
+
 ## 依赖
 
 - [`wenqu-cli`](https://github.com/gogoingai/wenqu-cli)：为 `wenqu-image` 和 `wenqu-library` 提供运行时。
