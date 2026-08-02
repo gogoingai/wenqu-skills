@@ -2,7 +2,7 @@
 
 本文件记录仓库里所有技能的重大变更，按发布时间倒序排列。
 
-## Unreleased - 发布流程迁入 skills-eval
+## 0.1.17 - 发布流程迁入 skills-eval
 
 - 发布能力迁入 [`skills-eval`](https://github.com/gogoingai/skills-eval) 0.2.0：删除 `scripts/publish-clawhub.mjs`、`publish-skillhub.sh` 与 `scripts/README.md`，改由 `skills-eval publish` 统一发布 ClawHub 技能、ClawHub 插件包与 SkillHub 技能（含登录校验、防御性审查、限频重试与 provenance）。
 - 新增 `.github/workflows/publish.yml`：推送与 `VERSION` 一致的 `v*` 标签即自动发布（`release` environment，Secrets `CLAWHUB_TOKEN` / `SKILLHUB_TOKEN`），支持 `workflow_dispatch` 手动触发、指定 targets/技能子集与 dry-run 预检。
