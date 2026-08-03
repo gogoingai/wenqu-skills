@@ -1,6 +1,6 @@
 ---
 name: translation-guide
-description: 英文材料（README、论文、源码注释、技术文章）翻译成中文的完整方法论：分析→翻译→自查。自包含，不依赖外部技能，借鉴 baoyu-translate 但去掉了分块、多模式、配置文件等工程基础设施。
+description: 英文材料（README、论文、源码注释、技术文章）翻译成中文的完整方法论：分析→翻译→自查。自包含，不依赖外部技能，专注单篇文章量级的翻译质量。
 metadata:
   type: reference
 ---

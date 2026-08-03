@@ -13,11 +13,31 @@ jobs:
       contents: read
       actions: read
       pull-requests: write
+    env:
+      # Tencent aig-skill-scan runs with DeepSeek. Leave the DEEPSEEK_API_KEY
+      # repo secret unset to skip the LLM scan (SKIPPED, non-blocking). Source
+      # content is sent to the DeepSeek API when the key is present.
+      DEEPSEEK_API_KEY: ${{ secrets.DEEPSEEK_API_KEY }}
+      DEEPSEEK_BASE_URL: https://api.deepseek.com/v1
+      DEEPSEEK_MODEL: deepseek-v4-flash
+      # Snyk Agent Scan sends SKILL.md instruction content to Snyk's server.
+      # Leave SNYK_TOKEN unset to skip (SKIPPED, non-blocking).
+      SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
     steps:
       - uses: actions/checkout@v4
-      - uses: gogoingai/skills-eval@v0.2.1
+      - name: Install local security scanner CLIs
+        run: |
+          curl -LsSf https://astral.sh/uv/install.sh | sh
+          export PATH="$HOME/.local/bin:$PATH"
+          uv tool install git+https://github.com/NVIDIA/skillspector.git
+          uv tool install aig-skill-scan
+          echo "$HOME/.local/bin" >> "$GITHUB_PATH"
+      - uses: gogoingai/skills-eval@v0.3.0
         with:
           path: .
           comment: true
+          # Override the action's default version pin (still >=0.2.0,<0.3 in the
+          # v0.3.0 action.yml) so multi-provider security runs on 0.3.x.
+          version: "skills-eval>=0.3.0,<0.4"
           external-targets: claude-plugin,workbuddy,clawhub,skillhub
           skillhub-token: ${{ secrets.SKILLHUB_TOKEN }}

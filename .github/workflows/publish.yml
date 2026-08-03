@@ -46,7 +46,7 @@ jobs:
             echo "Tag ${GITHUB_REF_NAME} does not match VERSION (${version})." >&2
             exit 1
           fi
-      - uses: gogoingai/skills-eval/publish@v0.2.0
+      - uses: gogoingai/skills-eval/publish@v0.3.0
         with:
           path: .
           targets: ${{ inputs.targets || '' }}

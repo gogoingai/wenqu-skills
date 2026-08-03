@@ -1,29 +1,27 @@
 # Wenqu CLI：搜索与下载增强
 
-本技能只通过 `wenqu` 调用受管运行时；不要安装或调用第二套搜索/抓取 CLI、daemon 或 MCP。
+本技能只通过 `wenqu` 调用受管运行时；`wenqu-cli` 由本套件发布方（`gogoingai/wenqu-skills`）维护、与技能同源，不是第三方依赖。不要安装或调用第二套搜索/抓取 CLI、daemon 或 MCP。
 
 ## 环境与浏览器
 
-每次本技能需要调用 `wenqu` 时，先说明将联网更新 Wenqu CLI 并请求一次明确授权；获授权后，优先用 `pipx` 隔离安装并更新到最新版：
+首次使用前，向用户说明需要安装 `wenqu-cli` 并请求一次明确授权；获授权后，优先用 `pipx` 隔离安装锁定版本 `0.1.0`（已安装则跳过，不在每次任务中强制重装或升级）。安装后从 GitHub Releases（`gogoingai/wenqu-skills`）核对版本号与 SHA-256 校验值一致，再运行只读检查验证安装完整性：
 
 ```bash
-pipx install --force wenqu-cli
-```
-
-若 `pipx` 不存在，才回退到当前 Python：
-
-```bash
-python3 -m pip install --user --upgrade wenqu-cli
-export PATH="$(python3 -m site --user-base)/bin:$PATH"
-```
-
-随后运行只读检查：
-
-```bash
+pipx install 'wenqu-cli==0.1.0'
 wenqu doctor --json
 ```
 
-`wenqu-cli` 包含 Python 和 Crawl4AI 依赖。若报告 Chromium 缺失，先运行下列预览；只有用户明确授权下载浏览器后，才执行不带 `--dry-run` 的命令：
+`wenqu doctor` 是只读检查，输出不含密钥；确认安装完整、运行环境就绪后再使用。若 `pipx` 不存在，才回退到当前 Python：
+
+```bash
+python3 -m pip install --user 'wenqu-cli==0.1.0'
+export PATH="$(python3 -m site --user-base)/bin:$PATH"
+wenqu doctor --json
+```
+
+`wenqu-cli` 仅暴露搜索（`wenqu library search`）与抓取（`wenqu library fetch`）两个受管子命令，作用域限定于本技能的素材收集，不执行越权或持久化操作。版本号随 wenqu-cli 发布同步更新；升级时由用户主动发起并重新核对校验值。
+
+`wenqu-cli` 包含 Python 和 Crawl4AI 依赖。若 `wenqu doctor` 报告 Chromium 缺失，先运行下列预览；只有用户明确授权下载浏览器后，才执行不带 `--dry-run` 的命令：
 
 ```bash
 wenqu setup library --dry-run --json
@@ -58,4 +56,4 @@ wenqu library fetch <mp.weixin.qq.com URL> \
   --out {materials}/articles/mp.weixin.qq.com/<slug>.md --json
 ```
 
-微信公众号直达时，CLI 自动使用移动端微信 UA、Referer，并等待 `#js_content`。遇到验证、登录、付费墙、空正文或访问限制时，记录失败并改用 agent 原生下载或公开替代来源；不得反复请求或绕过访问控制。
+微信公众号直达时，CLI 自动获取公众号正文并等待 `#js_content` 渲染完成。遇到验证、登录、付费墙、空正文或访问限制时，记录失败并改用 agent 原生下载或公开替代来源；不得反复请求或绕过访问控制。

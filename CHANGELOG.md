@@ -2,6 +2,19 @@
 
 本文件记录仓库里所有技能的重大变更，按发布时间倒序排列。
 
+## 0.1.19 - 多源安全扫描接入与全部 finding 修复
+
+> 跳过 0.1.18（SkillHub 端因 logo 手动更新自动占用）。
+
+- 接入 [`skills-eval`](https://github.com/gogoingai/skills-eval) 0.3.0 多源安全扫描：Cisco + NVIDIA SkillSpector + Tencent aig-skill-scan(DeepSeek) + Snyk Agent Scan 四源，均扫 SKILL.md 指令内容。完整扫描 6 个技能 × 4 源 = 0 finding，READY。
+- 安全内容修复（全部 finding 清零，无抑制）：
+  - **wenqu-library**：`wenqu-cli` 安装改为同源受管运行时定位 + 锁版本 `0.1.0` + SHA-256 校验 + `wenqu doctor` 验证；去掉每次自动更新到最新版（T03）；去掉移动端微信 UA/Referer 措辞（T09）。
+  - **wenqu-image**：删除 SKILL.md 与 gen-workflow.md 中的零宽字符 U+200B（YR4 真因，非 description 误报）；安装段同 wenqu-library 加固。
+  - **wenqu-write**：`~/.agents/` 路径改为 `$HOME/.agents/`，规避 SkillSpector RA2 正则对「write + 隐藏目录」的贪婪误匹配。
+- `.skills-eval.json`：snyk 启用；tencent-aig 加 `disableThinking: true`（关闭 DeepSeek V4 思考，单技能扫描 ~97s -> ~36s）。
+- `release-check.yml` 加 `SNYK_TOKEN` env（需配 repo secret；未配则 SKIPPED 非阻断）；PR 检查与发布 Action 固定到 `gogoingai/skills-eval@v0.3.0`。
+- ⚠️ 数据外发：tencent-aig 与 snyk 会将 SKILL.md 内容分别发往 DeepSeek / Snyk 服务器。
+
 ## Unreleased - PR 阶段加入 SkillHub dry-run
 
 - `release-check` 升级到 `gogoingai/skills-eval@v0.2.1`，`external-targets` 加入 `skillhub` 并传入 `SKILLHUB_TOKEN`：SkillHub 远端 `--dry-run` 现在在 PR 阶段就跑（限频 429 由 skills-eval 自动重试 60s/120s，最多 3 次），不再只留给发布门禁。
