@@ -6,7 +6,7 @@
 
 ### 示例 1：横向多层架构图（MemoryCore 四层架构）
 
-> 参考图：`https://raw.githubusercontent.com/gogoingai/wenqu-skills/master/wenqu-image-assets/styles/other/01-architecture.png`
+> 参考图：`other/01-architecture.png`
 
 ```
 # 画图提示：横向多层架构总览图，展示 MemoryCore 记忆系统的四层结构与数据流。
@@ -71,7 +71,7 @@
 
 ### 示例 3：横向条形图 + 说明卡片（6 维权重）
 
-> 参考图：`https://raw.githubusercontent.com/gogoingai/wenqu-skills/master/wenqu-image-assets/styles/other/03-weights-bar.png`
+> 参考图：`other/03-weights-bar.png`
 
 ```
 # 画图提示：横向条形图 + 说明卡片布局，展示 6 维权重总览。
@@ -96,7 +96,7 @@
 
 ### 示例 4：树形层次检索路径图
 
-> 参考图：`https://raw.githubusercontent.com/gogoingai/wenqu-skills/master/wenqu-image-assets/styles/other/04-tree-search.png`
+> 参考图：`other/04-tree-search.png`
 
 ```
 # 画图提示：树形层次检索路径图，展示一次具体查询在记忆空间中的搜索轨迹与收敛过程。
@@ -171,7 +171,7 @@
 
 ### 示例 6：左右分栏公式卡片图（MMR 多样性重排公式）
 
-> 参考图：`https://raw.githubusercontent.com/gogoingai/wenqu-skills/master/wenqu-image-assets/styles/other/06-mmr-formula.png`
+> 参考图：`other/06-mmr-formula.png`
 
 ```
 # 画图提示：左右分栏布局，左侧展示核心公式与符号说明，右侧展示三组参数对比卡片。

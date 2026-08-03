@@ -37,7 +37,7 @@ metadata:
 ```
 ---
 style: 单色马克笔   # 对应风格库表里的风格名；无风格关键词时写"默认极简PPT"
-ref: https://raw.githubusercontent.com/gogoingai/wenqu-skills/master/wenqu-image-assets/styles/mono-marker/mono-marker-02-branch-decision.png   # 实际用过的参考图；只允许 HTTPS URL（风格图托管在 GitHub，本地经 wenqu image fetch-ref 取）；临时本地路径不得写入；本轮没用 --ref 时保持原值不动；该字段从未用过时才省略
+ref: mono-marker/mono-marker-02-branch-decision.png   # 实际用过的参考图：styles/ 下的相对路径（不含域名），由 wenqu image fetch-ref 解析为受管缓存路径；临时本地路径不得写入；本轮没用 --ref 时保持原值不动；该字段从未用过时才省略
 versions:   # 历次生成的版本记录；每项必须是 HTTPS CDN URL，含质检不通过/用户否决版本，编号递增，不删除、不覆盖
   v1: https://cdn.example.com/article-img-1111aaaa2222bbbb.png   # 简要说明
 generation: # 与 versions 同编号，记录实际渲染后端；不存密钥或 API 地址
@@ -148,7 +148,7 @@ generation: # 与 versions 同编号，记录实际渲染后端；不存密钥�
 - 运行器：`wenqu image` CLI（`doctor`、`config-init`、`generate`、`fetch-ref`）。该 CLI 独立于 skill 安装；每次调用前先获授权更新 `wenqu-cli`，再运行 `wenqu image doctor --json` 确认。它会随包安装所需 Python 依赖；Crawl4AI 与浏览器只属于 `wenqu library`，不是 image 的前置条件。
 - 后端：`codex`（复用已登录订阅）、OpenAI GPT Image（`OPENAI_API_KEY`）、OpenRouter（`OPENROUTER_API_KEY`）、通义万相（`DASHSCOPE_API_KEY`）或豆包 Seedream（`ARK_API_KEY`）；密钥由 `wenqu image` CLI 从本机凭证文件读取（运行 `wenqu image doctor` 查看路径）；不要在技能里硬编码密钥值。
 - 图床：`picgo`（可选，上传时需已配置 uploader）。
-- 风格参考图库：托管在 GitHub `wenqu-image-assets/styles/`（`handdrawn/` 手绘插画、`excalidraw/` 白板斜线填充、`mono-marker/` 单色马克笔、`doodle-watercolor/` 水彩涂鸦、`cream-outline/` 奶油描边思维导图、`pencil-sketch/` 彩色铅笔质感、`techppt/` 技术PPT风格，配合 `--ref` 使用，对应文档见 `references/styles/`）。图片不随技能分发，首次使用以 `wenqu image fetch-ref` 下载到受管缓存，需要联网。
+- 风格参考图库：`styles/` 下分目录（`handdrawn/` 手绘插画、`excalidraw/` 白板斜线填充、`mono-marker/` 单色马克笔、`doodle-watercolor/` 水彩涂鸦、`cream-outline/` 奶油描边思维导图、`pencil-sketch/` 彩色铅笔质感、`techppt/` 技术PPT风格，配合 `--ref` 使用，对应文档见 `references/styles/`）。图片不随技能分发，托管地址由 `wenqu image fetch-ref`（环境变量 `WENQU_IMAGE_ASSETS_BASE`）解析，首次使用下载到受管缓存，需要联网。
 
 ---
 
