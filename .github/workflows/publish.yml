@@ -46,7 +46,7 @@ jobs:
             echo "Tag ${GITHUB_REF_NAME} does not match VERSION (${version})." >&2
             exit 1
           fi
-      - uses: gogoingai/skills-eval/publish@v0.3.1
+      - uses: gogoingai/skills-eval/publish@v0.3.2
         with:
           path: .
           version: "skills-eval>=0.3.0,<0.4"
