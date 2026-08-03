@@ -49,6 +49,7 @@ jobs:
       - uses: gogoingai/skills-eval/publish@v0.3.0
         with:
           path: .
+          version: "skills-eval>=0.3.0,<0.4"
           targets: ${{ inputs.targets || '' }}
           skills: ${{ inputs.skills || '' }}
           changelog: ${{ inputs.changelog || github.ref_name }}
