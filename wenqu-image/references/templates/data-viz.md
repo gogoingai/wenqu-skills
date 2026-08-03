@@ -3,7 +3,7 @@
 ## 横向条形图 + 说明卡片
 
 适用：多维度权重或评分分布，每个维度附带机制说明。  
-参考图：`https://raw.githubusercontent.com/gogoingai/wenqu-skills/master/wenqu-image-assets/styles/other/03-weights-bar.png`（6维权重总览）
+参考图：`other/03-weights-bar.png`（6维权重总览）
 
 ```
 # 画图提示：横向条形图 + 说明卡片布局，展示[N]个维度的权重分布

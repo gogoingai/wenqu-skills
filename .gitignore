@@ -6,3 +6,6 @@
 __pycache__/
 reports/
 skills-eval-report.md
+security-report.md
+logs/
+.workbuddy/

@@ -17,16 +17,17 @@
 
 ## 第一步：检测并配置环境
 
-每次需要调用图片 CLI 时，先说明将联网更新 Wenqu CLI 并请求一次明确授权。获授权后，优先用 `pipx` 隔离安装并更新到最新版；若 `pipx` 不存在，才改用当前 Python，必要时加 `--user` 并补齐该 Python 的脚本目录：
+`wenqu-cli` 由本套件发布方（`gogoingai/wenqu-skills`）维护、与技能同源，不是第三方依赖。首次调用图片 CLI 前，向用户说明需要安装 `wenqu-cli` 并请求一次明确授权；获授权后，优先用 `pipx` 隔离安装锁定版本 `0.1.0`（已安装则跳过，不在每次任务中自动升级），并从 GitHub Releases（`gogoingai/wenqu-skills`）核对版本号与 SHA-256 校验值。若 `pipx` 不存在，才改用当前 Python，必要时加 `--user` 并补齐该 Python 的脚本目录：
 
 ```bash
-pipx install --force wenqu-cli
+pipx install 'wenqu-cli==0.1.0'
+wenqu image doctor --json
 # 若没有 pipx：
-python3 -m pip install --upgrade wenqu-cli
-# 若上条因权限失败：
-python3 -m pip install --user --upgrade wenqu-cli
+python3 -m pip install --user 'wenqu-cli==0.1.0'
 export PATH="$(python3 -m site --user-base)/bin:$PATH"
 ```
+
+`wenqu image doctor` 是只读检查，输出不含密钥。`wenqu-cli` 仅暴露受管子命令，作用域限定于本技能的图片生成与上传，不执行越权操作。版本号随 wenqu-cli 发布同步更新；升级时由用户主动发起并重新核对校验值。
 
 随后优先运行一次图片 CLI 的环境检测。它检查 Wenqu CLI、Codex、PicGo 和五个后端的密钥状态；输出不含密钥。不需要另行安装 `gpt-image-2` skill：
 
@@ -34,13 +35,13 @@ export PATH="$(python3 -m site --user-base)/bin:$PATH"
 wenqu image doctor --json
 ```
 
-按 `runtime` 与 `providers` 字段判断当前可用路径；Codex 使用当前登录态，OpenAI、OpenRouter、通义和 Seedream 的密钥默认只从 `~/.gogoingai/wenqu-skills/image/credentials.env` 读取。临时切换私有密钥文件时，显式传 `--env-file /secure/provider-credentials.env`；该文件也必须是 owner-only（`chmod 600`）。
+按 `runtime` 与 `providers` 字段判断当前可用路径；Codex 使用当前登录态，OpenAI、OpenRouter、通义和 Seedream 的密钥默认由 `wenqu image` CLI 从本机凭证文件读取（路径见 `wenqu image doctor` 输出的 `paths.credentials`）。临时切换时显式传 `--env-file <你的凭证文件>`；该文件也必须是 owner-only（`chmod 600`）。
 
 若检测到缺失依赖，按下表手动安装或处理：
 
 | 工具 | 验证命令 | 缺失时 |
 |------|---------|--------|
-| `wenqu` | `wenqu image doctor --json` | 按上面的 Python 命令更新 `wenqu-cli` |
+| `wenqu` | `wenqu image doctor --json` | 按上面的命令安装 `wenqu-cli` |
 | `codex` CLI（仅 Codex 路径） | `codex --version` | 安装 Codex CLI 并运行 `codex login` |
 | `picgo` | `picgo --version` | `npm install -g picgo` 或 `brew install picgo` |
 
@@ -252,7 +253,7 @@ wenqu image generate \
 写入格式（代码块保留不删）：
 
 ```markdown
-​```
+```
 ---
 style: 单色马克笔
 ref: https://cdn.example.com/article-img-a1b2c3d4e5f6a7b8.png   # 历史上实际用过的参考图；本轮没用 --ref 就保持不变
@@ -267,7 +268,7 @@ generation:
 ---
 # 画图提示：[图片标题]（此处为最终生成成功的版本）
 # ...
-​```
+```
 
 ![图片标题](https://cdn.example.com/article-img-5555eeee6666ffff.png)
 ```
@@ -296,7 +297,7 @@ generation:
 
 | 场景 | 结果 |
 |------|------|
-| 没有可用 provider | 输出全局 `credentials.env`/`config.json` 路径；Agent 用原生输入工具完成非敏感默认选择，文章不变 |
+| 没有可用 provider | 输出本机凭证/配置路径（由 `wenqu image doctor` 提供）；Agent 用原生输入工具完成非敏感默认选择，文章不变 |
 | Wenqu CLI 缺失 | 打印 `wenqu-cli` 安装指引，跳过，文章不变 |
 | Codex 未安装（仅指定 Codex 时） | 打印安装步骤，跳过，文章不变 |
 | `wenqu image` 子命令不可用 | 打印 `wenqu-cli` 更新指引，跳过，文章不变 |

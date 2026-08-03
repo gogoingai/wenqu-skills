@@ -3,8 +3,7 @@ name: wenqu-translate
 description: >-
   将 README、论文、源码注释、文档和英文文章等材料翻译成自然中文，供中文内容创作与阅读
   使用。当用户要求“翻译一下”“把这段英文翻译成中文”或“译成中文”，或使用 "translate to
-  Chinese", "translate this README", "translate this paper" 等英文表达时使用；长文或多模式
-  翻译可转交 baoyu-translate。
+  Chinese", "translate this README", "translate this paper" 等英文表达时使用。
 slug: wenqu-translate
 displayName: 文曲·翻译
 version: 0.1.17
@@ -40,18 +39,13 @@ metadata:
 |------|------|
 | 用户直接说"翻译一下"、给一段英文要求译成中文（单篇文章量级） | 独立触发，走下方"翻译流程" |
 | wenqu-write Step 2 获取素材时源材料是英文 | 被调用，读者画像已由调用方提供，跳过下方"确认读者背景"这一步 |
-| 源文档很长（约 4000 词以上）、要翻译多篇与整本书、需要 quick/normal/refined 多模式切换或分块并行翻译 | **超出本技能范围，改用 baoyu-translate**，见下方"重活升级路径" |
+| 源文档很长（约 4000 词以上）、要翻译多篇与整本书、需要 quick/normal/refined 多模式切换或分块并行翻译 | **超出本技能范围**，如实告知用户另寻专门的长文档翻译工具，不要硬凑 |
 
 ---
 
-## 重活升级路径（超出单篇文章量级时）
+## 超出范围的情况
 
-本技能只覆盖"写文章时顺手翻译一段素材"这个量级，**不重新实现**长文档分块、多种翻译模式、subagent 并行翻译、跨会话保存的翻译偏好配置这些工程能力——这些活儿交给功能更完整的 **baoyu-translate** 技能（`jimliu/baoyu-skills`，MIT 协议）：
-
-- 独立安装：`npx skills add jimliu/baoyu-skills --skill baoyu-translate -g`
-- 判断标准：源文档词数明显超过 4000、或用户主动要求"精翻/refined 模式"这类多步骤审查润色流程、或要翻译的是完整文档、多篇文章
-- 触发方式：有跨技能调用机制就用 `Skill` 工具调用 baoyu-translate；未安装时如实告知用户"这个量级超出本技能范围，建议安装 baoyu-translate"，不要硬凑一份打折扣的长文档翻译
-
+源文档词数明显超过 4000、需要 quick/normal/refined 多模式切换、分块并行翻译，或要翻译整本书/多篇文档时，**超出本技能范围**：如实告知用户“这个量级超出本技能范围，建议寻找专门的长文档翻译工具”，不要硬凑一份打折扣的翻译。本技能不依赖、也不主动推荐任何第三方技能。
 ---
 
 ## 翻译流程
@@ -67,8 +61,7 @@ metadata:
 ## 依赖
 
 - `references/translation-guide.md` 完整自包含，覆盖单篇文章量级的翻译，不需任何外部依赖
-- R2 审查依赖 **wenqu-review**（同仓库技能，`npx skills add gogoingai/wenqu-skills --all` 会一起装上）
-- 长文档、多模式翻译这类超出本技能范围的重活，**可选依赖 baoyu-translate**（`jimliu/baoyu-skills`）——不安装也不影响本技能的日常场景，只在遇到重活时会建议安装
+- R2 审查依赖 **wenqu-review**（同仓库技能，随套件一起安装）
 
 ---
 

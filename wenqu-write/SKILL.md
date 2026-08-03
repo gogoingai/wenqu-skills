@@ -35,7 +35,9 @@ metadata:
 本文档里的 `TaskCreate`、`Skill` 是 Claude Code 的工具名。在没有这些工具的 agent 上执行本技能时，按以下等价方式退化：
 
 - `TaskCreate`（任务列表追踪）→ 没有就维护一份纯文本/Markdown 的 TODO 清单，人工勾选完成项
-- `Skill` 工具（调用 wenqu-image / wenqu-review / wenqu-translate）→ 没有跨技能调用机制就直接 Read 目标技能的 `SKILL.md` 和 `references/` 文件，照着内联执行
+- `Skill` 工具（调用 wenqu-image / wenqu-review / wenqu-translate / wenqu-library）→ 没有跨技能调用机制就直接 Read 目标技能的 `SKILL.md` 和 `references/` 文件，照着内联执行
+
+  **wenqu-library 联动必须保留**：Step 2「获取素材」依赖 wenqu-library 的「先查全局文库 + 四步收集流程」。即使运行时没有 `Skill` 工具，也要 Read `wenqu-library` 的 `SKILL.md`（及 `references/`）后按其流程内联执行，不得因缺少 `Skill` 工具就跳过素材收集或退化为对话内零散抓取。
 
 ## 触发识别
 
@@ -172,6 +174,8 @@ metadata:
 
 **需要联网收集素材时**（找相似文章、官方文档、论文、案例），调用 `wenqu-library` 的四步收集流程（规划 → 搜索 → 下载 → 整理），传入 Step 1/1.5 的规划结果；该流程以 **agent 原生搜索为主**，可用时由 `wenqu library` 补充候选。百度、必应、Brave 与搜狗直连失败时，CLI 可做一次受限的浏览器回退，随后统一去重、分级和下载。抓取的网页原文写入 `references/materials/` 对应分类子目录，索引登记进 `materials/index.md`，并保留 `agent-native`、`wenqu-cli:{engine}`、`wenqu-cli:{engine}:{channel}` 或 `用户提供` 等检索渠道。不要自己临时用搜索/抓取工具零散抓取后只记在对话里。
 
+**非 Claude Code 环境调用方式**：若当前运行时没有 `Skill` 工具（如 Qwen 等环境），不要因此跳过 wenqu-library——直接 Read `wenqu-library` 的 `SKILL.md` 及 `references/`，按其四步流程内联执行（先查全局文库 → 规划 → 搜索 → 下载 → 整理），产出同样登记进本篇 `materials/index.md`。即「缺少 `Skill` 工具」只影响调用方式（内联执行而非跨技能调用），不影响「Step 2 必须经过 wenqu-library 流程」这一约束。
+
 在 Step 1 快速扫描的基础上深入读源码、README、论文，为写骨架做准备。**这一步的所有产出都要登记进 `references/materials/index.md`（大段内容写入分类子目录文件，index.md 登记路径），不能只记在对话里**——上下文一旦被压缩或会话间隔较久，脑子里记的素材会全部丢失，骨架和审查都得靠回头翻对话记录，费时又费 token：
 - 核心机制 3~5 个的完整实现细节 → 追加/补全 index.md 对应条目（大段摘录写入 `materials/local/`）
 - 关键数字（容量、阈值、评测结果）——必须源码核实，记录对应 `path:line` → 写入 index.md
@@ -238,7 +242,7 @@ metadata:
 
    每步审查完立即修复，修复完再跑下一步审查。若某步没有发现问题，修复任务直接标为完成跳过。
 
-   **执行方式**：这四步是同一次写作流程内部的高频小检查，**不要用 `Skill` 工具逐步调用 wenqu-review**（每次都发起一轮新调用太啰嗦）——直接用 Read 工具读取 `~/.agents/skills/wenqu-review/references/r5-coherence.md`、`r1-english.md`、`r2-translation.md`、`r3-ai-patterns.md`，按其标准内联执行检查。
+   **执行方式**：这四步是同一次写作流程内部的高频小检查，**不要用 `Skill` 工具逐步调用 wenqu-review**（每次都发起一轮新调用太啰嗦）——直接用 Read 工具读取 `$HOME/.agents/skills/wenqu-review/references/r5-coherence.md`、`r1-english.md`、`r2-translation.md`、`r3-ai-patterns.md`，按其标准内联执行检查。
 
    **画图任务（按概念结构确认的章节逐张处理，不可省略，除非用户明确说不需要配图）**：
    - 画图：整理已确认章节的「待配图」占位，逐条转换为完整画图提示
@@ -308,7 +312,7 @@ metadata:
 >
 > **② 执行**：按确认后的清单改文件。新增或改动的技术性 claim（数字、公式、字段名、机制描述）落地前自己对照源码核实一遍，不要先编后查。
 >
-> **③ 审查**：R5/R1/R2/R3（连贯性、英文术语、翻译腔、AI 痕迹）这四项是语言审查，成本低，可以照常每轮改完就跑——直接 Read `~/.agents/skills/wenqu-review/references/` 下对应文件内联执行，不发起 `Skill` 工具调用。**R0（对照源码全篇查 claim，同样在 wenqu-review 的 `references/r0-factcheck.md`）成本高**——通常要重新跑脚本、读源码、逐条核对，单次会话里连续的小修改/来回调整不要每改一次都跑一遍 R0，攒到这一轮编辑收尾时（用户说"审查一下""可以了""先这样"等收尾信号，或者明确要求查一遍）再统一跑一次，把这次会话里新增的 claim 一次性核对完。执行阶段已经做过的源码核实不用在 R0 重复查一遍。
+> **③ 审查**：R5/R1/R2/R3（连贯性、英文术语、翻译腔、AI 痕迹）这四项是语言审查，成本低，可以照常每轮改完就跑——直接 Read `$HOME/.agents/skills/wenqu-review/references/` 下对应文件内联执行，不发起 `Skill` 工具调用。**R0（对照源码全篇查 claim，同样在 wenqu-review 的 `references/r0-factcheck.md`）成本高**——通常要重新跑脚本、读源码、逐条核对，单次会话里连续的小修改/来回调整不要每改一次都跑一遍 R0，攒到这一轮编辑收尾时（用户说"审查一下""可以了""先这样"等收尾信号，或者明确要求查一遍）再统一跑一次，把这次会话里新增的 claim 一次性核对完。执行阶段已经做过的源码核实不用在 R0 重复查一遍。
 
 ---
 

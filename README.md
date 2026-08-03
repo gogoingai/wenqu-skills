@@ -62,8 +62,9 @@ npx skills update -g
 
 ### WorkBuddy
 
-WorkBuddy 有两条安装路径：**市场**用于添加 GitHub 或本地来源，安装完整的文曲插件；内置的 **SkillHub** 目录用于逐个安装技能。WorkBuddy 当前 hy3 模型免费，每天可领 100 积分，适合免费体验文曲全流程。
+WorkBuddy 内置 **SkillHub** 目录，可逐个安装文曲技能。WorkBuddy 当前 hy3 模型免费，每天可领 100 积分，适合免费体验文曲全流程。
 
+<!-- 文曲套件（wenqu-skills 插件包）的整包安装方式暂时隐藏；如需恢复，取消本注释即可，并把上面的开头描述改回“两条安装路径”。
 #### 市场（GitHub 源）
 
 要直接从本仓库安装完整工作流，请使用下面的“市场”流程。
@@ -85,14 +86,23 @@ WorkBuddy 有两条安装路径：**市场**用于添加 GitHub 或本地来源�
    ![在 WorkBuddy 市场选择 Wenqu Skills](assets/workbuddy/marketplace-03-install.png)
 
 4. 等待插件出现在“我安装的”中，再重载或重启 WorkBuddy，让技能出现在列表中。
+-->
 
-#### 内置 SkillHub
-
-第二条路径**不需要**添加 GitHub 市场源。打开“专家·技能·连接器”，切到 **SkillHub** 页签，搜索 `wenqu`，在想安装的技能卡片上点击 **+**。WorkBuddy 会显示六个独立的文曲技能：文库、写作、审查、配图、翻译与发布。
+打开“专家·技能·连接器”，切到 **SkillHub** 页签，搜索 `wenqu`，在想安装的技能卡片上点击 **+**。WorkBuddy 会显示六个独立的文曲技能：文库、写作、审查、配图、翻译与发布。
 
 ![在 WorkBuddy SkillHub 搜索文曲技能](assets/workbuddy/skillhub-01-search-wenqu.png)
 
 SkillHub 中的每个技能都有各自的目录版本和审核状态；它们不是 GitHub 市场里的整包插件。
+
+### 千问 Work（Qwen Work）
+
+[千问 Work](https://qwenwork.cn/) 已上线文曲技能支持，技能目录位于 `~/.qwenworkcn/skills/`。在千问 Work 中发送下面的提示词，即可自动下载仓库并安装全部六个文曲技能：
+
+```text
+请从 https://github.com/gogoingai/wenqu-skills 下载仓库，将仓库根目录下的以下六个 Skill 分别安装到 ~/.qwenworkcn/skills/：wenqu-library、wenqu-write、wenqu-review、wenqu-image、wenqu-translate、wenqu-publish。请保留每个 Skill 目录中的 SKILL.md、references 及其他辅助文件。安装完成后，列出已经成功识别的全部文曲 Skill。
+```
+
+![在千问 Work 中运行提示词后的安装结果](assets/qwen-work/install-01-result.png)
 
 ### Claude Code 插件市场
 

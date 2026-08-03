@@ -1,7 +1,7 @@
 {
   "id": "wenqu-skills",
   "name": "Wenqu Skills",
-  "version": "0.1.17",
+  "version": "0.1.19",
   "description": "面向中文文章写作的技能集：素材可溯源、译文自然、成稿没有 AI 味，覆盖调研、起草、审查、配图、翻译、发布全流程。",
   "skills": [
     "./wenqu-library",

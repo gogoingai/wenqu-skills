@@ -34,10 +34,10 @@ metadata:
 **完整画图提示必须带风格 YAML frontmatter**，格式是 `# 画图提示` 代码块内、提示正文之前加一段 YAML，风格、参考图路径、版本记录都写进提示本身，不能只存在对话记忆里——不然下次改图或复现时，所用风格、参考图与版本记录都无从解析：
 
 ```
-​```
+```
 ---
 style: 单色马克笔   # 对应风格库表里的风格名；无风格关键词时写"默认极简PPT"
-ref: https://raw.githubusercontent.com/gogoingai/wenqu-skills/master/wenqu-image-assets/styles/mono-marker/mono-marker-02-branch-decision.png   # 实际用过的参考图；只允许 HTTPS URL（风格图托管在 GitHub，本地经 wenqu image fetch-ref 取）；临时本地路径不得写入；本轮没用 --ref 时保持原值不动；该字段从未用过时才省略
+ref: mono-marker/mono-marker-02-branch-decision.png   # 实际用过的参考图：styles/ 下的相对路径（不含域名），由 wenqu image fetch-ref 解析为受管缓存路径；临时本地路径不得写入；本轮没用 --ref 时保持原值不动；该字段从未用过时才省略
 versions:   # 历次生成的版本记录；每项必须是 HTTPS CDN URL，含质检不通过/用户否决版本，编号递增，不删除、不覆盖
   v1: https://cdn.example.com/article-img-1111aaaa2222bbbb.png   # 简要说明
 generation: # 与 versions 同编号，记录实际渲染后端；不存密钥或 API 地址
@@ -47,7 +47,7 @@ generation: # 与 versions 同编号，记录实际渲染后端；不存密钥�
 ---
 # 画图提示：[图片标题]
 # ...（提示正文，四条核心原则见下方）
-​```
+```
 ```
 
 转换占位标记、或用户直接给风格关键词时，都按这个格式写；`references/styles/*.md` 里该风格追加的专属描述句，直接拼进提示正文，不要另起一段脱离 YAML 之外的"风格说明"，避免以后只读提示正文时丢失风格信息。**每次实际传入 `--ref` 后**，把这次真正生效的参考来源回填进 `ref` 字段：风格资产用 GitHub raw URL，已采用图片用 HTTPS CDN URL；命令中临时使用的 `/tmp` 文件不得回填。`ref` 记的是“这次生成实际参考了什么”，不是“这个风格理论上可以参考什么”；**没用 `--ref` 的这一轮，不要动 `ref:` 字段**，保留上一次的记录。**只有上传成功、拿到 HTTPS CDN URL 的版本才可写入 `versions`**，同时把本次实际 provider/model 写入同编号 `generation`；正文的 `![]()` 只指向当前采用的那一版，其余版本仅留存在 `versions` 里供回看对比，具体写入规则见 `references/gen-workflow.md` 第四步。
@@ -67,7 +67,7 @@ generation: # 与 versions 同编号，记录实际渲染后端；不存密钥�
 先检查全局配置 `~/.gogoingai/wenqu-skills/image/config.json`，再检查本篇
 `{项目根目录}/wenqu-skills/{文件名}/config/image.json`：
 
-1. 两者都没有时，用原生输入工具一次询问默认 provider、模型与画幅；**不要索要密钥**，仅告知 `credentials.env` 的本机路径，然后创建全局非敏感配置。
+1. 两者都没有时，用原生输入工具一次询问默认 provider、模型与画幅；**不要索要密钥**，仅告知用户运行 `wenqu image doctor` 查看本机凭证文件路径，然后创建全局非敏感配置。
 2. 有全局配置、本篇没有配置时，在首次为本篇实际生成前询问是否沿用全局选择；拒绝后询问本篇选择并写入文章级配置。
 3. 有本篇配置、或用户已在当前指令/命令中指定 provider/model 时，不重复询问。
 4. 直接生图（非文章场景）只读取全局配置；运行时命令由 `wenqu image` 提供。
@@ -146,9 +146,9 @@ generation: # 与 versions 同编号，记录实际渲染后端；不存密钥�
 ## 运行时要求
 
 - 运行器：`wenqu image` CLI（`doctor`、`config-init`、`generate`、`fetch-ref`）。该 CLI 独立于 skill 安装；每次调用前先获授权更新 `wenqu-cli`，再运行 `wenqu image doctor --json` 确认。它会随包安装所需 Python 依赖；Crawl4AI 与浏览器只属于 `wenqu library`，不是 image 的前置条件。
-- 后端：`codex`（复用已登录订阅）、OpenAI GPT Image（`OPENAI_API_KEY`）、OpenRouter（`OPENROUTER_API_KEY`）、通义万相（`DASHSCOPE_API_KEY`）或豆包 Seedream（`ARK_API_KEY`）；密钥只放 `~/.gogoingai/wenqu-skills/image/credentials.env`。
+- 后端：`codex`（复用已登录订阅）、OpenAI GPT Image（`OPENAI_API_KEY`）、OpenRouter（`OPENROUTER_API_KEY`）、通义万相（`DASHSCOPE_API_KEY`）或豆包 Seedream（`ARK_API_KEY`）；密钥由 `wenqu image` CLI 从本机凭证文件读取（运行 `wenqu image doctor` 查看路径）；不要在技能里硬编码密钥值。
 - 图床：`picgo`（可选，上传时需已配置 uploader）。
-- 风格参考图库：托管在 GitHub `wenqu-image-assets/styles/`（`handdrawn/` 手绘插画、`excalidraw/` 白板斜线填充、`mono-marker/` 单色马克笔、`doodle-watercolor/` 水彩涂鸦、`cream-outline/` 奶油描边思维导图、`pencil-sketch/` 彩色铅笔质感、`techppt/` 技术PPT风格，配合 `--ref` 使用，对应文档见 `references/styles/`）。图片不随技能分发，首次使用以 `wenqu image fetch-ref` 下载到受管缓存，需要联网。
+- 风格参考图库：`styles/` 下分目录（`handdrawn/` 手绘插画、`excalidraw/` 白板斜线填充、`mono-marker/` 单色马克笔、`doodle-watercolor/` 水彩涂鸦、`cream-outline/` 奶油描边思维导图、`pencil-sketch/` 彩色铅笔质感、`techppt/` 技术PPT风格，配合 `--ref` 使用，对应文档见 `references/styles/`）。图片不随技能分发，托管地址由 `wenqu image fetch-ref`（环境变量 `WENQU_IMAGE_ASSETS_BASE`）解析，首次使用下载到受管缓存，需要联网。
 
 ---
 

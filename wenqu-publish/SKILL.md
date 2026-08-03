@@ -59,7 +59,7 @@ metadata:
 4. 用 `AskUserQuestion` 确认标题（→ `references/title-summary.md`）
 5. 用 `AskUserQuestion` 确认约 100 字的简介（→ `references/title-summary.md`）
 6. 用 `Skill` 工具调用 **wenqu-image** 生成封面图（→ `references/cover-prompt.md` 的专属规范，不同于文中说明性配图）
-7. 产物写入 `{项目根目录}/wenqu-skills/{文件名}/publish/v{N}/`，不覆盖历史发布版本
+7. 产物写入 `{项目根目录}/wenqu-skills/{文件名}/publish/v{N}/`，不覆盖历史发布版本。**发布版正文保留原标题层级不变（原 H1 仍为 H1、原 H2 仍为 H2，不降级、不删改任何原标题）；选定的发布标题、简介、封面图只进 `meta.md`，不插入正文顶部、不替换原文 H1；发布版文件名沿用文章文件名（`{文件名}.md`）**
 8. 在 `references/changelog.md` 追加一行发布记录
 
 ---

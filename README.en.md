@@ -59,8 +59,9 @@ npx skills update -g
 
 ### WorkBuddy
 
-WorkBuddy has two installation paths: **Marketplace** adds a GitHub or local source and installs the complete Wenqu plugin; its built-in **SkillHub** catalog installs individual skills. The hy3 model is currently free on WorkBuddy, and you can claim 100 credits daily -- a good way to try the full Wenqu workflow at no cost.
+WorkBuddy ships with a built-in **SkillHub** catalog for installing individual Wenqu skills. The hy3 model is currently free on WorkBuddy, and you can claim 100 credits daily -- a good way to try the full Wenqu workflow at no cost.
 
+<!-- The bundled Wenqu suite (wenqu-skills plugin package) install path is hidden for now. To restore, remove this comment and switch the intro above back to "two installation paths".
 #### Marketplace (GitHub source)
 
 Use this route to install the complete workflow directly from this repository.
@@ -83,10 +84,8 @@ Use this route to install the complete workflow directly from this repository.
    ![Choose Wenqu Skills from the WorkBuddy marketplace](assets/workbuddy/marketplace-03-install.png)
 
 4. Wait until the plugin appears under **My Installed**, then reload or restart WorkBuddy so the skills appear.
+-->
 
-#### Built-in SkillHub
-
-This second path does **not** require adding the GitHub Marketplace source.
 Open **Expert · Skills · Connectors**, select the **SkillHub** tab, search for
 `wenqu`, and click **+** on each skill you want. WorkBuddy shows six individual
 Wenqu skills: Library, Write, Review, Image, Translate, and Publish.
@@ -95,6 +94,16 @@ Wenqu skills: Library, Write, Review, Image, Translate, and Publish.
 
 Each SkillHub skill has its own catalog version and review status; it is not the
 same package as the GitHub Marketplace plugin.
+
+### Qwen Work
+
+[Qwen Work](https://qwenwork.cn/) now supports Wenqu skills, with its skill directory at `~/.qwenworkcn/skills/`. Send the prompt below in Qwen Work to automatically clone the repository and install all six Wenqu skills:
+
+```text
+Please clone the repository from https://github.com/gogoingai/wenqu-skills and install the following six skills from the repository root into ~/.qwenworkcn/skills/: wenqu-library, wenqu-write, wenqu-review, wenqu-image, wenqu-translate, wenqu-publish. Keep each skill's SKILL.md, references, and other auxiliary files intact. After installation, list all successfully recognized Wenqu skills.
+```
+
+![Install result in Qwen Work after running the prompt](assets/qwen-work/install-01-result.png)
 
 ### Claude Code marketplace
 

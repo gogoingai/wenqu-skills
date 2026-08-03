@@ -47,15 +47,35 @@
     "language": "zh"
   },
   "security": {
+    "failOn": "high",
     "sources": [
       {
         "name": "cisco",
         "enabled": true,
+        "required": true,
         "options": {
           "policy": "balanced",
           "useBehavioral": true
         }
-      }
+      },
+      {
+        "name": "skillspector",
+        "enabled": true,
+        "required": false,
+        "options": { "useLlm": false }
+      },
+      {
+        "name": "tencent-aig",
+        "enabled": true,
+        "required": false,
+        "options": {
+          "apiKeyEnv": "DEEPSEEK_API_KEY",
+          "baseUrlEnv": "DEEPSEEK_BASE_URL",
+          "modelEnv": "DEEPSEEK_MODEL",
+          "disableThinking": true
+        }
+      },
+      { "name": "snyk", "enabled": true, "required": false, "options": { "tokenEnv": "SNYK_TOKEN" } }
     ]
   }
 }
