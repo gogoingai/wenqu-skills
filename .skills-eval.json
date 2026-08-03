@@ -68,6 +68,7 @@
         "name": "tencent-aig",
         "enabled": true,
         "required": false,
+        "failOn": "critical",
         "options": {
           "apiKeyEnv": "DEEPSEEK_API_KEY",
           "baseUrlEnv": "DEEPSEEK_BASE_URL",
@@ -75,7 +76,7 @@
           "disableThinking": true
         }
       },
-      { "name": "snyk", "enabled": true, "required": false, "options": { "tokenEnv": "SNYK_TOKEN" } }
+      { "name": "snyk", "enabled": true, "required": false, "failOn": "critical", "options": { "tokenEnv": "SNYK_TOKEN" } }
     ]
   }
 }

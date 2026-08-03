@@ -32,7 +32,7 @@ jobs:
           uv tool install git+https://github.com/NVIDIA/skillspector.git
           uv tool install aig-skill-scan
           echo "$HOME/.local/bin" >> "$GITHUB_PATH"
-      - uses: gogoingai/skills-eval@v0.3.0
+      - uses: gogoingai/skills-eval@v0.3.1
         with:
           path: .
           comment: true
