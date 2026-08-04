@@ -6,7 +6,7 @@ description: >-
   Chinese", "translate this README", "translate this paper" 等英文表达时使用。
 slug: wenqu-translate
 displayName: 文曲·翻译
-version: 0.1.17
+version: 0.1.19
 summary: 英文材料（README、论文、源码注释、文档）翻译成自然中文，用于内容创作与阅读。
 license: MIT
 homepage: https://github.com/gogoingai/wenqu-skills

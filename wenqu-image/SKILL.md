@@ -7,7 +7,7 @@ description: >-
   "create a flowchart" 等英文表达时使用。
 slug: wenqu-image
 displayName: 文曲·配图
-version: 0.1.17
+version: 0.1.19
 summary: 为内容生成 AI 配图（架构图/流程图/信息图/示意图）：提示词、生图、质检、上传全流程。
 license: MIT
 homepage: https://github.com/gogoingai/wenqu-skills

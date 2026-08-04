@@ -7,7 +7,7 @@ description: >-
   "analyze source code", "deep explanation" 等英文表达时使用。
 slug: wenqu-write
 displayName: 文曲·写作
-version: 0.1.17
+version: 0.1.19
 summary: 中文内容创作主流程：需求理解、选题、规划、结构设计、逐节写作并完善，协调翻译/配图/审查。
 license: MIT
 homepage: https://github.com/gogoingai/wenqu-skills

@@ -7,7 +7,7 @@ description: >-
   library", "save this webpage", "web scraping" 等英文表达时使用。
 slug: wenqu-library
 displayName: 文曲·文库
-version: 0.1.17
+version: 0.1.19
 summary: 中文内容素材的四步收集流程：规划→搜索→下载→整理；搜索与下载均以 wenqu library（CLI，内含多引擎搜索与 Crawl4AI 抓取）为优先路径，agent 自带搜索/抓取仅在 CLI 不可用时作补充回退，支持网页与公众号抓取。
 license: MIT
 homepage: https://github.com/gogoingai/wenqu-skills
